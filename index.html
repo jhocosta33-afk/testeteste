@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard NASDAQ PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="portal/firebase-config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+/* ═══════════════════════════════════════
+   VARIÁVEIS & RESET
+═══════════════════════════════════════ */
+:root {
+  --glass-bg:       rgba(10, 18, 35, 0.72);
+  --glass-bg-light: rgba(20, 35, 60, 0.60);
+  --glass-border:   rgba(100, 160, 255, 0.18);
+  --glass-border-bright: rgba(100, 180, 255, 0.40);
+  --glow-blue:      rgba(59, 130, 246, 0.5);
+  --glow-cyan:      rgba(0, 220, 255, 0.4);
+  --accent:         #3b82f6;
+  --accent2:        #00dcff;
+  --green:          #00e5a0;
+  --red:            #ff4d6a;
+  --yellow:         #ffd166;
+  --orange:         #ff9f43;
+  --text:           #e8f4ff;
+  --text-dim:       #7fa8d0;
+  --text-muted:     #3a5a7a;
+  --radius:         16px;
+  --radius-sm:      10px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text);
+  /* Fundo cidade noturna simulado */
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 100%, rgba(5,15,40,0.98) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 60%, rgba(10,30,80,0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(5,20,60,0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(15,40,100,0.5) 0%, transparent 60%),
+    linear-gradient(180deg, #030a1a 0%, #050e20 40%, #020810 100%);
+  position: relative;
+}
+
+/* Grade de pontos no fundo estilo sci-fi */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(59,130,246,0.12) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Luzes da cidade simuladas no fundo */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background:
+    radial-gradient(ellipse 8% 30% at 10% 100%, rgba(59,130,246,0.15) 0%, transparent 100%),
+    radial-gradient(ellipse 5% 20% at 25% 100%, rgba(0,220,255,0.10) 0%, transparent 100%),
+    radial-gradient(ellipse 6% 25% at 45% 100%, rgba(59,130,246,0.12) 0%, transparent 100%),
+    radial-gradient(ellipse 4% 15% at 60% 100%, rgba(100,180,255,0.08) 0%, transparent 100%),
+    radial-gradient(ellipse 8% 30% at 78% 100%, rgba(59,130,246,0.13) 0%, transparent 100%),
+    radial-gradient(ellipse 5% 20% at 92% 100%, rgba(0,220,255,0.09) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════
+   LOADING
+═══════════════════════════════════════ */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: #030a1a;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 9999;
+  opacity: 1; transition: opacity 0.6s;
+}
+.loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.spinner {
+  width: 60px; height: 60px;
+  border: 2px solid rgba(59,130,246,0.15);
+  border-top-color: var(--accent2);
+  border-bottom-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(0,220,255,0.3);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--accent2); text-transform: uppercase;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+/* ═══════════════════════════════════════
+   PERFORMANCE INDICATOR
+═══════════════════════════════════════ */
+.performance-indicator {
+  position: fixed; top: 20px; right: 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600;
+  z-index: 100; opacity: 0;
+  animation: slideInRight 0.5s 1.5s forwards;
+  backdrop-filter: blur(20px);
+}
+@keyframes slideInRight { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:none} }
+.performance-dot { width:8px; height:8px; border-radius:50%; }
+.performance-dot.positive { background:var(--green); box-shadow:0 0 8px var(--green); }
+.performance-dot.negative { background:var(--red); box-shadow:0 0 8px var(--red); }
+.performance-dot.neutral  { background:var(--yellow); box-shadow:0 0 8px var(--yellow); }
+
+/* ═══════════════════════════════════════
+   WRAPPER PRINCIPAL
+═══════════════════════════════════════ */
+.app-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ═══════════════════════════════════════
+   TOP BAR
+═══════════════════════════════════════ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: rgba(5, 12, 30, 0.80);
+  border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-left {
+  display: flex; align-items: center; gap: 20px;
+}
+.topbar-logo {
+  max-height: 52px; width: auto;
+  filter: drop-shadow(0 0 12px rgba(59,130,246,0.5));
+}
+.topbar-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 3px; color: var(--accent2);
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(0,220,255,0.6);
+}
+.topbar-center {
+  display: flex; gap: 6px;
+  background: rgba(10,20,50,0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  padding: 5px;
+  backdrop-filter: blur(10px);
+}
+.tab-btn {
+  background: transparent;
+  border: none; border-radius: 24px;
+  padding: 8px 20px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer;
+  transition: all 0.3s; font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+}
+.tab-btn:hover { color: var(--text); background: rgba(59,130,246,0.12); }
+.tab-btn.active {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(59,130,246,0.6), rgba(0,220,255,0.3));
+  box-shadow: 0 2px 12px rgba(59,130,246,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.tab-icon { font-size: 14px; margin-right: 4px; }
+
+.topbar-right {
+  display: flex; align-items: center; gap: 12px;
+}
+.topbar-btn {
+  background: rgba(59,130,246,0.12);
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 12px; font-weight: 600;
+  color: var(--accent2); cursor: pointer;
+  transition: all 0.2s; font-family: 'Inter', sans-serif;
+  white-space: nowrap; display:flex; align-items:center; gap:6px;
+  backdrop-filter: blur(10px);
+}
+.topbar-btn:hover { background: rgba(59,130,246,0.25); box-shadow: 0 0 14px var(--glow-blue); transform: translateY(-1px); }
+.topbar-btn.loading { opacity:0.5; pointer-events:none; animation: pulse 1.5s infinite; }
+.theme-toggle {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  font-size: 18px; cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(10px);
+}
+.theme-toggle:hover { border-color: var(--glass-border-bright); box-shadow: 0 0 14px var(--glow-blue); transform: scale(1.1); }
+#themeIcon { display: inline-block; transition: all 0.3s; }
+
+/* Portal link */
+.portal-btn {
+  background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(59,130,246,0.2));
+  border: 1px solid rgba(0,229,160,0.3);
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 12px; font-weight: 700;
+  color: var(--green); text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  transition: all 0.2s; backdrop-filter: blur(10px);
+}
+.portal-btn:hover { background: linear-gradient(135deg, rgba(0,229,160,0.35), rgba(59,130,246,0.35)); box-shadow: 0 0 14px rgba(0,229,160,0.3); transform: translateY(-1px); }
+
+/* ═══════════════════════════════════════
+   FILTROS BAR
+═══════════════════════════════════════ */
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 32px;
+  background: rgba(5,10,25,0.6);
+  border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  flex-wrap: wrap;
+}
+.filter-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 2px; color: var(--text-muted);
+  text-transform: uppercase;
+}
+.filter-select {
+  background: rgba(10,20,50,0.8);
+  color: var(--text);
+  border: 1px solid var(--glass-border-bright);
+  padding: 8px 32px 8px 14px;
+  border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%2300dcff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  backdrop-filter: blur(10px);
+  min-width: 140px;
+}
+.filter-select:hover { border-color: var(--accent2); box-shadow: 0 0 10px var(--glow-cyan); }
+.filter-select:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 2px rgba(0,220,255,0.2); }
+.filter-select:disabled { opacity: 0.3; cursor: not-allowed; }
+.filter-select option { background: #050e20; }
+
+.stats-pills {
+  margin-left: auto;
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.stat-pill {
+  background: rgba(59,130,246,0.08);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+}
+.stat-pill-label { color: var(--text-muted); font-weight: 500; }
+.stat-pill-value { color: var(--text); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+/* ═══════════════════════════════════════
+   CONTEÚDO PRINCIPAL
+═══════════════════════════════════════ */
+.main-content {
+  flex: 1;
+  padding: 24px 32px 32px;
+  overflow-x: hidden;
+}
+
+.tab-content { display: none; animation: fadeUp 0.4s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+/* ═══════════════════════════════════════
+   GLASS CARD BASE
+═══════════════════════════════════════ */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(150,200,255,0.4), transparent);
+  pointer-events: none;
+}
+.glass-card:hover {
+  border-color: var(--glass-border-bright);
+  box-shadow: 0 8px 40px rgba(59,130,246,0.15), 0 0 0 1px rgba(100,180,255,0.1);
+  transform: translateY(-2px);
+}
+.card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.card-title::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--glow-cyan);
+}
+
+/* ═══════════════════════════════════════
+   LAYOUT GRID PRINCIPAL (inspirado na imagem)
+═══════════════════════════════════════ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  grid-template-rows: auto auto auto;
+  gap: 20px;
+}
+
+/* Coluna esquerda */
+.col-left { display: flex; flex-direction: column; gap: 20px; }
+/* Coluna direita */
+.col-right { display: flex; flex-direction: column; gap: 20px; }
+
+/* ═══════════════════════════════════════
+   CARD BOAS VINDAS + KPIs PRINCIPAIS
+═══════════════════════════════════════ */
+.welcome-card {
+  padding: 24px 28px;
+}
+.welcome-top {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+}
+.welcome-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(0,220,255,0.2));
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 0 20px rgba(59,130,246,0.3);
+  flex-shrink: 0;
+}
+.welcome-text h2 {
+  font-size: 22px; font-weight: 700;
+  color: var(--text); letter-spacing: -0.5px;
+}
+.welcome-text p {
+  font-size: 13px; color: var(--text-dim); margin-top: 3px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.kpi-box {
+  background: rgba(59,130,246,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.kpi-box::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+.kpi-box:hover { border-color: var(--glass-border-bright); box-shadow: 0 0 20px rgba(59,130,246,0.15); }
+.kpi-box:hover::after { opacity: 1; }
+.kpi-box.green-accent::after { background: linear-gradient(90deg, var(--green), rgba(0,229,160,0.3)); }
+.kpi-box.red-accent::after { background: linear-gradient(90deg, var(--red), rgba(255,77,106,0.3)); }
+.kpi-box.yellow-accent::after { background: linear-gradient(90deg, var(--yellow), rgba(255,209,102,0.3)); }
+.kpi-box.orange-accent::after { background: linear-gradient(90deg, var(--orange), rgba(255,159,67,0.3)); }
+.kpi-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 2px; color: var(--text-muted);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.kpi-value {
+  font-size: 32px; font-weight: 700;
+  line-height: 1;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+.kpi-value.green { color: var(--green); text-shadow: 0 0 20px rgba(0,229,160,0.4); }
+.kpi-value.red   { color: var(--red);   text-shadow: 0 0 20px rgba(255,77,106,0.4); }
+.kpi-value.yellow{ color: var(--yellow);text-shadow: 0 0 20px rgba(255,209,102,0.4); }
+.kpi-value.orange{ color: var(--orange);text-shadow: 0 0 20px rgba(255,159,67,0.4); }
+.kpi-value.blue  { color: var(--accent2);text-shadow: 0 0 20px var(--glow-cyan); }
+.kpi-sub {
+  font-size: 11px; color: var(--text-muted);
+  margin-top: 5px; font-weight: 500;
+}
+
+/* ═══════════════════════════════════════
+   KPIs SECUNDÁRIOS (segunda linha)
+═══════════════════════════════════════ */
+.kpi-secondary-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* ═══════════════════════════════════════
+   CARD DE CONTRATOS
+═══════════════════════════════════════ */
+.contratos-card {
+  padding: 22px 24px;
+}
+.contratos-control {
+  display: flex; align-items: center;
+  justify-content: center; gap: 14px;
+  margin-top: 6px;
+}
+.btn-control {
+  background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(0,220,255,0.2));
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 8px;
+  width: 38px; height: 38px;
+  font-size: 22px; font-weight: 700;
+  color: var(--accent2); cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(10px);
+}
+.btn-control:hover { background: rgba(59,130,246,0.5); box-shadow: 0 0 14px var(--glow-cyan); transform: scale(1.1); }
+.valor-contratos {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 10px;
+  padding: 8px 24px;
+  font-size: 30px; font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 80px; text-align: center;
+  color: var(--accent2);
+  text-shadow: 0 0 16px var(--glow-cyan);
+  user-select: none;
+}
+.currency-row {
+  display: flex; gap: 10px; margin-top: 12px;
+  flex-wrap: wrap; justify-content: center;
+}
+.currency-pill {
+  background: rgba(59,130,246,0.07);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-dim);
+  display: flex; align-items: center; gap: 5px;
+}
+
+/* ═══════════════════════════════════════
+   CARD GRÁFICO DE PERFORMANCE
+═══════════════════════════════════════ */
+.chart-card {
+  padding: 24px 28px;
+  flex: 1;
+}
+.chart-wrap { position: relative; height: 220px; width: 100%; }
+canvas { width: 100%!important; height: 100%!important; }
+
+/* ═══════════════════════════════════════
+   CARD ASSERTIVIDADE (ring circular)
+═══════════════════════════════════════ */
+.ring-card {
+  padding: 24px 28px;
+  display: flex; flex-direction: column;
+  align-items: center;
+}
+.ring-container {
+  position: relative;
+  width: 160px; height: 160px;
+  margin: 10px auto 16px;
+}
+.ring-svg {
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 10px rgba(0,220,255,0.5));
+}
+.ring-track { fill: none; stroke: rgba(59,130,246,0.12); stroke-width: 10; }
+.ring-progress {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke: url(#ringGrad);
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1);
+}
+.ring-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.ring-pct {
+  font-family: 'Orbitron', monospace;
+  font-size: 32px; font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 0 20px var(--glow-cyan);
+  line-height: 1;
+}
+.ring-label {
+  font-size: 10px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-top: 4px;
+}
+.ring-stats {
+  display: flex; flex-direction: column; gap: 8px;
+  width: 100%;
+}
+.ring-stat-row {
+  display: flex; justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(59,130,246,0.05);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  font-size: 12px;
+}
+.ring-stat-row span:first-child { color: var(--text-dim); font-weight: 500; }
+.ring-stat-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+/* ═══════════════════════════════════════
+   CARD DISTRIBUIÇÃO (donut)
+═══════════════════════════════════════ */
+.dist-card { padding: 24px 28px; }
+.dist-chart-wrap { position: relative; height: 180px; margin: 0 auto; width: 100%; }
+
+/* ═══════════════════════════════════════
+   CALENDÁRIO DE TRADING
+═══════════════════════════════════════ */
+.calendar-card { padding: 24px 28px; }
+.calendar-header-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 10px; font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  font-family: 'Orbitron', monospace;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+.calendar-grid:has(.month-card) {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.month-card {
+  background: var(--glass-bg-light);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px; min-height: 90px;
+}
+.month-card:hover { border-color: var(--glass-border-bright); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(59,130,246,0.2); }
+.month-card.positive { border-color: rgba(0,229,160,0.3); background: rgba(0,229,160,0.04); }
+.month-card.positive:hover { box-shadow: 0 8px 28px rgba(0,229,160,0.2); }
+.month-card.negative { border-color: rgba(255,77,106,0.3); background: rgba(255,77,106,0.04); }
+.month-card.negative:hover { box-shadow: 0 8px 28px rgba(255,77,106,0.2); }
+.month-name { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Orbitron', monospace; }
+.month-points { font-size: 26px; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1; }
+.month-info { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+
+.day {
+  position: relative;
+  background: rgba(10,20,50,0.5);
+  border: 1px solid rgba(59,130,246,0.10);
+  border-radius: 8px;
+  min-height: 70px;
+  padding: 6px;
+  padding-bottom: 22px;
+  display: flex; flex-direction: column;
+  justify-content: flex-start; gap: 2px;
+  transition: all 0.25s;
+  cursor: default;
+  backdrop-filter: blur(4px);
+}
+.day.clickable { cursor: pointer; }
+.day.clickable::after { content:'📸'; position:absolute; top:4px; right:4px; font-size:10px; opacity:0; transition:opacity 0.2s; }
+.day.clickable:hover::after { opacity:0.7; }
+.day.positive { background: rgba(0,229,160,0.06); border-color: rgba(0,229,160,0.22); }
+.day.negative { background: rgba(255,77,106,0.06); border-color: rgba(255,77,106,0.22); }
+.day:hover:not(.empty) { transform: translateY(-3px) scale(1.02); z-index: 10; border-color: var(--glass-border-bright); box-shadow: 0 6px 20px rgba(59,130,246,0.2); }
+.day.positive:hover { box-shadow: 0 6px 20px rgba(0,229,160,0.2); }
+.day.negative:hover { box-shadow: 0 6px 20px rgba(255,77,106,0.2); }
+.day-number { font-size: 10px; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.day-points { display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; font-family:'JetBrains Mono',monospace; margin-top:2px; margin-bottom:2px; }
+.day-info { font-size:9px; color:var(--text-dim); text-align:center; line-height:1.4; font-weight:600; }
+.day-badge { position:absolute; bottom:3px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.92); border:1px solid var(--glass-border-bright); border-radius:5px; padding:3px 7px; font-size:9px; white-space:nowrap; opacity:0; transition:opacity 0.2s; font-weight:700; font-family:'JetBrains Mono',monospace; z-index:100; pointer-events:none; }
+.day:hover .day-badge { opacity:1; }
+.empty { background:transparent; border:none; cursor:default; }
+
+.back-to-months-btn {
+  background: rgba(59,130,246,0.12);
+  color: var(--accent2);
+  border: 1px solid var(--glass-border-bright);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+.back-to-months-btn:hover { background: rgba(59,130,246,0.3); color:#fff; }
+
+.calendar-title-row {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* ═══════════════════════════════════════
+   TABELA
+═══════════════════════════════════════ */
+.table-card { padding: 24px 28px; }
+.table-wrap { overflow-x: auto; border-radius: 10px; margin-top: 4px; }
+table { width:100%; min-width:900px; border-collapse:separate; border-spacing:0; }
+thead { background: rgba(59,130,246,0.07); }
+th {
+  color: var(--text-muted);
+  font-size: 10px; font-weight: 600;
+  padding: 13px 14px; text-align: center;
+  text-transform: uppercase; letter-spacing: 2px;
+  border-bottom: 1px solid var(--glass-border);
+  font-family: 'Orbitron', monospace;
+}
+td {
+  padding: 13px 14px;
+  border-bottom: 1px solid rgba(59,130,246,0.06);
+  text-align: center;
+  font-size: 12px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-dim);
+}
+thead th:first-child, tbody td:first-child { text-align:left; padding-left:18px; font-family:'Inter',sans-serif; }
+tr.total { background: rgba(59,130,246,0.07); }
+tr.total td { border-bottom:none; padding:14px 14px; font-size:13px; color:var(--text); font-weight:800; }
+tbody tr { transition: all 0.2s; }
+tbody tr:hover { background: rgba(59,130,246,0.06); }
+
+/* ═══════════════════════════════════════
+   CALENDÁRIO ECONÔMICO
+═══════════════════════════════════════ */
+.market-card { padding: 24px 28px; }
+.market-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--glass-border); }
+.market-header h3 { font-family:'Orbitron',monospace; font-size:11px; font-weight:600; color:var(--text-dim); letter-spacing:2.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+.market-link { font-size:12px; font-weight:700; color:var(--accent2); text-decoration:none; transition:all 0.2s; display:flex; align-items:center; gap:4px; }
+.market-link:hover { color:#fff; transform:translateX(3px); }
+.calendar-refresh-btn { background:rgba(59,130,246,0.10); color:var(--accent2); border:1px solid var(--glass-border-bright); border-radius:8px; padding:7px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; white-space:nowrap; font-family:'Inter',sans-serif; }
+.calendar-refresh-btn:hover { background:rgba(59,130,246,0.25); color:#fff; }
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.trade-photo-modal { position:fixed; inset:0; background:rgba(0,0,0,0.90); display:none; align-items:center; justify-content:center; z-index:10000; padding:20px; backdrop-filter:blur(16px); }
+.trade-photo-modal.active { display:flex; }
+.modal-content { background:rgba(10,18,40,0.95); border:1px solid var(--glass-border-bright); border-radius:var(--radius); max-width:650px; width:100%; max-height:85vh; overflow-y:auto; position:relative; box-shadow:0 24px 64px rgba(0,0,0,0.8),0 0 40px rgba(59,130,246,0.15); animation:slideInUp 0.35s cubic-bezier(0.4,0,0.2,1); backdrop-filter:blur(24px); }
+@keyframes slideInUp { from{opacity:0;transform:translateY(40px) scale(0.95)} to{opacity:1;transform:none} }
+.modal-header { padding:18px 22px; border-bottom:1px solid var(--glass-border); display:flex; align-items:center; justify-content:space-between; }
+.modal-header h2 { font-size:15px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px; }
+.modal-close-btn { background:rgba(255,77,106,0.2); border:1px solid rgba(255,77,106,0.3); color:var(--red); border-radius:50%; width:34px; height:34px; font-size:20px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; }
+.modal-close-btn:hover { background:var(--red); color:#fff; transform:rotate(90deg) scale(1.1); }
+.modal-body { padding:20px; }
+.modal-info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(95px,1fr)); gap:10px; margin-bottom:18px; }
+.modal-info-item { background:rgba(59,130,246,0.06); border:1px solid var(--glass-border); border-radius:10px; padding:12px; text-align:center; }
+.modal-info-item label { display:block; font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:6px; font-weight:700; font-family:'Orbitron',monospace; }
+.modal-info-item .value { font-size:20px; font-weight:800; font-family:'JetBrains Mono',monospace; color:var(--text); }
+.modal-info-item.positive .value { color:var(--green); text-shadow:0 0 12px rgba(0,229,160,0.4); }
+.modal-info-item.negative .value { color:var(--red); text-shadow:0 0 12px rgba(255,77,106,0.4); }
+.modal-photo-container { background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:var(--radius-sm); padding:10px; margin-top:16px; position:relative; overflow:hidden; cursor:grab; }
+.modal-photo-container.grabbing { cursor:grabbing; }
+.modal-photo-container img { width:100%; height:auto; max-height:400px; object-fit:contain; border-radius:8px; display:block; transition:transform 0.1s ease-out; transform-origin:center center; }
+.zoom-controls { position:absolute; top:14px; right:14px; display:flex; gap:6px; z-index:10; }
+.zoom-btn { background:rgba(0,0,0,0.75); color:#fff; border:1px solid rgba(255,255,255,0.15); border-radius:6px; width:34px; height:34px; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
+.zoom-btn:hover { background:rgba(0,0,0,0.92); transform:scale(1.1); }
+.zoom-info { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.75); color:#fff; padding:5px 10px; border-radius:5px; font-size:11px; font-weight:600; backdrop-filter:blur(8px); pointer-events:none; opacity:0; transition:opacity 0.2s; }
+.zoom-info.show { opacity:1; }
+.download-btn { position:absolute; top:14px; left:14px; background:rgba(0,229,160,0.2); color:var(--green); border:1px solid rgba(0,229,160,0.3); border-radius:8px; padding:9px 14px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; z-index:10; }
+.download-btn:hover { background:rgba(0,229,160,0.35); transform:translateY(-2px); box-shadow:0 4px 14px rgba(0,229,160,0.3); }
+.download-btn.downloading { background:rgba(59,130,246,0.2); color:var(--accent2); pointer-events:none; }
+.modal-photo-loading { text-align:center; padding:40px 20px; color:var(--text-dim); font-size:13px; font-weight:600; }
+.modal-photo-spinner { width:36px; height:36px; border:2px solid rgba(59,130,246,0.15); border-top-color:var(--accent2); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px; }
+.modal-photo-error { text-align:center; padding:40px 20px; color:var(--red); font-size:13px; font-weight:600; }
+
+/* ═══════════════════════════════════════
+   CAPTURE CARD (fora da tela, para download)
+═══════════════════════════════════════ */
+.capture-card { position:fixed; top:-10000px; left:-10000px; background:linear-gradient(135deg,#030a1a 0%,#0a1628 100%); border:1px solid rgba(59,130,246,0.25); border-radius:16px; padding:24px; width:900px; }
+.capture-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid rgba(59,130,246,0.15); }
+.capture-header-icon { font-size:26px; }
+.capture-header-title { font-size:20px; font-weight:700; color:#e8f4ff; }
+.capture-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:20px; }
+.capture-stat { background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.15); border-radius:10px; padding:12px; text-align:center; }
+.capture-stat-label { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:#3a5a7a; margin-bottom:8px; font-weight:700; }
+.capture-stat-value { font-size:24px; font-weight:800; font-family:'JetBrains Mono',monospace; color:#e8f4ff; }
+.capture-photo { border-radius:10px; overflow:hidden; border:1px solid rgba(59,130,246,0.15); }
+.capture-photo img { width:100%; height:auto; display:block; }
+.capture-footer { margin-top:16px; padding-top:16px; border-top:1px solid rgba(59,130,246,0.15); text-align:center; display:flex; align-items:center; justify-content:center; min-height:60px; }
+.capture-footer img { max-height:48px; max-width:280px; height:auto; width:auto; }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.site-footer { background:rgba(5,10,25,0.85); border-top:1px solid var(--glass-border); padding:24px 32px 18px; backdrop-filter:blur(20px); position:relative; z-index:1; }
+.footer-inner { max-width:1800px; margin:0 auto; }
+.footer-row { display:flex; align-items:center; gap:16px; padding:12px 0; border-bottom:1px solid var(--glass-border); }
+.footer-row:last-of-type { border-bottom:none; }
+.footer-row-label { font-family:'Orbitron',monospace; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); min-width:120px; }
+.footer-social-row { display:flex; gap:8px; }
+.fsocial-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:8px; text-decoration:none; transition:all 0.2s; border:1px solid transparent; }
+.fsocial-btn.instagram { background:rgba(193,53,132,0.1); border-color:rgba(193,53,132,0.25); color:#f472b6; }
+.fsocial-btn.instagram:hover { background:rgba(193,53,132,0.2); transform:translateY(-2px); }
+.fsocial-btn.youtube { background:rgba(255,0,0,0.1); border-color:rgba(255,0,0,0.2); color:#f87171; }
+.fsocial-btn.youtube:hover { background:rgba(255,0,0,0.2); transform:translateY(-2px); }
+.fsocial-btn.whatsapp { background:rgba(37,211,102,0.07); border-color:rgba(37,211,102,0.2); color:#4ade80; }
+.fsocial-btn.whatsapp:hover { background:rgba(37,211,102,0.15); transform:translateY(-2px); }
+.footer-mesas { display:flex; gap:10px; flex-wrap:wrap; }
+.mesa-footer-card { display:flex; align-items:center; gap:9px; background:rgba(59,130,246,0.07); border:1px solid var(--glass-border); border-radius:8px; padding:7px 14px; text-decoration:none; transition:all 0.2s; }
+.mesa-footer-card:hover { background:rgba(59,130,246,0.15); border-color:var(--glass-border-bright); transform:translateY(-2px); }
+.mesa-footer-logo { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:900; color:#fff; flex-shrink:0; }
+.mesa-footer-logo.tp { background:linear-gradient(135deg,#0ea5e9,#3b82f6); }
+.mesa-footer-logo.apex { background:linear-gradient(135deg,#f97316,#ef4444); }
+.mesa-footer-name { font-size:12px; font-weight:700; color:var(--text-dim); white-space:nowrap; }
+.footer-bottom { border-top:1px solid var(--glass-border); margin-top:12px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+.footer-bottom p { font-size:11px; color:var(--text-muted); }
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:rgba(5,10,25,0.5); }
+::-webkit-scrollbar-thumb { background:rgba(59,130,246,0.3); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(0,220,255,0.5); }
+
+/* ═══════════════════════════════════════
+   LIGHT THEME (sobrescreve o necessário)
+═══════════════════════════════════════ */
+body.light-theme {
+  background: linear-gradient(180deg, #e8f0ff 0%, #d0dff5 50%, #c8d8f0 100%);
+}
+body.light-theme::before { background-image: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px); }
+body.light-theme::after { display:none; }
+body.light-theme .glass-card { background: rgba(255,255,255,0.70); border-color: rgba(100,140,220,0.25); }
+body.light-theme .glass-card::before { background: linear-gradient(90deg,transparent,rgba(100,140,220,0.3),transparent); }
+body.light-theme .topbar { background: rgba(240,248,255,0.90); border-color: rgba(100,140,220,0.2); }
+body.light-theme .filters-bar { background: rgba(230,240,255,0.85); border-color: rgba(100,140,220,0.2); }
+body.light-theme .site-footer { background: rgba(230,240,255,0.90); }
+body.light-theme .kpi-box { background: rgba(100,140,220,0.07); }
+body.light-theme .day { background: rgba(200,220,255,0.3); border-color: rgba(100,140,220,0.15); }
+body.light-theme .day.positive { background: rgba(0,180,120,0.08); border-color: rgba(0,180,120,0.25); }
+body.light-theme .day.negative { background: rgba(220,60,80,0.06); border-color: rgba(220,60,80,0.2); }
+body.light-theme .filter-select { background: rgba(255,255,255,0.8); color: #0f1e32; border-color: rgba(100,140,220,0.3); }
+body.light-theme .filter-select option { background: #fff; color: #0f1e32; }
+body.light-theme--text { color: #0f1e32 !important; }
+body.light-theme .card-title,
+body.light-theme .kpi-label,
+body.light-theme th { color: #4a6a9a; }
+body.light-theme td { color: #3a5a7a; }
+body.light-theme .topbar-title { color: #1a4a8a; }
+body.light-theme .welcome-text h2 { color: #0f1e32; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVO
+═══════════════════════════════════════ */
+@media(max-width:1200px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .col-right { flex-direction: row; flex-wrap: wrap; }
+  .col-right > * { flex: 1; min-width: 280px; }
+}
+@media(max-width:900px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .kpi-secondary-row { grid-template-columns: repeat(2, 1fr); }
+  .topbar { padding: 12px 16px; }
+  .topbar-center { display: none; }
+  .main-content { padding: 16px; }
+  .filters-bar { padding: 10px 16px; }
+}
+@media(max-width:600px) {
+  .kpi-row { grid-template-columns: 1fr; }
+  .kpi-secondary-row { grid-template-columns: repeat(2, 1fr); }
+  .topbar-right .portal-btn span { display: none; }
+  .col-right { flex-direction: column; }
+  .topbar-btn span:not(:first-child) { display: none; }
+}
+
+/* Mobile tab nav (fora da topbar) */
+.mobile-tabs { display: none; }
+@media(max-width:900px) {
+  .mobile-tabs {
+    display: flex; gap: 6px;
+    background: rgba(10,20,50,0.7);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    backdrop-filter: blur(10px);
+  }
+  .mobile-tabs .tab-btn { flex: 1; justify-content: center; font-size: 11px; }
+}
+</style>
+
+<script>
+(function(){
+  var t = localStorage.getItem('dashboard-tema') || 'dark';
+  if(t === 'light') document.documentElement.classList.add('light-theme');
+})();
+</script>
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Iniciando Dashboard...</div>
+</div>
+
+<!-- Performance indicator -->
+<div class="performance-indicator" id="perfIndicator" style="display:none;">
+  <div class="performance-dot neutral"></div>
+  <span id="perfText">—</span>
+</div>
+
+<div class="app-wrapper">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <img src="logo.png" alt="NASDAQ PRO" class="topbar-logo" onerror="this.style.display='none'">
+      <span class="topbar-title">Trading Dashboard</span>
+    </div>
+    <div class="topbar-center">
+      <button class="tab-btn active" id="tabDashboard" onclick="Dashboard.mudarAba('dashboard')">
+        <span class="tab-icon">📊</span>Dashboard
+      </button>
+      <button class="tab-btn" id="tabMercado" onclick="Dashboard.mudarAba('mercado')">
+        <span class="tab-icon">📅</span>Calendário
+      </button>
+    </div>
+    <div class="topbar-right">
+      <a href="portal/login.html" class="portal-btn">🎓 <span>Portal do Aluno</span></a>
+      <button class="topbar-btn" id="pdfReportBtn" onclick="Dashboard.gerarRelatorioPDF()" style="visibility:hidden;">📸 <span>Exportar</span></button>
+      <button class="theme-toggle" onclick="Dashboard.toggleTema()"><span id="themeIcon">🌙</span></button>
+    </div>
+  </header>
+
+  <!-- Mobile tabs -->
+  <div class="mobile-tabs">
+    <button class="tab-btn active" onclick="Dashboard.mudarAba('dashboard')">📊 Dashboard</button>
+    <button class="tab-btn" onclick="Dashboard.mudarAba('mercado')">📅 Calendário</button>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters-bar">
+    <span class="filter-label">Filtros</span>
+    <select id="filtroAno" class="filter-select"></select>
+    <select id="filtroMes" class="filter-select"></select>
+    <select id="filtroSemana" class="filter-select"></select>
+    <div class="stats-pills">
+      <div class="stat-pill">
+        <span class="stat-pill-label">Assertividade</span>
+        <span class="stat-pill-value" id="sidebarWinRate">0%</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-pill-label">Melhor Dia</span>
+        <span class="stat-pill-value" id="sidebarBestDay" style="color:var(--green)">0</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-pill-label">Pior Dia</span>
+        <span class="stat-pill-value" id="sidebarWorstDay">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main-content">
+
+    <!-- ── ABA DASHBOARD ── -->
+    <div id="contentDashboard" class="tab-content active">
+      <div class="dashboard-grid">
+
+        <!-- COLUNA ESQUERDA -->
+        <div class="col-left">
+
+          <!-- Card boas-vindas + KPIs principais -->
+          <div class="glass-card welcome-card">
+            <div class="welcome-top">
+              <div class="welcome-icon">📈</div>
+              <div class="welcome-text">
+                <h2>Bem-vindo de Volta!</h2>
+                <p id="welcomePeriod">Carregando dados...</p>
+              </div>
+            </div>
+            <div class="kpi-row">
+              <div class="kpi-box">
+                <div class="kpi-label">Dias Operados</div>
+                <div class="kpi-value blue" id="kDias">0</div>
+                <div class="kpi-sub">dias com trades</div>
+              </div>
+              <div class="kpi-box green-accent">
+                <div class="kpi-label">Pontos NASDAQ</div>
+                <div class="kpi-value green" id="kPontos">0</div>
+                <div class="kpi-sub">NQ acumulado</div>
+              </div>
+              <div class="kpi-box orange-accent">
+                <div class="kpi-label">Pontos DOW</div>
+                <div class="kpi-value orange" id="kPontosDow">0</div>
+                <div class="kpi-sub">YM acumulado</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPIs secundários -->
+          <div class="kpi-secondary-row">
+            <div class="glass-card kpi-box" style="padding:18px 20px;">
+              <div class="kpi-label">Total Trades</div>
+              <div class="kpi-value blue" id="kTrades">0</div>
+            </div>
+            <div class="glass-card kpi-box green-accent" style="padding:18px 20px;">
+              <div class="kpi-label">Gains</div>
+              <div class="kpi-value green" id="kGains">0</div>
+            </div>
+            <div class="glass-card kpi-box red-accent" style="padding:18px 20px;">
+              <div class="kpi-label">Stops</div>
+              <div class="kpi-value red" id="kStops">0</div>
+            </div>
+            <div class="glass-card kpi-box yellow-accent" style="padding:18px 20px;">
+              <div class="kpi-label">Breakeven</div>
+              <div class="kpi-value yellow" id="kZero">0</div>
+            </div>
+          </div>
+
+          <!-- Gráfico de performance -->
+          <div class="glass-card chart-card">
+            <div class="card-title">Evolução de Performance</div>
+            <div class="chart-wrap">
+              <canvas id="chartAcumulado"></canvas>
+            </div>
+          </div>
+
+          <!-- Calendário de trading -->
+          <div class="glass-card calendar-card">
+            <div class="calendar-title-row">
+              <div class="card-title" id="calendarTitle" style="margin-bottom:0">Calendário de Trading</div>
+            </div>
+            <div class="calendar-header-row" id="calendarHeaderRow">
+              <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+            </div>
+            <div class="calendar-grid" id="calendar"></div>
+          </div>
+
+          <!-- Tabela -->
+          <div class="glass-card table-card">
+            <div class="card-title">Histórico de Operações</div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Data</th><th>Pontos</th><th>Trades</th><th>Gain</th><th>Stop</th><th>0x0</th><th>Ativo</th><th>Semana</th></tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div><!-- /col-left -->
+
+        <!-- COLUNA DIREITA -->
+        <div class="col-right">
+
+          <!-- Ring de Assertividade -->
+          <div class="glass-card ring-card">
+            <div class="card-title">Assertividade</div>
+            <div class="ring-container">
+              <svg class="ring-svg" viewBox="0 0 160 160">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#3b82f6"/>
+                    <stop offset="100%" stop-color="#00dcff"/>
+                  </linearGradient>
+                </defs>
+                <circle class="ring-track" cx="80" cy="80" r="65"/>
+                <circle class="ring-progress" cx="80" cy="80" r="65" id="ringProgress"
+                  stroke-dasharray="408" stroke-dashoffset="408"/>
+              </svg>
+              <div class="ring-center">
+                <div class="ring-pct" id="ringPct">0%</div>
+                <div class="ring-label">Win Rate</div>
+              </div>
+            </div>
+            <div class="ring-stats">
+              <div class="ring-stat-row">
+                <span>Gains</span>
+                <span style="color:var(--green)" id="rGains">0</span>
+              </div>
+              <div class="ring-stat-row">
+                <span>Stops</span>
+                <span style="color:var(--red)" id="rStops">0</span>
+              </div>
+              <div class="ring-stat-row">
+                <span>Breakeven</span>
+                <span style="color:var(--yellow)" id="rZero">0</span>
+              </div>
+              <div class="ring-stat-row">
+                <span>Total Operações</span>
+                <span id="rTotal">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contratos + Valor em dólar -->
+          <div class="glass-card contratos-card">
+            <div class="card-title">Calculadora de Contratos</div>
+            <div class="contratos-control">
+              <button id="btnMenos" class="btn-control">−</button>
+              <div id="valorContratos" class="valor-contratos">0</div>
+              <button id="btnMais" class="btn-control">+</button>
+            </div>
+            <div class="currency-row">
+              <div class="currency-pill">
+                🔵 <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
+              </div>
+              <div class="currency-pill">
+                🟠 <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
+              </div>
+            </div>
+            <div class="currency-row">
+              <div class="currency-pill">
+                🇧🇷 <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
+              </div>
+              <div class="currency-pill">
+                🇧🇷 <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Distribuição -->
+          <div class="glass-card dist-card">
+            <div class="card-title">Distribuição</div>
+            <div class="dist-chart-wrap">
+              <canvas id="chartBar"></canvas>
+            </div>
+          </div>
+
+        </div><!-- /col-right -->
+      </div><!-- /dashboard-grid -->
+    </div><!-- /contentDashboard -->
+
+    <!-- ── ABA CALENDÁRIO ECONÔMICO ── -->
+    <div id="contentMercado" class="tab-content">
+      <div class="glass-card market-card">
+        <div class="market-header">
+          <h3>📅 Calendário Econômico</h3>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="calendar-refresh-btn" onclick="Dashboard.atualizarCalendario()">🔄 Atualizar</button>
+            <a href="https://br.investing.com/economic-calendar/" target="_blank" class="market-link">Ver Completo →</a>
+          </div>
+        </div>
+        <div id="tvCalendarContainer" style="min-height:700px;"></div>
+      </div>
+    </div>
+
+  </main><!-- /main-content -->
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-row">
+        <span class="footer-row-label">Redes Sociais</span>
+        <div class="footer-social-row">
+          <a href="https://www.instagram.com/joaodibtrader?igsh=dzgxMmJsOWtjaWJh" target="_blank" rel="noopener" class="fsocial-btn instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://m.youtube.com/@joaodibtrader/" target="_blank" rel="noopener" class="fsocial-btn youtube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="https://chat.whatsapp.com/SEU_LINK_AQUI" target="_blank" rel="noopener" class="fsocial-btn whatsapp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-row">
+        <span class="footer-row-label">Mesas Indicadas</span>
+        <div class="footer-mesas">
+          <a href="https://takeprofittrader.com/?referralCode=DIB" target="_blank" rel="noopener" class="mesa-footer-card">
+            <div class="mesa-footer-logo tp">TP</div>
+            <div class="mesa-footer-name">TakeProfit Trader</div>
+          </a>
+          <a href="https://apextraderfunding.com/member/aff/go/joaodib?c=ZINFQCUB" target="_blank" rel="noopener" class="mesa-footer-card">
+            <div class="mesa-footer-logo apex">AX</div>
+            <div class="mesa-footer-name">Apex Trader Funding</div>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Mentoria Nasdaq Pro. Todos os direitos reservados.</p>
+        <p>⚠️ Conteúdo apenas educacional. Não constitui recomendação de investimento.</p>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /app-wrapper -->
+
+<!-- Modal foto do trade -->
+<div class="trade-photo-modal" id="tradePhotoModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle">📅 Carregando...</h2>
+      <button class="modal-close-btn" onclick="Dashboard.fecharModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info-grid" id="modalInfoGrid"></div>
+      <div class="modal-photo-container" id="modalPhotoContainer">
+        <div class="modal-photo-loading"><div class="modal-photo-spinner"></div>Carregando foto...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Capture card (fora da tela) -->
+<div class="capture-card" id="captureCard">
+  <div class="capture-header"><span class="capture-header-icon" id="captureIcon">📅</span><span class="capture-header-title" id="captureTitle">Carregando...</span></div>
+  <div class="capture-stats" id="captureStats"></div>
+  <div class="capture-photo" id="capturePhoto"></div>
+  <div class="capture-footer" id="captureFooter">
+    <img src="logo.png" alt="Mentoria NasdaqPro" onerror="this.parentElement.innerHTML='<span style=\'color:#3a5a7a;font-size:12px;font-weight:600\'>NASDAQ PRO Trading Dashboard</span>'">
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TODA A LÓGICA JS — IDÊNTICA AO ORIGINAL
+══════════════════════════════════════════ -->
+<script>
+let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null, SHEETS_API_KEY = null, SHEETS_SPREADSHEET_ID = null, SHEETS_TAB_NAME = null;
+
+async function carregarConfiguracoes() {
+  try {
+    const doc = await db.collection('config').doc('public').get();
+    if (!doc.exists) throw new Error('config/public não encontrado no Firestore');
+    const data = doc.data();
+    CSV_URL = data.csv_url; GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id;
+    SHEETS_API_KEY = data.sheets_api_key || null; SHEETS_SPREADSHEET_ID = data.sheets_spreadsheet_id || null;
+    SHEETS_TAB_NAME = data.sheets_tab_name || 'atual dashboard NASDAQ';
+  } catch (err) { console.error('Erro configurações:', err); alert('❌ Erro ao carregar configurações.'); }
+}
+
+const nomesMeses = {"01":"Janeiro","02":"Fevereiro","03":"Março","04":"Abril","05":"Maio","06":"Junho","07":"Julho","08":"Agosto","09":"Setembro","10":"Outubro","11":"Novembro","12":"Dezembro"};
+
+const Dashboard = {
+  dados:[], primeiraCarga:true, chartAcumulado:null, chartBar:null,
+  cotacaoUSDtoBRL:5.50, zoomLevel:1, zoomPosX:0, zoomPosY:0,
+  isDragging:false, startX:0, startY:0, tradeAtual:null,
+
+  async init() {
+    this.carregarTema();
+    await new Promise(resolve => {
+      if (typeof db !== 'undefined') return resolve();
+      const check = setInterval(() => { if (typeof db !== 'undefined') { clearInterval(check); resolve(); } }, 50);
+      setTimeout(() => { clearInterval(check); resolve(); }, 5000);
+    });
+    await carregarConfiguracoes();
+    await this.carregarDados();
+    this.atualizarPerformanceIndicator();
+    this.inicializarConversorMoeda();
+    this.inicializarGestosMobile();
+    try {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const uDoc = await db.collection('users').doc(user.uid).get();
+          if (uDoc.exists && uDoc.data().role === 'admin') {
+            const btn = document.getElementById('pdfReportBtn');
+            if (btn) btn.style.visibility = 'visible';
+          }
+        }
+      });
+    } catch(e) {}
+  },
+
+  carregarTema() { if(window.NasTheme) NasTheme.carregar(); },
+  toggleTema() { if(window.NasTheme) NasTheme.toggle(); },
+
+  mudarAba(aba) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    const content = document.getElementById('content' + aba.charAt(0).toUpperCase() + aba.slice(1));
+    if (content) content.classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      if (btn.textContent.toLowerCase().includes(aba === 'dashboard' ? 'dashboard' : 'calendário') ||
+          btn.textContent.toLowerCase().includes(aba === 'mercado' ? 'calendário' : '')) {
+        if ((aba === 'dashboard' && btn.textContent.includes('Dashboard')) ||
+            (aba === 'mercado' && btn.textContent.includes('Calendário')))
+          btn.classList.add('active');
+      }
+    });
+    document.getElementById('tab' + aba.charAt(0).toUpperCase() + aba.slice(1))?.classList.add('active');
+    if (aba === 'mercado') setTimeout(() => this.atualizarCalendario(), 150);
+  },
+
+  inicializarGestosMobile() {
+    const container = document.querySelector('.main-content'); if(!container) return;
+    let startX=0, startY=0;
+    container.addEventListener('touchstart',(e)=>{startX=e.touches[0].clientX;startY=e.touches[0].clientY;},{passive:true});
+    container.addEventListener('touchend',(e)=>{
+      const endX=e.changedTouches[0].clientX, endY=e.changedTouches[0].clientY;
+      const diffX=startX-endX, diffY=startY-endY;
+      if(Math.abs(diffX)>Math.abs(diffY)&&Math.abs(diffX)>50){
+        const dashActive=document.getElementById('contentDashboard').classList.contains('active');
+        if(diffX>0&&dashActive) this.mudarAba('mercado');
+        else if(diffX<0&&!dashActive) this.mudarAba('dashboard');
+      }
+    },{passive:true});
+  },
+
+  async gerarRelatorioPDF() {
+    const btn = document.getElementById('pdfReportBtn'); if(!btn) return;
+    const textoOriginal = btn.innerHTML; btn.classList.add('loading'); btn.innerHTML = '⏳ Gerando...';
+    try {
+      if (!window.html2canvas) { alert('Erro ao carregar biblioteca.'); return; }
+      const d = this.obterDadosFiltrados();
+      const anoAtual = document.getElementById('filtroAno')?.value || new Date().getFullYear().toString();
+      const mesAtual = document.getElementById('filtroMes')?.value || 'ALL';
+      const t = d.reduce((a,x)=>({trades:a.trades+x.trades,pontosNasdaq:a.pontosNasdaq+(x.pontosNasdaq||0),pontosDow:a.pontosDow+(x.pontosDow||0),gain:a.gain+x.gain,stop:a.stop+x.stop}),{trades:0,pontosNasdaq:0,pontosDow:0,gain:0,stop:0});
+      const dias=d.filter(x=>x.trades>0).length, op=t.gain+t.stop, ass=op?Math.round((t.gain/op)*100):0;
+      const mesCalendario=mesAtual!=='ALL'?mesAtual:(new Date().getFullYear().toString()===anoAtual?(new Date().getMonth()+1).toString().padStart(2,'0'):[...new Set(this.dados.filter(x=>x.ano===anoAtual).map(x=>x.mes))].sort().pop()||'01');
+      const dadosMes=d.filter(x=>x.mes===mesCalendario);
+      let calCells='';
+      if(dadosMes.length>0){
+        const base=dadosMes[0], baseDate=base.data instanceof Date?base.data:new Date(base.data);
+        const ano2=baseDate.getFullYear(), mes2=baseDate.getMonth();
+        const primeiro=new Date(ano2,mes2,1), ultimo=new Date(ano2,mes2+1,0);
+        const nomeMesCal=nomesMeses[mesCalendario]||mesCalendario;
+        const headerCells=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(ds=>`<div style="text-align:center;font-size:10px;font-weight:700;color:#3a5a7a;text-transform:uppercase;letter-spacing:1px;padding:4px 0;">${ds}</div>`).join('');
+        let emptyCells=''; for(let i=0;i<primeiro.getDay();i++) emptyCells+=`<div style="min-height:64px;"></div>`;
+        let dayCells='';
+        for(let dd=1;dd<=ultimo.getDate();dd++){
+          const data2=new Date(ano2,mes2,dd);
+          const r=dadosMes.find(x=>{const dx=x.data instanceof Date?x.data:new Date(x.data);return dx.toDateString()===data2.toDateString();});
+          const pN=r?(r.pontosNasdaq||0):0, pD=r?(r.pontosDow||0):0, pts=r?(r.pontos||0):0;
+          const hasBoth=pN!==0&&pD!==0;
+          const bg=r&&pts>0?'rgba(0,229,160,0.08)':r&&pts<0?'rgba(255,77,106,0.08)':'rgba(10,20,50,0.6)';
+          const bc=r&&pts>0?'rgba(0,229,160,0.35)':r&&pts<0?'rgba(255,77,106,0.35)':'rgba(59,130,246,0.12)';
+          let ptHtml='';
+          if(r&&r.trades>0){
+            if(hasBoth){ptHtml=`<div style="font-size:10px;font-weight:900;color:${pN>0?'#00e5a0':pN<0?'#ff4d6a':'#3a5a7a'};font-family:'JetBrains Mono',monospace;">NQ:${pN>0?'+':''}${pN}</div><div style="font-size:10px;font-weight:900;color:${pD>0?'#ff9f43':pD<0?'#ff4d6a':'#3a5a7a'};font-family:'JetBrains Mono',monospace;">DJ:${pD>0?'+':''}${pD}</div>`;}
+            else{const cor=pts>0?'#00e5a0':pts<0?'#ff4d6a':'#3a5a7a';ptHtml=`<div style="font-size:18px;font-weight:900;color:${cor};font-family:'JetBrains Mono',monospace;">${pts>0?'+':''}${pts}</div>`;}
+            ptHtml+=`<div style="font-size:9px;color:#3a5a7a;font-weight:600;">${r.trades}T ${r.gain}G ${r.stop}S</div>`;
+          }
+          dayCells+=`<div style="background:${bg};border:1px solid ${bc};border-radius:6px;min-height:64px;padding:5px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;"><div style="font-size:10px;color:#3a5a7a;font-weight:700;align-self:flex-start;">${dd}</div>${ptHtml}</div>`;
+        }
+        calCells=`<div style="font-size:13px;font-weight:700;color:#7fa8d0;margin-bottom:12px;">📅 ${nomeMesCal} ${ano2}</div><div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:8px;">${headerCells}</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">${emptyCells}${dayCells}</div>`;
+      }else{calCells=`<div style="color:#3a5a7a;text-align:center;padding:20px;font-size:14px;">Sem dados para o período selecionado</div>`;}
+      const logoSrc=document.querySelector('.topbar-logo');
+      const logoHTML=logoSrc&&logoSrc.naturalWidth>0?`<img src="${logoSrc.src}" style="max-height:90px;width:auto;display:block;margin:0 auto;">`:`<div style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#00dcff;text-align:center;text-shadow:0 0 20px rgba(0,220,255,0.5);">NasdaqPro</div>`;
+      const kpis=[{label:'DIAS OPERADOS',value:String(dias),color:'#e8f4ff'},{label:'TOTAL TRADES',value:String(t.trades),color:'#e8f4ff'},{label:'PONTOS NASDAQ',value:(t.pontosNasdaq>0?'+':'')+t.pontosNasdaq,color:t.pontosNasdaq>0?'#00e5a0':t.pontosNasdaq<0?'#ff4d6a':'#3a5a7a'},{label:'PONTOS DOW',value:(t.pontosDow>0?'+':'')+t.pontosDow,color:t.pontosDow>0?'#ff9f43':t.pontosDow<0?'#ff4d6a':'#3a5a7a'},{label:'ASSERTIVIDADE',value:ass+'%',color:'#00dcff'}];
+      const kpisHTML=kpis.map(k=>`<div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);border-top:2px solid rgba(0,220,255,0.4);border-radius:10px;padding:14px 10px;text-align:center;"><div style="font-size:9px;font-weight:700;color:#3a5a7a;letter-spacing:2px;margin-bottom:8px;text-transform:uppercase;font-family:Orbitron,monospace;">${k.label}</div><div style="font-size:26px;font-weight:800;color:${k.color};font-family:'JetBrains Mono',monospace;">${k.value}</div></div>`).join('');
+      const fullHTML=`<div style="text-align:center;margin-bottom:20px;">${logoHTML}</div><div style="height:1px;background:linear-gradient(90deg,transparent,rgba(0,220,255,0.4),transparent);margin-bottom:24px;"></div><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px;">${kpisHTML}</div><div style="background:rgba(10,20,50,0.8);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:20px;">${calCells}</div>`;
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:absolute;left:-9999px;top:0;width:960px;background:#030a1a;padding:36px;box-sizing:border-box;font-family:Inter,sans-serif;color:#e8f4ff;border-radius:16px;';
+      wrap.innerHTML=fullHTML; document.body.appendChild(wrap);
+      await new Promise(r=>setTimeout(r,300));
+      const logoEl=wrap.querySelector('img'); if(logoEl&&!logoEl.complete) await new Promise(r=>{logoEl.onload=r;logoEl.onerror=r;setTimeout(r,2000);});
+      const canvas=await html2canvas(wrap,{backgroundColor:'#030a1a',scale:2,logging:false,useCORS:true,allowTaint:true,width:960,height:wrap.scrollHeight});
+      document.body.removeChild(wrap);
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob), link=document.createElement('a');
+        link.href=url; const ms=mesAtual!=='ALL'?`-${mesAtual}`:'';
+        link.download=`nasdaqpro-${anoAtual}${ms}.png`;
+        document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+        btn.innerHTML='✅ Salvo!'; setTimeout(()=>{btn.innerHTML=textoOriginal;btn.classList.remove('loading');},2000);
+      },'image/png');
+    } catch(erro) {
+      console.error('Erro exportar:',erro); alert('❌ Erro ao gerar imagem.');
+      btn.innerHTML='❌ Erro'; setTimeout(()=>{btn.innerHTML=textoOriginal;btn.classList.remove('loading');},2000);
+    }
+  },
+
+  async carregarDados() {
+    try {
+      if(SHEETS_API_KEY&&SHEETS_SPREADSHEET_ID){
+        const url=`https://youtube-upload-proxy.nasdaqpro7.workers.dev/sheets?spreadsheetId=${SHEETS_SPREADSHEET_ID}&range=${encodeURIComponent(SHEETS_TAB_NAME||'atual dashboard NASDAQ')}!A:I&apiKey=${SHEETS_API_KEY}`;
+        const resp=await fetch(url); const json=await resp.json();
+        if(json.success&&json.values){this.processarSheetsAPI(json.values);setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);return;}
+      }
+      if(!CSV_URL) throw new Error('CSV_URL não configurada');
+      const response=await fetch(CSV_URL+'&t='+Date.now());
+      if(!response.ok) throw new Error('Erro ao carregar dados');
+      this.processarCSV(await response.text());
+      setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);
+    } catch(erro) {
+      console.error('Erro:',erro); alert('Erro ao carregar dados.');
+      document.getElementById('loading').classList.add('hidden');
+    }
+  },
+
+  processarSheetsAPI(values) {
+    if(!values||values.length<2){this.dados=[];this.inicializarFiltros();return;}
+    const rows=values.slice(1).map(cols=>{
+      if(!cols||!cols[0])return null;
+      while(cols.length<9)cols.push('');
+      const rawData=(cols[0]||'').toString().trim();
+      if(!rawData.includes('/'))return null;
+      const partes=rawData.split('/'),d=partes[0],m=partes[1],a=partes[2];
+      if(!d||!m||!a)return null;
+      const num=(v)=>parseFloat((v||'0').toString().replace(/[^0-9.\-]/g,''))||0;
+      return{dia:rawData,data:new Date(parseInt(a),parseInt(m)-1,parseInt(d)),semana:cols[1]||'',ativo:(cols[2]||'').trim().toUpperCase(),ano:a,mes:m.padStart(2,'0'),pontos:num(cols[3]),trades:num(cols[4]),gain:num(cols[5]),stop:num(cols[6]),zero:num(cols[7]),fotoId:(cols[8]||'').toString().trim()};
+    }).filter(Boolean);
+    this._processarRows(rows);
+  },
+
+  processarCSV(texto) {
+    const linhas=texto.trim().split(/\r?\n/);linhas.shift();
+    const rows=linhas.map(linha=>{
+      const cols=linha.split(",");const[d,m,a]=cols[0].split("/");
+      if(!d||!m||!a)return null;
+      return{dia:cols[0],data:new Date(a,m-1,d),semana:cols[1],ativo:(cols[2]||'').trim().toUpperCase(),ano:a,mes:m,pontos:+cols[3]||0,trades:+cols[4]||0,gain:+cols[5]||0,stop:+cols[6]||0,zero:+cols[7]||0,fotoId:cols[8]||""};
+    }).filter(Boolean);
+    this._processarRows(rows);
+  },
+
+  _processarRows(rows) {
+    const mapaData={};
+    rows.forEach(r=>{
+      const key=r.dia;
+      if(!mapaData[key]){mapaData[key]={dia:r.dia,data:r.data,semana:r.semana,ano:r.ano,mes:r.mes,pontosNasdaq:0,pontosDow:0,trades:0,gain:0,stop:0,zero:0,fotoId:r.fotoId,ativos:[]};}
+      const e=mapaData[key],isDow=r.ativo.includes('DOW');
+      if(isDow)e.pontosDow+=r.pontos;else e.pontosNasdaq+=r.pontos;
+      e.trades+=r.trades;e.gain+=r.gain;e.stop+=r.stop;e.zero+=r.zero;
+      if(r.fotoId&&r.fotoId.trim())e.fotoId=r.fotoId;
+      if(!e.ativos.includes(r.ativo))e.ativos.push(r.ativo);
+      e.pontos=(e.pontosNasdaq+e.pontosDow);
+    });
+    this.dados=Object.values(mapaData);
+    this.inicializarFiltros();
+    setTimeout(()=>{this.inicializarCalculadora();},100);
+  },
+
+  inicializarFiltros() {
+    const anos=[...new Set(this.dados.map(d=>d.ano))].sort();
+    filtroAno.innerHTML=anos.map(a=>`<option value="${a}">${a}</option>`).join("");
+    const anoAtual=new Date().getFullYear().toString();
+    filtroAno.value=anos.includes(anoAtual)?anoAtual:anos[anos.length-1];
+    filtroAno.onchange=()=>{this.primeiraCarga=false;this.inicializarMeses();this.atualizar();};
+    this.inicializarMeses();
+  },
+
+  inicializarMeses() {
+    const meses=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))];
+    filtroMes.innerHTML='<option value="ALL">Todos os meses</option>'+meses.map(m=>`<option value="${m}">${nomesMeses[m]}</option>`).join("");
+    const mesAtual=(new Date().getMonth()+1).toString().padStart(2,"0");
+    if(this.primeiraCarga&&meses.includes(mesAtual)){filtroMes.value=mesAtual;filtroSemana.disabled=false;}
+    else if(!this.primeiraCarga){filtroMes.value="ALL";filtroSemana.disabled=true;}
+    filtroMes.onchange=()=>{this.primeiraCarga=false;if(filtroMes.value==="ALL"){filtroSemana.disabled=true;filtroSemana.value="ALL";}else filtroSemana.disabled=false;this.inicializarSemanas();this.atualizar();};
+    if(filtroMes.value==="ALL")filtroSemana.disabled=true;
+    this.inicializarSemanas();
+  },
+
+  inicializarSemanas() {
+    const semanas=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value)).map(d=>d.semana))].sort((a,b)=>a-b);
+    filtroSemana.innerHTML='<option value="ALL">Todas as semanas</option>'+semanas.map(s=>`<option value="${s}">${s}</option>`).join("");
+    filtroSemana.value="ALL";
+    filtroSemana.onchange=()=>{this.primeiraCarga=false;this.atualizar();};
+    this.atualizar();
+  },
+
+  inicializarCalculadora() {
+    setTimeout(()=>{
+      const btnP=document.getElementById('btnMais'),btnM=document.getElementById('btnMenos'),div=document.getElementById('valorContratos');
+      if(!btnP||!btnM||!div)return;
+      let val=0;
+      btnP.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();val++;div.textContent=val;Dashboard.atualizar();});
+      btnM.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(val>0){val--;div.textContent=val;Dashboard.atualizar();}});
+    },500);
+  },
+
+  obterDadosFiltrados(){return this.dados.filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value)&&(filtroSemana.value==="ALL"||d.semana===filtroSemana.value));},
+  atualizar(){const d=this.obterDadosFiltrados();this.renderizarKPIs(d);this.renderizarTabela(d);this.renderizarGraficos(d);this.renderizarCalendario(d);this.atualizarSidebarStats(d);this.atualizarPerformanceIndicator(d);},
+
+  renderizarKPIs(dados) {
+    const t=dados.reduce((acc,d)=>({trades:acc.trades+d.trades,pontos:acc.pontos+d.pontos,pontosNasdaq:acc.pontosNasdaq+(d.pontosNasdaq||0),pontosDow:acc.pontosDow+(d.pontosDow||0),gain:acc.gain+d.gain,stop:acc.stop+d.stop,zero:acc.zero+d.zero}),{trades:0,pontos:0,pontosNasdaq:0,pontosDow:0,gain:0,stop:0,zero:0});
+    const op=t.gain+t.stop, ass=op?Math.round((t.gain/op)*100):0, dias=dados.filter(d=>d.trades>0).length;
+    const vc=document.getElementById('valorContratos'), contratos=vc?parseInt(vc.textContent)||0:0;
+    const totalNasdaq=t.pontosNasdaq*contratos*2, totalDow=t.pontosDow*contratos*0.5;
+    // Período no header
+    const wp=document.getElementById('welcomePeriod');
+    if(wp){const a=filtroAno.value,m=filtroMes.value;wp.textContent=m!=='ALL'?`${nomesMeses[m]||m} / ${a}`:`Ano ${a} — todos os meses`;}
+    // KPIs
+    document.getElementById("kDias").textContent=dias;
+    document.getElementById("kTrades").textContent=t.trades;
+    const kp=document.getElementById("kPontos"); if(kp){kp.textContent=t.pontosNasdaq;kp.className='kpi-value '+(t.pontosNasdaq<0?'red':t.pontosNasdaq>0?'green':'blue');}
+    const kpd=document.getElementById("kPontosDow"); if(kpd){kpd.textContent=t.pontosDow;kpd.className='kpi-value '+(t.pontosDow<0?'red':t.pontosDow>0?'orange':'blue');}
+    const kg=document.getElementById("kGains"); if(kg)kg.textContent=t.gain;
+    const ks=document.getElementById("kStops"); if(ks)ks.textContent=t.stop;
+    const kz=document.getElementById("kZero"); if(kz)kz.textContent=t.zero;
+    // Ring
+    this.atualizarRing(ass, t.gain, t.stop, t.zero, op);
+    // Dólar
+    const kdN=document.getElementById("kDolarNasdaq"); if(kdN){kdN.textContent=totalNasdaq.toLocaleString('en-US',{style:'currency',currency:'USD'});kdN.style.color=totalNasdaq>=0?'var(--green)':'var(--red)';}
+    const kdD=document.getElementById("kDolarDow"); if(kdD){kdD.textContent=totalDow.toLocaleString('en-US',{style:'currency',currency:'USD'});kdD.style.color=totalDow>=0?'var(--orange)':'var(--red)';}
+    this.atualizarValorReal();
+  },
+
+  atualizarRing(ass, gains, stops, zero, total) {
+    const pct = document.getElementById('ringPct');
+    const ring = document.getElementById('ringProgress');
+    const rG = document.getElementById('rGains');
+    const rS = document.getElementById('rStops');
+    const rZ = document.getElementById('rZero');
+    const rT = document.getElementById('rTotal');
+    if(pct) pct.textContent = ass + '%';
+    if(ring) {
+      const circumference = 2 * Math.PI * 65; // ~408.4
+      const offset = circumference - (ass / 100) * circumference;
+      ring.style.strokeDasharray = circumference;
+      ring.style.strokeDashoffset = offset;
+    }
+    if(rG) rG.textContent = gains;
+    if(rS) rS.textContent = stops;
+    if(rZ) rZ.textContent = zero;
+    if(rT) rT.textContent = total;
+  },
+
+  atualizarSidebarStats(dados) {
+    const t=dados.reduce((acc,d)=>({gain:acc.gain+d.gain,stop:acc.stop+d.stop}),{gain:0,stop:0});
+    const op=t.gain+t.stop, wr=op?Math.round((t.gain/op)*100):0;
+    const ppd=dados.filter(d=>d.trades>0).map(d=>d.pontos);
+    const best=ppd.length?Math.max(...ppd):0, worst=ppd.length?Math.min(...ppd):0;
+    const sw=document.getElementById('sidebarWinRate'),sb=document.getElementById('sidebarBestDay'),swd=document.getElementById('sidebarWorstDay');
+    if(sw)sw.textContent=wr+'%';
+    if(sb){sb.textContent=best;sb.style.color='var(--green)';}
+    if(swd){swd.textContent=worst;swd.style.color=worst<0?'var(--red)':'var(--text)';}
+  },
+
+  atualizarPerformanceIndicator(dados=[]) {
+    const pi=document.getElementById('perfIndicator'),pt=document.getElementById('perfText'),pd=pi?.querySelector('.performance-dot');
+    if(!pi||!dados.length){if(pi)pi.style.display='none';return;}
+    const total=dados.reduce((acc,d)=>acc+d.pontos,0);
+    pi.style.display='flex';
+    if(total>0){pt.textContent=`+${total} pts`;pd.className='performance-dot positive';}
+    else if(total<0){pt.textContent=`${total} pts`;pd.className='performance-dot negative';}
+    else{pt.textContent='0 pts';pd.className='performance-dot neutral';}
+  },
+
+  renderizarTabela(dados) {
+    let html='',tot={p:0,pN:0,pD:0,t:0,g:0,s:0,z:0};
+    dados.forEach(d=>{
+      tot.p+=d.pontos;tot.pN+=(d.pontosNasdaq||0);tot.pD+=(d.pontosDow||0);tot.t+=d.trades;tot.g+=d.gain;tot.s+=d.stop;tot.z+=d.zero;
+      const hasBoth=(d.pontosNasdaq||0)!==0&&(d.pontosDow||0)!==0;
+      const ptCell=hasBoth
+        ?`<span style="color:${(d.pontosNasdaq||0)<0?'var(--red)':'var(--green)'}">NQ:${d.pontosNasdaq>0?'+':''}${d.pontosNasdaq||0}</span> <span style="color:${(d.pontosDow||0)<0?'var(--red)':'var(--orange)'}">DJ:${d.pontosDow>0?'+':''}${d.pontosDow||0}</span>`
+        :`<span style="color:${d.pontos<0?'var(--red)':'var(--green)'}">${d.pontos}</span>`;
+      html+=`<tr><td>${d.dia}</td><td style="font-weight:800">${ptCell}</td><td>${d.trades}</td><td style="color:var(--green)">${d.gain}</td><td style="color:var(--red)">${d.stop}</td><td style="color:var(--yellow)">${d.zero}</td><td>${(d.ativos||[d.ativo||'']).join('/')}</td><td>${d.semana}</td></tr>`;
+    });
+    const hasBothTot=tot.pN!==0||tot.pD!==0;
+    const totPtCell=hasBothTot
+      ?`<span style="color:${tot.pN<0?'var(--red)':'var(--green)'}">NQ:${tot.pN>0?'+':''}${tot.pN}</span> <span style="color:${tot.pD<0?'var(--red)':'var(--orange)'}">DJ:${tot.pD>0?'+':''}${tot.pD}</span>`
+      :`<span style="color:${tot.p<0?'var(--red)':'var(--green)'}">${tot.p}</span>`;
+    html+=`<tr class="total"><td>TOTAL</td><td style="font-weight:900">${totPtCell}</td><td>${tot.t}</td><td style="color:var(--green)">${tot.g}</td><td style="color:var(--red)">${tot.s}</td><td style="color:var(--yellow)">${tot.z}</td><td colspan="2"></td></tr>`;
+    document.getElementById('tbody').innerHTML=html;
+  },
+
+  renderizarGraficos(dados) {
+    let saldo=0; const labels=[],acumulado=[0];
+    dados.forEach(d=>{saldo+=d.pontos;labels.push(d.dia);acumulado.push(saldo);});
+    if(this.chartAcumulado)this.chartAcumulado.destroy();
+    if(this.chartBar)this.chartBar.destroy();
+    const ctxAc=document.getElementById('chartAcumulado');
+    if(ctxAc){
+      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets:[{label:'Pontos',data:acumulado,borderColor:'#00dcff',backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,'rgba(0,220,255,0.20)');g.addColorStop(1,'rgba(0,220,255,0.01)');return g;},fill:true,tension:0.4,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#00dcff',pointBorderColor:'#030a1a',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(3,10,26,0.95)',titleColor:'#e8f4ff',bodyColor:'#7fa8d0',borderColor:'rgba(0,220,255,0.4)',borderWidth:1,padding:12,displayColors:false,callbacks:{title:(i)=>i[0].label,label:(i)=>`Acumulado: ${i.formattedValue} pts`}}},scales:{y:{ticks:{color:'#3a5a7a',font:{family:'JetBrains Mono',size:11}},grid:{color:'rgba(59,130,246,0.06)'}},x:{ticks:{color:'#7fa8d0',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
+    }
+    const ctxBar=document.getElementById('chartBar');
+    if(ctxBar){
+      const tg=dados.reduce((a,b)=>a+b.gain,0),ts=dados.reduce((a,b)=>a+b.stop,0),tz=dados.reduce((a,b)=>a+b.zero,0);
+      this.chartBar=new Chart(ctxBar,{type:'doughnut',data:{labels:['Gains','Stops','Breakeven'],datasets:[{data:[tg,ts,tz],backgroundColor:['#00e5a0','#ff4d6a','#ffd166'],borderColor:'rgba(10,18,35,0.8)',borderWidth:3,hoverOffset:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'#7fa8d0',padding:14,font:{size:12,weight:'600'}}},tooltip:{backgroundColor:'rgba(3,10,26,0.95)',titleColor:'#e8f4ff',bodyColor:'#7fa8d0',borderColor:'rgba(0,220,255,0.3)',borderWidth:1,padding:12,callbacks:{label:(i)=>`${i.label}: ${i.formattedValue}`}}}}});
+    }
+  },
+
+  voltarParaMeses(){filtroMes.value="ALL";filtroSemana.disabled=true;filtroSemana.value="ALL";this.primeiraCarga=false;this.atualizar();},
+
+  renderizarCalendario(dados) {
+    const grid=document.getElementById("calendar"), ct=document.getElementById("calendarTitle");
+    const headerRow=document.getElementById("calendarHeaderRow");
+    if(!grid)return; grid.innerHTML="";
+
+    if(filtroMes.value==="ALL"){
+      if(ct)ct.innerHTML=`<div class="card-title" style="margin-bottom:0">Calendário de Trading</div>`;
+      if(headerRow)headerRow.style.display='none';
+      const md=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))].sort();
+      md.forEach(mesNum=>{
+        const nm=nomesMeses[mesNum],dm=this.dados.filter(d=>d.ano===filtroAno.value&&d.mes===mesNum);
+        const tp=dm.reduce((acc,d)=>acc+d.pontos,0),tpN=dm.reduce((acc,d)=>acc+(d.pontosNasdaq||0),0),tpD=dm.reduce((acc,d)=>acc+(d.pontosDow||0),0);
+        const do2=dm.filter(d=>d.trades>0).length;
+        const hasBoth=dm.some(d=>(d.pontosNasdaq||0)!==0)&&dm.some(d=>(d.pontosDow||0)!==0);
+        const mc=document.createElement('div'); mc.className='month-card'; if(tp>0)mc.classList.add('positive'); if(tp<0)mc.classList.add('negative');
+        const ptHtml=hasBoth
+          ?`<div style="display:flex;gap:6px;align-items:center"><span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpN<0?'var(--red)':tpN>0?'var(--green)':'var(--text-muted)'}">NQ:${tpN>0?'+':''}${tpN}</span><span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpD<0?'var(--red)':tpD>0?'var(--orange)':'var(--text-muted)'}">DJ:${tpD>0?'+':''}${tpD}</span></div>`
+          :`<div class="month-points" style="color:${tp<0?'var(--red)':tp>0?'var(--green)':'var(--text-muted)'}">${tp>0?'+':''}${tp}</div>`;
+        mc.innerHTML=`<div class="month-name">${nm}</div>${ptHtml}<div class="month-info">${do2} dia${do2!==1?'s':''}</div>`;
+        mc.onclick=()=>{filtroMes.value=mesNum;this.primeiraCarga=false;filtroSemana.disabled=false;this.inicializarSemanas();this.atualizar();};
+        grid.appendChild(mc);
+      });
+      return;
+    }
+
+    if(headerRow)headerRow.style.display='';
+    if(!dados.length)return;
+    const base=dados.find(d=>d.mes===filtroMes.value)||dados[0];
+    const ano=base.data.getFullYear(), mes=base.data.getMonth();
+    const primeiro=new Date(ano,mes,1), ultimo=new Date(ano,mes+1,0);
+    const mesStr=(mes+1).toString().padStart(2,"0"), nomeMes=nomesMeses[mesStr]||"";
+    if(ct)ct.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;width:100%;"><button class="back-to-months-btn" onclick="Dashboard.voltarParaMeses()">← Voltar</button><div class="card-title" style="margin-bottom:0">📅 ${nomeMes} ${ano}</div><div></div></div>`;
+    for(let i=0;i<primeiro.getDay();i++){const e=document.createElement('div');e.className='day empty';grid.appendChild(e);}
+    for(let d=1;d<=ultimo.getDate();d++){
+      const data=new Date(ano,mes,d), r=dados.find(x=>x.data.toDateString()===data.toDateString());
+      const dayDiv=document.createElement('div'); dayDiv.className='day';
+      let pts="",info="";
+      if(r){
+        pts=r.pontos; if(pts>0)dayDiv.classList.add('positive'); if(pts<0)dayDiv.classList.add('negative');
+        let pl=`${r.trades}T`,sl=[];
+        if(r.gain>0)sl.push(`${r.gain}G`); if(r.stop>0)sl.push(`${r.stop}S`); if(r.zero>0)sl.push(`${r.zero}B`);
+        info=sl.length>0?`${pl} ${sl.join(' ')}`:pl;
+        if(r.trades>0&&r.fotoId&&r.fotoId.toString().trim()!==''){dayDiv.classList.add('clickable');dayDiv.addEventListener('click',()=>{Dashboard.abrirModal(r);});}
+      }
+      let ptDisplay='';
+      if(r&&r.trades>0){
+        const hasNasdaq=(r.pontosNasdaq||0)!==0||(r.ativos&&r.ativos.some(a=>!a.includes('DOW')));
+        const hasDow=(r.pontosDow||0)!==0||(r.ativos&&r.ativos.some(a=>a.includes('DOW')));
+        if(hasNasdaq&&hasDow){
+          const pN=r.pontosNasdaq||0, pD=r.pontosDow||0;
+          ptDisplay=`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;margin:2px 0"><span style="font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
+        }else{
+          const pc2=pts<0?'var(--red)':pts>0?'var(--green)':'var(--text-muted)';
+          ptDisplay=`<div class="day-points" style="color:${pc2}">${pts===0?'0':pts}</div>`;
+        }
+      }
+      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
+      grid.appendChild(dayDiv);
+    }
+  },
+
+  abrirModal(dadosDia) {
+    this.tradeAtual=dadosDia;
+    const modal=document.getElementById('tradePhotoModal'),mt=document.getElementById('modalTitle'),mig=document.getElementById('modalInfoGrid'),mpc=document.getElementById('modalPhotoContainer');
+    if(!modal||!mt||!mig||!mpc)return;
+    const data=new Date(dadosDia.data),dia=data.getDate(),mes=nomesMeses[dadosDia.mes],ano=dadosDia.ano;
+    mt.textContent=`📅 ${dia} de ${mes} de ${ano}`;
+    let infoHTML=`<div class="modal-info-item ${dadosDia.pontos>0?'positive':dadosDia.pontos<0?'negative':''}"><label>Pontos</label><div class="value">${dadosDia.pontos>0?'+':''}${dadosDia.pontos}</div></div><div class="modal-info-item"><label>Trades</label><div class="value">${dadosDia.trades}</div></div><div class="modal-info-item positive"><label>Gains</label><div class="value">${dadosDia.gain}</div></div><div class="modal-info-item negative"><label>Stops</label><div class="value">${dadosDia.stop}</div></div>`;
+    if(dadosDia.zero>0)infoHTML+=`<div class="modal-info-item"><label>Breakeven</label><div class="value" style="color:var(--yellow)">${dadosDia.zero}</div></div>`;
+    mig.innerHTML=infoHTML;
+    this.carregarFotoTrade(dadosDia.dia,mpc,dadosDia.fotoId);
+    modal.classList.add('active'); document.body.style.overflow='hidden';
+  },
+  fecharModal(){const modal=document.getElementById('tradePhotoModal');modal.classList.remove('active');document.body.style.overflow='auto';this.zoomLevel=1;this.zoomPosX=0;this.zoomPosY=0;},
+
+  async inicializarConversorMoeda(){await this.atualizarCotacao();},
+  async atualizarCotacao(){try{const r=await fetch('https://api.exchangerate-api.com/v4/latest/USD');const d=await r.json();this.cotacaoUSDtoBRL=d.rates.BRL;}catch(e){}},
+  atualizarValorReal(){
+    const taxa=this.cotacaoUSDtoBRL||5.50;
+    const vc=document.getElementById('valorContratos'), contratos=vc?parseInt(vc.textContent)||0:0;
+    const dados=this.obterDadosFiltrados();
+    const pN=dados.reduce((a,d)=>a+(d.pontosNasdaq||0),0), pD=dados.reduce((a,d)=>a+(d.pontosDow||0),0);
+    const usdN=pN*contratos*2, usdD=pD*contratos*0.5;
+    const brlN=document.getElementById('valorBRLNasdaq'), brlD=document.getElementById('valorBRLDow');
+    if(brlN)brlN.textContent=(usdN*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    if(brlD)brlD.textContent=(usdD*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  },
+
+  atualizarCalendario(){
+    const container=document.getElementById('tvCalendarContainer'); if(!container)return;
+    container.innerHTML=`<iframe src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&importance=1,2,3&features=datepicker,timezone,timeselector,filters&countries=5,25,32,6,37,72,22,17,39,14,10,35,43,56,36,110,11,26,12,4&calType=day&timeZone=12&lang=12" frameborder="0" scrolling="yes" allowtransparency="true" style="width:100%;height:720px;border:none;background:transparent;"></iframe>`;
+  },
+
+  inicializarZoomFoto(container,img){
+    const db=document.createElement('button');db.className='download-btn';db.innerHTML='<span>📥</span><span>Baixar</span>';db.onclick=()=>this.baixarFoto();container.appendChild(db);
+    const controls=document.createElement('div');controls.className='zoom-controls';controls.innerHTML=`<button class="zoom-btn" id="zoomIn">+</button><button class="zoom-btn" id="zoomOut">−</button><button class="zoom-btn" id="zoomReset">⟲</button>`;container.appendChild(controls);
+    const zi=document.createElement('div');zi.className='zoom-info';zi.textContent='100%';container.appendChild(zi);
+    document.getElementById('zoomIn').addEventListener('click',()=>this.zoom(img,container,0.2));
+    document.getElementById('zoomOut').addEventListener('click',()=>this.zoom(img,container,-0.2));
+    document.getElementById('zoomReset').addEventListener('click',()=>this.resetZoom(img,container));
+    container.addEventListener('wheel',(e)=>{e.preventDefault();this.zoom(img,container,e.deltaY>0?-0.1:0.1);},{passive:false});
+    container.addEventListener('mousedown',(e)=>{if(this.zoomLevel>1){this.isDragging=true;this.startX=e.clientX-this.zoomPosX;this.startY=e.clientY-this.zoomPosY;container.classList.add('grabbing');e.preventDefault();}});
+    container.addEventListener('mousemove',(e)=>{if(this.isDragging){this.zoomPosX=e.clientX-this.startX;this.zoomPosY=e.clientY-this.startY;this.atualizarTransform(img);}});
+    container.addEventListener('mouseup',()=>{this.isDragging=false;container.classList.remove('grabbing');});
+    container.addEventListener('mouseleave',()=>{this.isDragging=false;container.classList.remove('grabbing');});
+  },
+  zoom(img,c,d){this.zoomLevel=Math.max(1,Math.min(5,this.zoomLevel+d));if(this.zoomLevel===1){this.zoomPosX=0;this.zoomPosY=0;}this.atualizarTransform(img);this.mostrarZoomInfo(c);},
+  resetZoom(img,c){this.zoomLevel=1;this.zoomPosX=0;this.zoomPosY=0;this.atualizarTransform(img);this.mostrarZoomInfo(c);},
+  atualizarTransform(img){img.style.transform=`scale(${this.zoomLevel}) translate(${this.zoomPosX/this.zoomLevel}px,${this.zoomPosY/this.zoomLevel}px)`;},
+  mostrarZoomInfo(c){const z=c.querySelector('.zoom-info');if(z){z.textContent=`${Math.round(this.zoomLevel*100)}%`;z.classList.add('show');setTimeout(()=>z.classList.remove('show'),1500);}},
+
+  async baixarFoto(){
+    if(!this.tradeAtual){alert('❌ Nenhum trade selecionado');return;}
+    const btn=document.querySelector('.download-btn');if(btn){btn.classList.add('downloading');btn.innerHTML='<span>⏳</span><span>Gerando...</span>';}
+    try{
+      const data=new Date(this.tradeAtual.data),dia=data.getDate(),mes=nomesMeses[this.tradeAtual.mes],ano=this.tradeAtual.ano;
+      document.getElementById('captureIcon').textContent='📅';document.getElementById('captureTitle').textContent=`${dia} de ${mes} de ${ano}`;
+      document.getElementById('captureStats').innerHTML=`<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div><div class="capture-stat"><div class="capture-stat-label">TRADES</div><div class="capture-stat-value">${this.tradeAtual.trades}</div></div><div class="capture-stat"><div class="capture-stat-label">GAINS</div><div class="capture-stat-value" style="color:#00e5a0">${this.tradeAtual.gain}</div></div><div class="capture-stat"><div class="capture-stat-label">STOPS</div><div class="capture-stat-value" style="color:#ff4d6a">${this.tradeAtual.stop}</div></div><div class="capture-stat"><div class="capture-stat-label">BREAKEVEN</div><div class="capture-stat-value" style="color:#ffd166">${this.tradeAtual.zero}</div></div>`;
+      const mi=document.querySelector('#modalPhotoContainer img');if(mi)document.getElementById('capturePhoto').innerHTML=`<img src="${mi.src}" crossorigin="anonymous">`;else throw new Error('Imagem não encontrada');
+      await new Promise(resolve=>setTimeout(resolve,500));
+      const canvas=await html2canvas(document.getElementById('captureCard'),{backgroundColor:null,scale:2,logging:false,useCORS:true,allowTaint:true});
+      const link=document.createElement('a');link.download=`trade-${this.tradeAtual.dia.replace(/\//g,'-')}.png`;link.href=canvas.toDataURL('image/png');link.click();
+    }catch(e){console.error(e);alert('❌ Erro ao gerar imagem.');}
+    finally{if(btn){btn.classList.remove('downloading');btn.innerHTML='<span>📥</span><span>Baixar</span>';}}
+  },
+
+  carregarFotoTrade(dataStr,container,fotoId){
+    container.innerHTML=`<div class="modal-photo-loading"><div class="modal-photo-spinner"></div>Carregando foto...</div>`;
+    if(fotoId&&fotoId.trim()){
+      const idLimpo=fotoId.trim();
+      const urls=[`https://drive.google.com/uc?export=view&id=${idLimpo}`,`https://drive.google.com/thumbnail?id=${idLimpo}&sz=w1000`,`https://lh3.googleusercontent.com/d/${idLimpo}`];
+      let t=0;
+      const tentarProximaURL=()=>{
+        if(t>=urls.length){container.innerHTML=`<div class="modal-photo-error">❌ Não foi possível carregar a foto<br><small style="font-size:11px;opacity:0.7;margin-top:10px;display:block">ID: ${idLimpo}</small></div>`;return;}
+        const img=new Image();img.crossOrigin='anonymous';
+        img.onload=()=>{container.innerHTML=`<img src="${urls[t]}" alt="Trade ${dataStr}" crossorigin="anonymous" id="zoomableImage">`;setTimeout(()=>{const ie=document.getElementById('zoomableImage');if(ie){Dashboard.resetZoom(ie,container);Dashboard.inicializarZoomFoto(container,ie);}},100);};
+        img.onerror=()=>{t++;tentarProximaURL();};img.src=urls[t];
+      };
+      tentarProximaURL();
+    }else{
+      container.innerHTML=`<div class="modal-photo-error">📷 Nenhuma foto configurada<br><small style="font-size:11px;opacity:0.8;margin-top:10px;display:block">Adicione o ID da foto na planilha</small></div>`;
+    }
+  }
+};
+
+Dashboard.init();
+document.getElementById('tradePhotoModal')?.addEventListener('click',(e)=>{if(e.target.id==='tradePhotoModal')Dashboard.fecharModal();});
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')Dashboard.fecharModal();});
+</script>
+<script src="theme.js"></script>
+</body>
+</html>
