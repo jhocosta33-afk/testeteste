@@ -1911,6 +1911,34 @@ const Dashboard = {
   },
  
   voltarParaMeses(){filtroMes.value="ALL";filtroSemana.disabled=true;filtroSemana.value="ALL";this.primeiraCarga=false;this.atualizar();},
+  irMesAnterior(){
+    const mesesDisponiveis=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))].sort();
+    if(!mesesDisponiveis.length)return;
+    if(filtroMes.value==="ALL"){
+      filtroMes.value=mesesDisponiveis[mesesDisponiveis.length-1];
+    }else{
+      const idx=mesesDisponiveis.indexOf(filtroMes.value);
+      if(idx<=0)return;
+      filtroMes.value=mesesDisponiveis[idx-1];
+    }
+    filtroSemana.disabled=false;
+    this.inicializarSemanas();
+    this.atualizar();
+  },
+  irMesProximo(){
+    const mesesDisponiveis=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))].sort();
+    if(!mesesDisponiveis.length)return;
+    if(filtroMes.value==="ALL"){
+      filtroMes.value=mesesDisponiveis[0];
+    }else{
+      const idx=mesesDisponiveis.indexOf(filtroMes.value);
+      if(idx===-1||idx>=mesesDisponiveis.length-1)return;
+      filtroMes.value=mesesDisponiveis[idx+1];
+    }
+    filtroSemana.disabled=false;
+    this.inicializarSemanas();
+    this.atualizar();
+  },
  
   renderizarCalendario(dados) {
     const grid=document.getElementById("calendar"), ct=document.getElementById("calendarTitle");
@@ -1943,7 +1971,11 @@ const Dashboard = {
     const ano=base.data.getFullYear(), mes=base.data.getMonth();
     const primeiro=new Date(ano,mes,1), ultimo=new Date(ano,mes+1,0);
     const mesStr=(mes+1).toString().padStart(2,"0"), nomeMes=nomesMeses[mesStr]||"";
-    if(ct)ct.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;width:100%;"><button class="back-to-months-btn" onclick="Dashboard.voltarParaMeses()">← Voltar</button><div class="card-title" style="margin-bottom:0">📅 ${nomeMes} ${ano}</div><div></div></div>`;
+    const mesesDisponiveis=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))].sort();
+    const idxMesAtual=mesesDisponiveis.indexOf(filtroMes.value);
+    const podeVoltar=idxMesAtual>0;
+    const podeAvancar=idxMesAtual>-1&&idxMesAtual<mesesDisponiveis.length-1;
+    if(ct)ct.innerHTML=`<div class="calendar-month-nav"><button class="month-nav-btn" onclick="Dashboard.irMesAnterior()" ${podeVoltar?'':'disabled'}>‹</button><div class="card-title calendar-month-title" style="margin-bottom:0">📅 ${nomeMes} ${ano}</div><button class="month-nav-btn" onclick="Dashboard.irMesProximo()" ${podeAvancar?'':'disabled'}>›</button></div>`;
     for(let i=0;i<primeiro.getDay();i++){const e=document.createElement('div');e.className='day empty';grid.appendChild(e);}
     for(let d=1;d<=ultimo.getDate();d++){
       const data=new Date(ano,mes,d), r=dados.find(x=>x.data.toDateString()===data.toDateString());
@@ -3342,6 +3374,59 @@ body::after {
     0 26px 72px rgba(0, 0, 0, 0.42),
     inset 0 1px 0 rgba(255,255,255,0.08),
     0 0 0 1px rgba(134,156,191,0.05) !important;
+}
+</style>
+<style>
+.calendar-month-nav {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+}
+.calendar-month-title {
+  justify-self: center;
+  text-align: center;
+}
+.month-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(110, 150, 220, 0.28);
+  background: rgba(36, 52, 84, 0.58);
+  color: #dce9ff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.month-nav-btn:hover:not(:disabled) {
+  background: rgba(58, 86, 138, 0.78);
+  border-color: rgba(136, 176, 243, 0.42);
+}
+.month-nav-btn:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+body.light-theme .month-nav-btn {
+  background: rgba(239, 244, 251, 0.95);
+  border-color: rgba(177, 193, 221, 0.9);
+  color: #34507b;
+}
+@media (max-width: 900px) {
+  .calendar-month-nav {
+    grid-template-columns: 38px 1fr 38px;
+    gap: 8px;
+  }
+  .month-nav-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 22px;
+    border-radius: 10px;
+  }
 }
 </style>
 <script>
