@@ -2349,8 +2349,23 @@ body.light-theme .card-title {
 <style>
 /* Terceira passada visual: assertividade, grafico e calendario */
 .dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.dashboard-row {
+  display: grid;
   grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
+  gap: 18px;
   align-items: start;
+}
+.dashboard-left-top,
+.dashboard-left-middle,
+.dashboard-right-top,
+.dashboard-right-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 .dashboard-top-left {
   display: flex;
@@ -2468,7 +2483,7 @@ body.light-theme .card-title {
 }
 
 @media(max-width:900px) {
-  .dashboard-grid {
+  .dashboard-row {
     grid-template-columns: 1fr;
   }
   .dashboard-bottom-right,
@@ -2539,6 +2554,52 @@ body.light-theme .card-title {
     }
     tableRow.appendChild(tableCard);
   }
+})();
+</script>
+<script>
+(function montarLinhasDoDashboard() {
+  const content = document.getElementById('contentDashboard');
+  const grid = content?.querySelector('.dashboard-grid');
+  const calendarRow = content?.querySelector('.dashboard-calendar-row');
+  if (!content || !grid || !calendarRow) return;
+
+  const welcome = content.querySelector('.welcome-card');
+  const secondary = content.querySelector('.kpi-secondary-row');
+  const ring = content.querySelector('.ring-card');
+  const chart = content.querySelector('.chart-card');
+  const contracts = content.querySelector('.contratos-card');
+  const dist = content.querySelector('.dist-card');
+
+  if (!welcome || !secondary || !ring || !chart || !contracts || !dist) return;
+
+  grid.innerHTML = '';
+
+  const topRow = document.createElement('div');
+  topRow.className = 'dashboard-row dashboard-row-top';
+  const leftTop = document.createElement('div');
+  leftTop.className = 'dashboard-left-top';
+  const rightTop = document.createElement('div');
+  rightTop.className = 'dashboard-right-top';
+  leftTop.appendChild(welcome);
+  leftTop.appendChild(secondary);
+  rightTop.appendChild(ring);
+  topRow.appendChild(leftTop);
+  topRow.appendChild(rightTop);
+
+  const middleRow = document.createElement('div');
+  middleRow.className = 'dashboard-row dashboard-row-middle';
+  const leftMiddle = document.createElement('div');
+  leftMiddle.className = 'dashboard-left-middle';
+  const rightMiddle = document.createElement('div');
+  rightMiddle.className = 'dashboard-right-middle';
+  leftMiddle.appendChild(chart);
+  rightMiddle.appendChild(contracts);
+  rightMiddle.appendChild(dist);
+  middleRow.appendChild(leftMiddle);
+  middleRow.appendChild(rightMiddle);
+
+  grid.appendChild(topRow);
+  grid.appendChild(middleRow);
 })();
 </script>
 <script src="theme.js"></script>
