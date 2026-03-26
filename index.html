@@ -1278,8 +1278,6 @@ body.light-theme .theme-toggle {
       </button>
     </div>
     <div class="topbar-right">
-      <a href="portal/login.html" class="portal-btn">🎓 <span>Portal do Aluno</span></a>
-      <button class="topbar-btn" id="pdfReportBtn" onclick="Dashboard.gerarRelatorioPDF()" style="visibility:hidden;">📸 <span>Exportar</span></button>
       <button class="theme-toggle" onclick="Dashboard.toggleTema()"><span id="themeIcon">🌙</span></button>
     </div>
   </header>
@@ -3127,6 +3125,7 @@ body.light-theme .site-footer .footer-bottom p {
 }
 @media (max-width: 600px) {
   body {
+    background: #0f1520 !important;
     background-attachment: scroll !important;
   }
   body::before,
@@ -3134,9 +3133,15 @@ body.light-theme .site-footer .footer-bottom p {
     display: none !important;
   }
   .app-wrapper {
-    width: calc(100% - 10px) !important;
-    margin: 5px auto 14px !important;
-    border-radius: 18px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #141b28 !important;
+  }
+  .glass-card {
+    box-shadow: none !important;
   }
   .topbar-left {
     align-items: center;
