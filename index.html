@@ -8,27 +8,29 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-
-<!-- Supabase via unpkg (evita bloqueio de tracking) -->
+ 
+<!-- Supabase via unpkg -->
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-/* Tenta carregar supabase-config da pasta portal/, depois da raiz */
+/* Supabase config embutido — não depende de arquivo externo */
 (function(){
-  function tryLoad(paths, idx) {
-    if (idx >= paths.length) {
-      console.error('supabase-config.js não encontrado em nenhum caminho');
-      return;
+  function init() {
+    if (window.supabase && window.supabase.createClient) {
+      window._supabase = window.supabase.createClient(
+        'https://lpwrinaodhuyafyjumcs.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxwd3JpbmFvZGh1eWFmeWp1bWNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMDI2ODcsImV4cCI6MjA4OTg3ODY4N30.30h3LLzdygnj452hnjGyGkBj-TONet7EXrgVsmxyWjg'
+      );
+      console.log('✅ Supabase inicializado');
+      document.dispatchEvent(new Event('supabase-ready'));
+    } else {
+      setTimeout(init, 50);
     }
-    var s = document.createElement('script');
-    s.src = paths[idx] + '?v=' + Date.now();
-    s.onerror = function() { tryLoad(paths, idx + 1); };
-    document.head.appendChild(s);
   }
-  tryLoad(['portal/supabase-config.js', 'supabase-config.js'], 0);
+  init();
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
+ 
 <style>
 /* ═══════════════════════════════════════
    VARIÁVEIS & RESET
@@ -52,9 +54,9 @@
   --radius:         16px;
   --radius-sm:      10px;
 }
-
+ 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
+ 
 body {
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
@@ -69,7 +71,7 @@ body {
     linear-gradient(180deg, #030a1a 0%, #050e20 40%, #020810 100%);
   position: relative;
 }
-
+ 
 /* Grade de pontos no fundo estilo sci-fi */
 body::before {
   content: '';
@@ -81,7 +83,7 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
-
+ 
 /* Luzes da cidade simuladas no fundo */
 body::after {
   content: '';
@@ -98,7 +100,7 @@ body::after {
   pointer-events: none;
   z-index: 0;
 }
-
+ 
 /* ═══════════════════════════════════════
    LOADING
 ═══════════════════════════════════════ */
@@ -129,7 +131,7 @@ body::after {
   animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
-
+ 
 /* ═══════════════════════════════════════
    PERFORMANCE INDICATOR
 ═══════════════════════════════════════ */
@@ -150,7 +152,7 @@ body::after {
 .performance-dot.positive { background:var(--green); box-shadow:0 0 8px var(--green); }
 .performance-dot.negative { background:var(--red); box-shadow:0 0 8px var(--red); }
 .performance-dot.neutral  { background:var(--yellow); box-shadow:0 0 8px var(--yellow); }
-
+ 
 /* ═══════════════════════════════════════
    WRAPPER PRINCIPAL
 ═══════════════════════════════════════ */
@@ -161,7 +163,7 @@ body::after {
   display: flex;
   flex-direction: column;
 }
-
+ 
 /* ═══════════════════════════════════════
    TOP BAR
 ═══════════════════════════════════════ */
@@ -213,7 +215,7 @@ body::after {
   box-shadow: 0 2px 12px rgba(59,130,246,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 .tab-icon { font-size: 14px; margin-right: 4px; }
-
+ 
 .topbar-right {
   display: flex; align-items: center; gap: 12px;
 }
@@ -242,7 +244,7 @@ body::after {
 }
 .theme-toggle:hover { border-color: var(--glass-border-bright); box-shadow: 0 0 14px var(--glow-blue); transform: scale(1.1); }
 #themeIcon { display: inline-block; transition: all 0.3s; }
-
+ 
 /* Portal link */
 .portal-btn {
   background: linear-gradient(135deg, rgba(0,229,160,0.2), rgba(59,130,246,0.2));
@@ -255,7 +257,7 @@ body::after {
   transition: all 0.2s; backdrop-filter: blur(10px);
 }
 .portal-btn:hover { background: linear-gradient(135deg, rgba(0,229,160,0.35), rgba(59,130,246,0.35)); box-shadow: 0 0 14px rgba(0,229,160,0.3); transform: translateY(-1px); }
-
+ 
 /* ═══════════════════════════════════════
    FILTROS BAR
 ═══════════════════════════════════════ */
@@ -296,7 +298,7 @@ body::after {
 .filter-select:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 2px rgba(0,220,255,0.2); }
 .filter-select:disabled { opacity: 0.3; cursor: not-allowed; }
 .filter-select option { background: #050e20; }
-
+ 
 .stats-pills {
   margin-left: auto;
   display: flex; gap: 8px; flex-wrap: wrap;
@@ -311,7 +313,7 @@ body::after {
 }
 .stat-pill-label { color: var(--text-muted); font-weight: 500; }
 .stat-pill-value { color: var(--text); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-
+ 
 /* ═══════════════════════════════════════
    CONTEÚDO PRINCIPAL
 ═══════════════════════════════════════ */
@@ -320,11 +322,11 @@ body::after {
   padding: 24px 32px 32px;
   overflow-x: hidden;
 }
-
+ 
 .tab-content { display: none; animation: fadeUp 0.4s ease; }
 .tab-content.active { display: block; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
-
+ 
 /* ═══════════════════════════════════════
    GLASS CARD BASE
 ═══════════════════════════════════════ */
@@ -367,7 +369,7 @@ body::after {
   border-radius: 2px;
   box-shadow: 0 0 8px var(--glow-cyan);
 }
-
+ 
 /* ═══════════════════════════════════════
    LAYOUT GRID PRINCIPAL (inspirado na imagem)
 ═══════════════════════════════════════ */
@@ -377,12 +379,12 @@ body::after {
   grid-template-rows: auto auto auto;
   gap: 20px;
 }
-
+ 
 /* Coluna esquerda */
 .col-left { display: flex; flex-direction: column; gap: 20px; }
 /* Coluna direita */
 .col-right { display: flex; flex-direction: column; gap: 20px; }
-
+ 
 /* ═══════════════════════════════════════
    CARD BOAS VINDAS + KPIs PRINCIPAIS
 ═══════════════════════════════════════ */
@@ -463,7 +465,7 @@ body::after {
   font-size: 11px; color: var(--text-muted);
   margin-top: 5px; font-weight: 500;
 }
-
+ 
 /* ═══════════════════════════════════════
    KPIs SECUNDÁRIOS (segunda linha)
 ═══════════════════════════════════════ */
@@ -472,7 +474,7 @@ body::after {
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
-
+ 
 /* ═══════════════════════════════════════
    CARD DE CONTRATOS
 ═══════════════════════════════════════ */
@@ -522,7 +524,7 @@ body::after {
   color: var(--text-dim);
   display: flex; align-items: center; gap: 5px;
 }
-
+ 
 /* ═══════════════════════════════════════
    CARD GRÁFICO DE PERFORMANCE
 ═══════════════════════════════════════ */
@@ -532,7 +534,7 @@ body::after {
 }
 .chart-wrap { position: relative; height: 220px; width: 100%; }
 canvas { width: 100%!important; height: 100%!important; }
-
+ 
 /* ═══════════════════════════════════════
    CARD ASSERTIVIDADE (ring circular)
 ═══════════════════════════════════════ */
@@ -593,13 +595,13 @@ canvas { width: 100%!important; height: 100%!important; }
 }
 .ring-stat-row span:first-child { color: var(--text-dim); font-weight: 500; }
 .ring-stat-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-
+ 
 /* ═══════════════════════════════════════
    CARD DISTRIBUIÇÃO (donut)
 ═══════════════════════════════════════ */
 .dist-card { padding: 24px 28px; }
 .dist-chart-wrap { position: relative; height: 180px; margin: 0 auto; width: 100%; }
-
+ 
 /* ═══════════════════════════════════════
    CALENDÁRIO DE TRADING
 ═══════════════════════════════════════ */
@@ -642,7 +644,7 @@ canvas { width: 100%!important; height: 100%!important; }
 .month-name { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Orbitron', monospace; }
 .month-points { font-size: 26px; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1; }
 .month-info { font-size: 10px; color: var(--text-muted); font-weight: 500; }
-
+ 
 .day {
   position: relative;
   background: rgba(10,20,50,0.5);
@@ -671,7 +673,7 @@ canvas { width: 100%!important; height: 100%!important; }
 .day-badge { position:absolute; bottom:3px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.92); border:1px solid var(--glass-border-bright); border-radius:5px; padding:3px 7px; font-size:9px; white-space:nowrap; opacity:0; transition:opacity 0.2s; font-weight:700; font-family:'JetBrains Mono',monospace; z-index:100; pointer-events:none; }
 .day:hover .day-badge { opacity:1; }
 .empty { background:transparent; border:none; cursor:default; }
-
+ 
 .back-to-months-btn {
   background: rgba(59,130,246,0.12);
   color: var(--accent2);
@@ -685,13 +687,13 @@ canvas { width: 100%!important; height: 100%!important; }
   white-space: nowrap;
 }
 .back-to-months-btn:hover { background: rgba(59,130,246,0.3); color:#fff; }
-
+ 
 .calendar-title-row {
   display: flex; align-items: center;
   justify-content: space-between; gap: 12px;
   margin-bottom: 20px;
 }
-
+ 
 /* ═══════════════════════════════════════
    TABELA
 ═══════════════════════════════════════ */
@@ -720,7 +722,7 @@ tr.total { background: rgba(59,130,246,0.07); }
 tr.total td { border-bottom:none; padding:14px 14px; font-size:13px; color:var(--text); font-weight:800; }
 tbody tr { transition: all 0.2s; }
 tbody tr:hover { background: rgba(59,130,246,0.06); }
-
+ 
 /* ═══════════════════════════════════════
    CALENDÁRIO ECONÔMICO
 ═══════════════════════════════════════ */
@@ -731,7 +733,7 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .market-link:hover { color:#fff; transform:translateX(3px); }
 .calendar-refresh-btn { background:rgba(59,130,246,0.10); color:var(--accent2); border:1px solid var(--glass-border-bright); border-radius:8px; padding:7px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; white-space:nowrap; font-family:'Inter',sans-serif; }
 .calendar-refresh-btn:hover { background:rgba(59,130,246,0.25); color:#fff; }
-
+ 
 /* ═══════════════════════════════════════
    MODAL
 ═══════════════════════════════════════ */
@@ -764,7 +766,7 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .modal-photo-loading { text-align:center; padding:40px 20px; color:var(--text-dim); font-size:13px; font-weight:600; }
 .modal-photo-spinner { width:36px; height:36px; border:2px solid rgba(59,130,246,0.15); border-top-color:var(--accent2); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px; }
 .modal-photo-error { text-align:center; padding:40px 20px; color:var(--red); font-size:13px; font-weight:600; }
-
+ 
 /* ═══════════════════════════════════════
    CAPTURE CARD (fora da tela, para download)
 ═══════════════════════════════════════ */
@@ -780,7 +782,7 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .capture-photo img { width:100%; height:auto; display:block; }
 .capture-footer { margin-top:16px; padding-top:16px; border-top:1px solid rgba(59,130,246,0.15); text-align:center; display:flex; align-items:center; justify-content:center; min-height:60px; }
 .capture-footer img { max-height:48px; max-width:280px; height:auto; width:auto; }
-
+ 
 /* ═══════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════ */
@@ -806,7 +808,7 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .mesa-footer-name { font-size:12px; font-weight:700; color:var(--text-dim); white-space:nowrap; }
 .footer-bottom { border-top:1px solid var(--glass-border); margin-top:12px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 .footer-bottom p { font-size:11px; color:var(--text-muted); }
-
+ 
 /* ═══════════════════════════════════════
    SCROLLBAR
 ═══════════════════════════════════════ */
@@ -814,7 +816,7 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 ::-webkit-scrollbar-track { background:rgba(5,10,25,0.5); }
 ::-webkit-scrollbar-thumb { background:rgba(59,130,246,0.3); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:rgba(0,220,255,0.5); }
-
+ 
 /* ═══════════════════════════════════════
    LIGHT THEME (sobrescreve o necessário)
 ═══════════════════════════════════════ */
@@ -841,7 +843,7 @@ body.light-theme th { color: #4a6a9a; }
 body.light-theme td { color: #3a5a7a; }
 body.light-theme .topbar-title { color: #1a4a8a; }
 body.light-theme .welcome-text h2 { color: #0f1e32; }
-
+ 
 /* ═══════════════════════════════════════
    RESPONSIVO
 ═══════════════════════════════════════ */
@@ -865,7 +867,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
   .col-right { flex-direction: column; }
   .topbar-btn span:not(:first-child) { display: none; }
 }
-
+ 
 /* Mobile tab nav (fora da topbar) */
 .mobile-tabs { display: none; }
 @media(max-width:900px) {
@@ -880,6 +882,365 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
 }
 </style>
 
+<style>
+/* Ajuste visual incremental inspirado na referencia, sem efeito de monitor */
+body {
+  background:
+    radial-gradient(circle at top left, rgba(123, 151, 211, 0.10), transparent 24%),
+    radial-gradient(circle at top right, rgba(239, 198, 149, 0.08), transparent 18%),
+    linear-gradient(180deg, #10141d 0%, #0b1018 52%, #090d14 100%);
+}
+body::before {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%, transparent 82%, rgba(255,255,255,0.02)),
+    radial-gradient(circle, rgba(255,255,255,0.03) 0 1px, transparent 1px);
+  background-size: auto, 28px 28px;
+  opacity: 0.32;
+}
+body::after {
+  inset: 0;
+  height: auto;
+  background:
+    radial-gradient(circle at center, transparent 48%, rgba(4,7,12,0.42) 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.025), transparent 22%);
+}
+.app-wrapper {
+  max-width: 1540px;
+  width: calc(100% - 40px);
+  margin: 20px auto;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(19,25,38,0.92) 0%, rgba(12,17,27,0.94) 100%);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 1px rgba(134,156,191,0.05);
+}
+.topbar {
+  padding: 18px 28px;
+  background: linear-gradient(180deg, rgba(26,33,47,0.92), rgba(19,25,38,0.88));
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+}
+.topbar-logo {
+  max-height: 46px;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.28));
+}
+.topbar-title,
+body.light-theme .topbar-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f3f6fb;
+  text-transform: none;
+  text-shadow: none;
+}
+.topbar-center {
+  gap: 8px;
+  padding: 4px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.tab-btn {
+  border-radius: 10px;
+  padding: 9px 16px;
+  color: rgba(226,234,245,0.72);
+}
+.tab-btn:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+.tab-btn.active {
+  color: #fff;
+  background: linear-gradient(180deg, rgba(108,135,186,0.34), rgba(62,78,112,0.34));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.topbar-btn,
+.portal-btn,
+.theme-toggle {
+  border-color: rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.045);
+  color: #f2f6fb;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.topbar-btn:hover,
+.portal-btn:hover,
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.09);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+.portal-btn {
+  color: #dfe8f8;
+}
+.filters-bar {
+  padding: 14px 28px 18px;
+  background: linear-gradient(180deg, rgba(18,24,36,0.92), rgba(14,18,28,0.84));
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.filter-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(214,224,238,0.58);
+}
+.filter-select,
+.stat-pill {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #f2f6fb;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.filter-select {
+  font-family: 'Inter', sans-serif;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23cfd7e6' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.filter-select:hover,
+.filter-select:focus {
+  border-color: rgba(182,202,236,0.28);
+  box-shadow: 0 0 0 3px rgba(137,159,196,0.10);
+}
+.stat-pill-label {
+  color: rgba(219,227,239,0.56);
+}
+.main-content {
+  padding: 26px 28px 32px;
+}
+.dashboard-grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.68fr);
+  gap: 18px;
+  align-items: start;
+}
+.glass-card {
+  background: linear-gradient(180deg, rgba(31,38,53,0.90) 0%, rgba(19,24,36,0.94) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 14px 40px rgba(0,0,0,0.22);
+}
+.glass-card::before {
+  left: 18px;
+  right: 18px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+}
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255,255,255,0.025);
+  pointer-events: none;
+}
+.glass-card:hover {
+  border-color: rgba(199,213,236,0.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 18px 44px rgba(0,0,0,0.24);
+}
+.card-title,
+body.light-theme .card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: #f5f7fb;
+  margin-bottom: 18px;
+}
+.card-title::before {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #dbe7ff 0%, #8ca6d8 70%, transparent 72%);
+  box-shadow: 0 0 18px rgba(194,208,234,0.25);
+}
+.welcome-card {
+  padding: 28px;
+  background: radial-gradient(circle at top left, rgba(111,137,191,0.14), transparent 28%), linear-gradient(180deg, rgba(31,38,53,0.95), rgba(20,24,34,0.96));
+}
+.welcome-top {
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.welcome-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(80,102,145,0.70), rgba(37,45,63,0.95));
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 16px 26px rgba(0,0,0,0.20);
+}
+.welcome-text h2,
+body.light-theme .welcome-text h2 {
+  font-size: 31px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #f7fbff;
+}
+.welcome-text p {
+  margin-top: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: rgba(224,232,243,0.62);
+}
+.kpi-row,
+.kpi-secondary-row {
+  gap: 16px;
+}
+.kpi-box {
+  background: linear-gradient(180deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.025) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  cursor: default;
+}
+.kpi-box::after {
+  left: 18px;
+  right: 18px;
+  height: 3px;
+  border-radius: 999px;
+  opacity: 0.85;
+  background: linear-gradient(90deg, rgba(188,214,255,0.92), rgba(255,255,255,0.02));
+}
+.kpi-box:hover {
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+}
+.kpi-label,
+body.light-theme .kpi-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(220,228,240,0.55);
+}
+.kpi-value {
+  font-size: clamp(2rem, 3vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #f8fbff;
+  text-shadow: none;
+}
+.kpi-value.blue,
+.kpi-value.green,
+.kpi-value.red,
+.kpi-value.yellow,
+.kpi-value.orange {
+  text-shadow: none;
+}
+.kpi-value.blue { color: #ebf3ff; }
+.kpi-value.green { color: #b8f5d0; }
+.kpi-value.red { color: #ffb4c0; }
+.kpi-value.yellow { color: #ffe0a6; }
+.kpi-value.orange { color: #ffd0a8; }
+.kpi-sub {
+  margin-top: 8px;
+  color: rgba(218,227,239,0.50);
+}
+.ring-card,
+.contratos-card,
+.dist-card,
+.chart-card,
+.calendar-card,
+.table-card {
+  padding: 24px;
+}
+.ring-container {
+  width: 184px;
+  height: 184px;
+}
+.ring-svg {
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.18));
+}
+.ring-track {
+  stroke: rgba(255,255,255,0.08);
+}
+.ring-pct {
+  font-size: 40px;
+  color: #f7fbff;
+  text-shadow: none;
+}
+.ring-label {
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(219,228,240,0.58);
+}
+.ring-stats {
+  width: 100%;
+  margin-top: 8px;
+}
+.ring-stat-row {
+  padding: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(228,235,244,0.76);
+}
+.valor-contratos {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.10);
+  color: #f7fbff;
+  text-shadow: none;
+}
+.btn-control {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.10);
+  color: #f6f8fc;
+}
+.btn-control:hover {
+  background: rgba(255,255,255,0.10);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+.currency-pill {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.07);
+  color: rgba(233,239,247,0.75);
+}
+.chart-wrap {
+  height: 260px;
+}
+thead {
+  background: rgba(255,255,255,0.035);
+}
+th,
+body.light-theme th {
+  color: rgba(213,223,237,0.52);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.08em;
+}
+td {
+  color: rgba(236,241,248,0.78);
+}
+tbody tr:hover {
+  background: rgba(255,255,255,0.035);
+}
+body.light-theme {
+  background: linear-gradient(180deg, #edf2fa 0%, #e2ebf7 100%);
+}
+body.light-theme .app-wrapper {
+  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(244,248,253,0.96));
+  border-color: rgba(131,151,190,0.18);
+}
+body.light-theme .topbar,
+body.light-theme .filters-bar {
+  background: rgba(255,255,255,0.82);
+}
+body.light-theme .glass-card,
+body.light-theme .welcome-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,249,255,0.96));
+  border-color: rgba(131,151,190,0.16);
+  box-shadow: 0 18px 40px rgba(86,107,143,0.08);
+}
+body.light-theme .welcome-text p,
+body.light-theme .kpi-sub,
+body.light-theme td {
+  color: rgba(44,61,87,0.72);
+}
+body.light-theme .filter-select,
+body.light-theme .stat-pill,
+body.light-theme .topbar-btn,
+body.light-theme .portal-btn,
+body.light-theme .theme-toggle {
+  background: rgba(236,242,250,0.9);
+  border-color: rgba(131,151,190,0.18);
+  color: #21314d;
+}
+</style>
+
 <script>
 (function(){
   var t = localStorage.getItem('dashboard-tema') || 'dark';
@@ -888,21 +1249,21 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
 </script>
 </head>
 <body>
-
+ 
 <!-- Loading -->
 <div class="loading-overlay" id="loading">
   <div class="spinner"></div>
   <div class="loading-text">Iniciando Dashboard...</div>
 </div>
-
+ 
 <!-- Performance indicator -->
 <div class="performance-indicator" id="perfIndicator" style="display:none;">
   <div class="performance-dot neutral"></div>
   <span id="perfText">—</span>
 </div>
-
+ 
 <div class="app-wrapper">
-
+ 
   <!-- TOP BAR -->
   <header class="topbar">
     <div class="topbar-left">
@@ -923,13 +1284,13 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
       <button class="theme-toggle" onclick="Dashboard.toggleTema()"><span id="themeIcon">🌙</span></button>
     </div>
   </header>
-
+ 
   <!-- Mobile tabs -->
   <div class="mobile-tabs">
     <button class="tab-btn active" onclick="Dashboard.mudarAba('dashboard')">📊 Dashboard</button>
     <button class="tab-btn" onclick="Dashboard.mudarAba('mercado')">📅 Calendário</button>
   </div>
-
+ 
   <!-- FILTROS -->
   <div class="filters-bar">
     <span class="filter-label">Filtros</span>
@@ -951,17 +1312,17 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
       </div>
     </div>
   </div>
-
+ 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="main-content">
-
+ 
     <!-- ── ABA DASHBOARD ── -->
     <div id="contentDashboard" class="tab-content active">
       <div class="dashboard-grid">
-
+ 
         <!-- COLUNA ESQUERDA -->
         <div class="col-left">
-
+ 
           <!-- Card boas-vindas + KPIs principais -->
           <div class="glass-card welcome-card">
             <div class="welcome-top">
@@ -989,7 +1350,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               </div>
             </div>
           </div>
-
+ 
           <!-- KPIs secundários -->
           <div class="kpi-secondary-row">
             <div class="glass-card kpi-box" style="padding:18px 20px;">
@@ -1009,7 +1370,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               <div class="kpi-value yellow" id="kZero">0</div>
             </div>
           </div>
-
+ 
           <!-- Gráfico de performance -->
           <div class="glass-card chart-card">
             <div class="card-title">Evolução de Performance</div>
@@ -1017,7 +1378,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               <canvas id="chartAcumulado"></canvas>
             </div>
           </div>
-
+ 
           <!-- Calendário de trading -->
           <div class="glass-card calendar-card">
             <div class="calendar-title-row">
@@ -1028,7 +1389,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
             </div>
             <div class="calendar-grid" id="calendar"></div>
           </div>
-
+ 
           <!-- Tabela -->
           <div class="glass-card table-card">
             <div class="card-title">Histórico de Operações</div>
@@ -1041,12 +1402,12 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               </table>
             </div>
           </div>
-
+ 
         </div><!-- /col-left -->
-
+ 
         <!-- COLUNA DIREITA -->
         <div class="col-right">
-
+ 
           <!-- Ring de Assertividade -->
           <div class="glass-card ring-card">
             <div class="card-title">Assertividade</div>
@@ -1086,7 +1447,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               </div>
             </div>
           </div>
-
+ 
           <!-- Contratos + Valor em dólar -->
           <div class="glass-card contratos-card">
             <div class="card-title">Calculadora de Contratos</div>
@@ -1112,7 +1473,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               </div>
             </div>
           </div>
-
+ 
           <!-- Distribuição -->
           <div class="glass-card dist-card">
             <div class="card-title">Distribuição</div>
@@ -1120,11 +1481,11 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
               <canvas id="chartBar"></canvas>
             </div>
           </div>
-
+ 
         </div><!-- /col-right -->
       </div><!-- /dashboard-grid -->
     </div><!-- /contentDashboard -->
-
+ 
     <!-- ── ABA CALENDÁRIO ECONÔMICO ── -->
     <div id="contentMercado" class="tab-content">
       <div class="glass-card market-card">
@@ -1138,9 +1499,9 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
         <div id="tvCalendarContainer" style="min-height:700px;"></div>
       </div>
     </div>
-
+ 
   </main><!-- /main-content -->
-
+ 
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-inner">
@@ -1177,9 +1538,9 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
       </div>
     </div>
   </footer>
-
+ 
 </div><!-- /app-wrapper -->
-
+ 
 <!-- Modal foto do trade -->
 <div class="trade-photo-modal" id="tradePhotoModal">
   <div class="modal-content">
@@ -1195,7 +1556,7 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
     </div>
   </div>
 </div>
-
+ 
 <!-- Capture card (fora da tela) -->
 <div class="capture-card" id="captureCard">
   <div class="capture-header"><span class="capture-header-icon" id="captureIcon">📅</span><span class="capture-header-title" id="captureTitle">Carregando...</span></div>
@@ -1205,13 +1566,13 @@ body.light-theme .welcome-text h2 { color: #0f1e32; }
     <img src="logo.png" alt="Mentoria NasdaqPro" onerror="this.parentElement.innerHTML='<span style=\'color:#3a5a7a;font-size:12px;font-weight:600\'>NASDAQ PRO Trading Dashboard</span>'">
   </div>
 </div>
-
+ 
 <!-- ══════════════════════════════════════════
      TODA A LÓGICA JS — IDÊNTICA AO ORIGINAL
 ══════════════════════════════════════════ -->
 <script>
 let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null, SHEETS_API_KEY = null, SHEETS_SPREADSHEET_ID = null, SHEETS_TAB_NAME = null;
-
+ 
 async function carregarConfiguracoes() {
   try {
     // Aguarda Supabase estar pronto
@@ -1237,14 +1598,14 @@ async function carregarConfiguracoes() {
     alert('❌ Erro ao carregar configurações. Verifique o Supabase.');
   }
 }
-
+ 
 const nomesMeses = {"01":"Janeiro","02":"Fevereiro","03":"Março","04":"Abril","05":"Maio","06":"Junho","07":"Julho","08":"Agosto","09":"Setembro","10":"Outubro","11":"Novembro","12":"Dezembro"};
-
+ 
 const Dashboard = {
   dados:[], primeiraCarga:true, chartAcumulado:null, chartBar:null,
   cotacaoUSDtoBRL:5.50, zoomLevel:1, zoomPosX:0, zoomPosY:0,
   isDragging:false, startX:0, startY:0, tradeAtual:null,
-
+ 
   async init() {
     this.carregarTema();
     await carregarConfiguracoes();
@@ -1267,10 +1628,10 @@ const Dashboard = {
       }
     } catch(e) {}
   },
-
+ 
   carregarTema() { if(window.NasTheme) NasTheme.carregar(); },
   toggleTema() { if(window.NasTheme) NasTheme.toggle(); },
-
+ 
   mudarAba(aba) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -1287,7 +1648,7 @@ const Dashboard = {
     document.getElementById('tab' + aba.charAt(0).toUpperCase() + aba.slice(1))?.classList.add('active');
     if (aba === 'mercado') setTimeout(() => this.atualizarCalendario(), 150);
   },
-
+ 
   inicializarGestosMobile() {
     const container = document.querySelector('.main-content'); if(!container) return;
     let startX=0, startY=0;
@@ -1302,7 +1663,7 @@ const Dashboard = {
       }
     },{passive:true});
   },
-
+ 
   async gerarRelatorioPDF() {
     const btn = document.getElementById('pdfReportBtn'); if(!btn) return;
     const textoOriginal = btn.innerHTML; btn.classList.add('loading'); btn.innerHTML = '⏳ Gerando...';
@@ -1365,7 +1726,7 @@ const Dashboard = {
       btn.innerHTML='❌ Erro'; setTimeout(()=>{btn.innerHTML=textoOriginal;btn.classList.remove('loading');},2000);
     }
   },
-
+ 
   async carregarDados() {
     try {
       if(SHEETS_API_KEY&&SHEETS_SPREADSHEET_ID){
@@ -1383,7 +1744,7 @@ const Dashboard = {
       document.getElementById('loading').classList.add('hidden');
     }
   },
-
+ 
   processarSheetsAPI(values) {
     if(!values||values.length<2){this.dados=[];this.inicializarFiltros();return;}
     const rows=values.slice(1).map(cols=>{
@@ -1398,7 +1759,7 @@ const Dashboard = {
     }).filter(Boolean);
     this._processarRows(rows);
   },
-
+ 
   processarCSV(texto) {
     const linhas=texto.trim().split(/\r?\n/);linhas.shift();
     const rows=linhas.map(linha=>{
@@ -1408,7 +1769,7 @@ const Dashboard = {
     }).filter(Boolean);
     this._processarRows(rows);
   },
-
+ 
   _processarRows(rows) {
     const mapaData={};
     rows.forEach(r=>{
@@ -1425,7 +1786,7 @@ const Dashboard = {
     this.inicializarFiltros();
     setTimeout(()=>{this.inicializarCalculadora();},100);
   },
-
+ 
   inicializarFiltros() {
     const anos=[...new Set(this.dados.map(d=>d.ano))].sort();
     filtroAno.innerHTML=anos.map(a=>`<option value="${a}">${a}</option>`).join("");
@@ -1434,7 +1795,7 @@ const Dashboard = {
     filtroAno.onchange=()=>{this.primeiraCarga=false;this.inicializarMeses();this.atualizar();};
     this.inicializarMeses();
   },
-
+ 
   inicializarMeses() {
     const meses=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))];
     filtroMes.innerHTML='<option value="ALL">Todos os meses</option>'+meses.map(m=>`<option value="${m}">${nomesMeses[m]}</option>`).join("");
@@ -1445,7 +1806,7 @@ const Dashboard = {
     if(filtroMes.value==="ALL")filtroSemana.disabled=true;
     this.inicializarSemanas();
   },
-
+ 
   inicializarSemanas() {
     const semanas=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value)).map(d=>d.semana))].sort((a,b)=>a-b);
     filtroSemana.innerHTML='<option value="ALL">Todas as semanas</option>'+semanas.map(s=>`<option value="${s}">${s}</option>`).join("");
@@ -1453,7 +1814,7 @@ const Dashboard = {
     filtroSemana.onchange=()=>{this.primeiraCarga=false;this.atualizar();};
     this.atualizar();
   },
-
+ 
   inicializarCalculadora() {
     setTimeout(()=>{
       const btnP=document.getElementById('btnMais'),btnM=document.getElementById('btnMenos'),div=document.getElementById('valorContratos');
@@ -1463,10 +1824,10 @@ const Dashboard = {
       btnM.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(val>0){val--;div.textContent=val;Dashboard.atualizar();}});
     },500);
   },
-
+ 
   obterDadosFiltrados(){return this.dados.filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value)&&(filtroSemana.value==="ALL"||d.semana===filtroSemana.value));},
   atualizar(){const d=this.obterDadosFiltrados();this.renderizarKPIs(d);this.renderizarTabela(d);this.renderizarGraficos(d);this.renderizarCalendario(d);this.atualizarSidebarStats(d);this.atualizarPerformanceIndicator(d);},
-
+ 
   renderizarKPIs(dados) {
     const t=dados.reduce((acc,d)=>({trades:acc.trades+d.trades,pontos:acc.pontos+d.pontos,pontosNasdaq:acc.pontosNasdaq+(d.pontosNasdaq||0),pontosDow:acc.pontosDow+(d.pontosDow||0),gain:acc.gain+d.gain,stop:acc.stop+d.stop,zero:acc.zero+d.zero}),{trades:0,pontos:0,pontosNasdaq:0,pontosDow:0,gain:0,stop:0,zero:0});
     const op=t.gain+t.stop, ass=op?Math.round((t.gain/op)*100):0, dias=dados.filter(d=>d.trades>0).length;
@@ -1490,7 +1851,7 @@ const Dashboard = {
     const kdD=document.getElementById("kDolarDow"); if(kdD){kdD.textContent=totalDow.toLocaleString('en-US',{style:'currency',currency:'USD'});kdD.style.color=totalDow>=0?'var(--orange)':'var(--red)';}
     this.atualizarValorReal();
   },
-
+ 
   atualizarRing(ass, gains, stops, zero, total) {
     const pct = document.getElementById('ringPct');
     const ring = document.getElementById('ringProgress');
@@ -1510,7 +1871,7 @@ const Dashboard = {
     if(rZ) rZ.textContent = zero;
     if(rT) rT.textContent = total;
   },
-
+ 
   atualizarSidebarStats(dados) {
     const t=dados.reduce((acc,d)=>({gain:acc.gain+d.gain,stop:acc.stop+d.stop}),{gain:0,stop:0});
     const op=t.gain+t.stop, wr=op?Math.round((t.gain/op)*100):0;
@@ -1521,7 +1882,7 @@ const Dashboard = {
     if(sb){sb.textContent=best;sb.style.color='var(--green)';}
     if(swd){swd.textContent=worst;swd.style.color=worst<0?'var(--red)':'var(--text)';}
   },
-
+ 
   atualizarPerformanceIndicator(dados=[]) {
     const pi=document.getElementById('perfIndicator'),pt=document.getElementById('perfText'),pd=pi?.querySelector('.performance-dot');
     if(!pi||!dados.length){if(pi)pi.style.display='none';return;}
@@ -1531,7 +1892,7 @@ const Dashboard = {
     else if(total<0){pt.textContent=`${total} pts`;pd.className='performance-dot negative';}
     else{pt.textContent='0 pts';pd.className='performance-dot neutral';}
   },
-
+ 
   renderizarTabela(dados) {
     let html='',tot={p:0,pN:0,pD:0,t:0,g:0,s:0,z:0};
     dados.forEach(d=>{
@@ -1549,7 +1910,7 @@ const Dashboard = {
     html+=`<tr class="total"><td>TOTAL</td><td style="font-weight:900">${totPtCell}</td><td>${tot.t}</td><td style="color:var(--green)">${tot.g}</td><td style="color:var(--red)">${tot.s}</td><td style="color:var(--yellow)">${tot.z}</td><td colspan="2"></td></tr>`;
     document.getElementById('tbody').innerHTML=html;
   },
-
+ 
   renderizarGraficos(dados) {
     let saldo=0; const labels=[],acumulado=[0];
     dados.forEach(d=>{saldo+=d.pontos;labels.push(d.dia);acumulado.push(saldo);});
@@ -1565,14 +1926,14 @@ const Dashboard = {
       this.chartBar=new Chart(ctxBar,{type:'doughnut',data:{labels:['Gains','Stops','Breakeven'],datasets:[{data:[tg,ts,tz],backgroundColor:['#00e5a0','#ff4d6a','#ffd166'],borderColor:'rgba(10,18,35,0.8)',borderWidth:3,hoverOffset:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'#7fa8d0',padding:14,font:{size:12,weight:'600'}}},tooltip:{backgroundColor:'rgba(3,10,26,0.95)',titleColor:'#e8f4ff',bodyColor:'#7fa8d0',borderColor:'rgba(0,220,255,0.3)',borderWidth:1,padding:12,callbacks:{label:(i)=>`${i.label}: ${i.formattedValue}`}}}}});
     }
   },
-
+ 
   voltarParaMeses(){filtroMes.value="ALL";filtroSemana.disabled=true;filtroSemana.value="ALL";this.primeiraCarga=false;this.atualizar();},
-
+ 
   renderizarCalendario(dados) {
     const grid=document.getElementById("calendar"), ct=document.getElementById("calendarTitle");
     const headerRow=document.getElementById("calendarHeaderRow");
     if(!grid)return; grid.innerHTML="";
-
+ 
     if(filtroMes.value==="ALL"){
       if(ct)ct.innerHTML=`<div class="card-title" style="margin-bottom:0">Calendário de Trading</div>`;
       if(headerRow)headerRow.style.display='none';
@@ -1592,7 +1953,7 @@ const Dashboard = {
       });
       return;
     }
-
+ 
     if(headerRow)headerRow.style.display='';
     if(!dados.length)return;
     const base=dados.find(d=>d.mes===filtroMes.value)||dados[0];
@@ -1628,7 +1989,7 @@ const Dashboard = {
       grid.appendChild(dayDiv);
     }
   },
-
+ 
   abrirModal(dadosDia) {
     this.tradeAtual=dadosDia;
     const modal=document.getElementById('tradePhotoModal'),mt=document.getElementById('modalTitle'),mig=document.getElementById('modalInfoGrid'),mpc=document.getElementById('modalPhotoContainer');
@@ -1642,7 +2003,7 @@ const Dashboard = {
     modal.classList.add('active'); document.body.style.overflow='hidden';
   },
   fecharModal(){const modal=document.getElementById('tradePhotoModal');modal.classList.remove('active');document.body.style.overflow='auto';this.zoomLevel=1;this.zoomPosX=0;this.zoomPosY=0;},
-
+ 
   async inicializarConversorMoeda(){await this.atualizarCotacao();},
   async atualizarCotacao(){try{const r=await fetch('https://api.exchangerate-api.com/v4/latest/USD');const d=await r.json();this.cotacaoUSDtoBRL=d.rates.BRL;}catch(e){}},
   atualizarValorReal(){
@@ -1655,12 +2016,12 @@ const Dashboard = {
     if(brlN)brlN.textContent=(usdN*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
     if(brlD)brlD.textContent=(usdD*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
   },
-
+ 
   atualizarCalendario(){
     const container=document.getElementById('tvCalendarContainer'); if(!container)return;
     container.innerHTML=`<iframe src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&importance=1,2,3&features=datepicker,timezone,timeselector,filters&countries=5,25,32,6,37,72,22,17,39,14,10,35,43,56,36,110,11,26,12,4&calType=day&timeZone=12&lang=12" frameborder="0" scrolling="yes" allowtransparency="true" style="width:100%;height:720px;border:none;background:transparent;"></iframe>`;
   },
-
+ 
   inicializarZoomFoto(container,img){
     const db=document.createElement('button');db.className='download-btn';db.innerHTML='<span>📥</span><span>Baixar</span>';db.onclick=()=>this.baixarFoto();container.appendChild(db);
     const controls=document.createElement('div');controls.className='zoom-controls';controls.innerHTML=`<button class="zoom-btn" id="zoomIn">+</button><button class="zoom-btn" id="zoomOut">−</button><button class="zoom-btn" id="zoomReset">⟲</button>`;container.appendChild(controls);
@@ -1678,7 +2039,7 @@ const Dashboard = {
   resetZoom(img,c){this.zoomLevel=1;this.zoomPosX=0;this.zoomPosY=0;this.atualizarTransform(img);this.mostrarZoomInfo(c);},
   atualizarTransform(img){img.style.transform=`scale(${this.zoomLevel}) translate(${this.zoomPosX/this.zoomLevel}px,${this.zoomPosY/this.zoomLevel}px)`;},
   mostrarZoomInfo(c){const z=c.querySelector('.zoom-info');if(z){z.textContent=`${Math.round(this.zoomLevel*100)}%`;z.classList.add('show');setTimeout(()=>z.classList.remove('show'),1500);}},
-
+ 
   async baixarFoto(){
     if(!this.tradeAtual){alert('❌ Nenhum trade selecionado');return;}
     const btn=document.querySelector('.download-btn');if(btn){btn.classList.add('downloading');btn.innerHTML='<span>⏳</span><span>Gerando...</span>';}
@@ -1693,7 +2054,7 @@ const Dashboard = {
     }catch(e){console.error(e);alert('❌ Erro ao gerar imagem.');}
     finally{if(btn){btn.classList.remove('downloading');btn.innerHTML='<span>📥</span><span>Baixar</span>';}}
   },
-
+ 
   carregarFotoTrade(dataStr,container,fotoId){
     container.innerHTML=`<div class="modal-photo-loading"><div class="modal-photo-spinner"></div>Carregando foto...</div>`;
     if(fotoId&&fotoId.trim()){
@@ -1712,7 +2073,7 @@ const Dashboard = {
     }
   }
 };
-
+ 
 Dashboard.init();
 document.getElementById('tradePhotoModal')?.addEventListener('click',(e)=>{if(e.target.id==='tradePhotoModal')Dashboard.fecharModal();});
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape')Dashboard.fecharModal();});
