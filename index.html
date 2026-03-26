@@ -1274,7 +1274,7 @@ body.light-theme .theme-toggle {
         <span class="tab-icon">📊</span>Dashboard
       </button>
       <button class="tab-btn" id="tabMercado" onclick="Dashboard.mudarAba('mercado')">
-        <span class="tab-icon">📅</span>Calendário
+        <span class="tab-icon">📅</span>Calendário Econômico
       </button>
     </div>
     <div class="topbar-right">
@@ -1287,7 +1287,7 @@ body.light-theme .theme-toggle {
   <!-- Mobile tabs -->
   <div class="mobile-tabs">
     <button class="tab-btn active" onclick="Dashboard.mudarAba('dashboard')">📊 Dashboard</button>
-    <button class="tab-btn" onclick="Dashboard.mudarAba('mercado')">📅 Calendário</button>
+    <button class="tab-btn" onclick="Dashboard.mudarAba('mercado')">📅 Calendário Econômico</button>
   </div>
  
   <!-- FILTROS -->
@@ -1972,7 +1972,7 @@ const Dashboard = {
           ptDisplay=`<div style="display:flex;flex-direction:column;align-items:center;gap:1px;margin:2px 0"><span style="font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
         }else{
           const pc2=pts<0?'var(--red)':pts>0?'var(--green)':'var(--text-muted)';
-          ptDisplay=`<div class="day-points" style="color:${pc2}">${pts===0?'0':pts}</div>`;
+          ptDisplay=`<div class="day-points" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
         }
       }
       dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
@@ -2645,8 +2645,8 @@ body.light-theme .card-title {
 .topbar-logo { max-height: 54px; }
 .filter-label { font-size: 12px; }
 .filter-select { font-size: 13px; }
-.day-info { font-size: 10px; line-height: 1.45; }
-.table-card .card-title { font-size: 15px; }
+.day-info { font-size: 11px; line-height: 1.48; }
+.table-card .card-title { font-size: 17px; }
 .table-card th { font-size: 11px; }
 .table-card td { font-size: 13px; }
 .currency-pill { justify-content: space-between; gap: 12px; min-width: 148px; }
