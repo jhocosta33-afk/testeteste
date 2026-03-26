@@ -3388,6 +3388,9 @@ body::after {
   justify-self: center;
   text-align: center;
 }
+.ring-card .card-title {
+  font-size: 16px !important;
+}
 .month-nav-btn {
   width: 40px;
   height: 40px;
@@ -3417,6 +3420,9 @@ body.light-theme .month-nav-btn {
   color: #34507b;
 }
 @media (max-width: 900px) {
+  .ring-card .card-title {
+    font-size: 18px !important;
+  }
   .calendar-month-nav {
     grid-template-columns: 38px 1fr 38px;
     gap: 8px;
@@ -3503,6 +3509,8 @@ body.light-theme .month-nav-btn {
   if (typeof Dashboard === 'undefined' || !Dashboard || typeof Dashboard.renderizarCalendario !== 'function') return;
 
   const renderOriginal = Dashboard.renderizarCalendario.bind(Dashboard);
+  let lastWidth = window.innerWidth;
+  let resizeTimer = null;
 
   function simplificarTextoCalendarioMobile() {
     if (window.innerWidth > 600) return;
@@ -3534,9 +3542,15 @@ body.light-theme .month-nav-btn {
   };
 
   window.addEventListener('resize', () => {
-    if (typeof Dashboard.atualizar === 'function') {
-      Dashboard.atualizar();
-    }
+    const currentWidth = window.innerWidth;
+    if (Math.abs(currentWidth - lastWidth) < 40) return;
+    lastWidth = currentWidth;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (typeof Dashboard.atualizar === 'function') {
+        Dashboard.atualizar();
+      }
+    }, 120);
   });
 })();
 </script>
