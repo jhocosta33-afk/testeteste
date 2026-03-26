@@ -2650,9 +2650,9 @@ body.light-theme .card-title {
 .table-card th { font-size: 12px; }
 .table-card td { font-size: 14px; }
 .filters-bar {
-  position: sticky;
-  top: 84px;
-  z-index: 40;
+  position: sticky !important;
+  top: 76px;
+  z-index: 49;
 }
 .contratos-card .card-title { font-size: 15px; }
 .contratos-card .currency-row {
@@ -2752,10 +2752,8 @@ body.light-theme .currency-pill {
   const ringStats = document.querySelector('.ring-stats');
   if (ringStats) {
     ringStats.innerHTML = `
-      <div class="ring-stat-row"><span>Melhor Dia Nasdaq</span><span style="color:var(--green)" id="bestNasdaq">0</span></div>
-      <div class="ring-stat-row"><span>Melhor Dia Dow Jones</span><span style="color:var(--orange)" id="bestDow">0</span></div>
-      <div class="ring-stat-row"><span>Pior Dia Nasdaq</span><span style="color:var(--red)" id="worstNasdaq">0</span></div>
-      <div class="ring-stat-row"><span>Pior Dia Dow Jones</span><span style="color:var(--red)" id="worstDow">0</span></div>
+      <div class="ring-stat-row"><span>Melhor Dia</span><span id="bestDayCombined">NQ 0 DJ 0</span></div>
+      <div class="ring-stat-row"><span>Pior Dia</span><span id="worstDayCombined">NQ 0 DJ 0</span></div>
     `;
   }
 
@@ -2769,15 +2767,20 @@ body.light-theme .currency-pill {
     const worstNasdaq = nasdaq.length ? Math.min(...nasdaq) : 0;
     const worstDow = dow.length ? Math.min(...dow) : 0;
 
-    const bestNasdaqEl = document.getElementById('bestNasdaq');
-    const bestDowEl = document.getElementById('bestDow');
-    const worstNasdaqEl = document.getElementById('worstNasdaq');
-    const worstDowEl = document.getElementById('worstDow');
+    const bestCombinedEl = document.getElementById('bestDayCombined');
+    const worstCombinedEl = document.getElementById('worstDayCombined');
 
-    if (bestNasdaqEl) bestNasdaqEl.textContent = bestNasdaq > 0 ? `+${bestNasdaq}` : `${bestNasdaq}`;
-    if (bestDowEl) bestDowEl.textContent = bestDow > 0 ? `+${bestDow}` : `${bestDow}`;
-    if (worstNasdaqEl) worstNasdaqEl.textContent = `${worstNasdaq}`;
-    if (worstDowEl) worstDowEl.textContent = `${worstDow}`;
+    const bestText = `NQ ${bestNasdaq > 0 ? `+${bestNasdaq}` : bestNasdaq} DJ ${bestDow > 0 ? `+${bestDow}` : bestDow}`;
+    const worstText = `NQ ${worstNasdaq > 0 ? `+${worstNasdaq}` : worstNasdaq} DJ ${worstDow > 0 ? `+${worstDow}` : worstDow}`;
+
+    if (bestCombinedEl) {
+      bestCombinedEl.textContent = bestText;
+      bestCombinedEl.style.color = 'var(--text)';
+    }
+    if (worstCombinedEl) {
+      worstCombinedEl.textContent = worstText;
+      worstCombinedEl.style.color = 'var(--text)';
+    }
   };
 })();
 </script>
