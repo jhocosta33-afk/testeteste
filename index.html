@@ -2137,6 +2137,243 @@ const DASHBOARD_FALLBACK_CONFIG = {
   }
 })();
 </script>
+<style>
+/* Segunda passada visual: mais claro, mais elegante, menos "tech pesado" */
+.topbar {
+  padding: 20px 30px;
+}
+.topbar-left {
+  gap: 18px;
+}
+.topbar-title {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.92;
+}
+.topbar-center {
+  padding: 5px;
+  border-radius: 16px;
+}
+.tab-btn {
+  min-height: 42px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.topbar-right {
+  gap: 10px;
+}
+.portal-btn,
+.topbar-btn {
+  min-height: 40px;
+  padding: 9px 15px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+}
+
+.filters-bar {
+  gap: 14px;
+  padding: 16px 30px 18px;
+}
+.filter-select {
+  min-width: 156px;
+  min-height: 42px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.stats-pills {
+  gap: 10px;
+}
+.stat-pill {
+  min-height: 34px;
+  padding: 7px 14px;
+  border-radius: 999px;
+}
+.stat-pill-value {
+  font-size: 14px;
+}
+
+.main-content {
+  padding: 30px;
+}
+.dashboard-grid {
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.28fr) minmax(320px, 0.72fr);
+}
+.col-left,
+.col-right {
+  gap: 22px;
+}
+
+.welcome-card {
+  padding: 32px;
+  border-radius: 26px;
+}
+.welcome-top {
+  margin-bottom: 26px;
+}
+.welcome-icon {
+  width: 66px;
+  height: 66px;
+  font-size: 28px;
+  border-radius: 20px;
+}
+.welcome-text h2,
+body.light-theme .welcome-text h2 {
+  font-size: 44px;
+  line-height: 1.02;
+}
+.welcome-text p {
+  font-size: 16px;
+  color: rgba(224,232,243,0.68);
+}
+.kpi-row {
+  gap: 18px;
+}
+.kpi-box {
+  min-height: 126px;
+  padding: 20px 20px 18px;
+}
+.kpi-label,
+body.light-theme .kpi-label {
+  font-size: 12px;
+}
+.kpi-value {
+  font-size: clamp(2.25rem, 3.3vw, 3rem);
+}
+.kpi-sub {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.kpi-secondary-row {
+  gap: 18px;
+}
+.kpi-secondary-row .kpi-box {
+  min-height: 104px;
+}
+
+.chart-card,
+.ring-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card {
+  border-radius: 24px;
+}
+.chart-card {
+  padding: 26px 28px 22px;
+}
+.chart-wrap {
+  height: 300px;
+}
+
+.ring-card {
+  padding: 26px 26px 24px;
+}
+.ring-container {
+  width: 196px;
+  height: 196px;
+  margin: 6px auto 18px;
+}
+.ring-pct {
+  font-size: 46px;
+}
+.ring-stat-row {
+  padding: 12px 2px;
+  font-size: 13px;
+}
+
+.contratos-card {
+  padding: 26px;
+}
+.valor-contratos {
+  min-width: 88px;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+}
+.btn-control {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+.currency-pill {
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.dist-card {
+  padding: 26px;
+}
+.dist-chart-wrap {
+  height: 220px;
+}
+
+.card-title,
+body.light-theme .card-title {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+@media(max-width:1200px) {
+  .welcome-text h2,
+  body.light-theme .welcome-text h2 {
+    font-size: 36px;
+  }
+}
+
+@media(max-width:900px) {
+  .main-content {
+    padding: 18px;
+  }
+  .filters-bar {
+    padding: 12px 16px 14px;
+  }
+  .dashboard-grid {
+    gap: 18px;
+  }
+  .welcome-card {
+    padding: 24px;
+  }
+  .welcome-text h2,
+  body.light-theme .welcome-text h2 {
+    font-size: 32px;
+  }
+  .chart-wrap {
+    height: 250px;
+  }
+}
+
+@media(max-width:600px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+  .filters-bar {
+    gap: 10px;
+  }
+  .filter-select {
+    min-width: 100%;
+  }
+  .welcome-text h2,
+  body.light-theme .welcome-text h2 {
+    font-size: 28px;
+  }
+  .kpi-box {
+    min-height: 112px;
+  }
+  .chart-wrap {
+    height: 220px;
+  }
+}
+</style>
 <script src="theme.js"></script>
 </body>
 </html>
