@@ -3097,8 +3097,9 @@ body.light-theme .site-footer .footer-bottom p {
   }
   .dashboard-row-top,
   .dashboard-row-middle {
-    grid-template-columns: minmax(0, 1.1fr) minmax(145px, 0.9fr) !important;
-    align-items: start !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    align-items: stretch !important;
   }
   .dashboard-left-top,
   .dashboard-left-middle,
@@ -3106,85 +3107,91 @@ body.light-theme .site-footer .footer-bottom p {
   .dashboard-right-middle {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
+    gap: 14px !important;
   }
   .welcome-top {
-    align-items: flex-start;
+    align-items: center;
+    gap: 12px !important;
   }
   .welcome-icon {
-    width: 44px !important;
-    height: 44px !important;
+    width: 48px !important;
+    height: 48px !important;
   }
   .welcome-text h2 {
-    font-size: 18px !important;
+    font-size: 28px !important;
+    line-height: 1.05 !important;
   }
   .welcome-text p {
-    font-size: 12px !important;
+    font-size: 13px !important;
   }
   .kpi-row,
   .kpi-secondary-row {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
   }
+  .kpi-row .kpi-box:first-child {
+    grid-column: 1 / -1;
+  }
   .kpi-value {
-    font-size: 1.6rem !important;
+    font-size: 2rem !important;
   }
   .kpi-label {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   .kpi-sub {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   .chart-wrap {
-    height: 210px !important;
+    height: 250px !important;
   }
   .ring-container {
-    width: 132px !important;
-    height: 132px !important;
+    width: 164px !important;
+    height: 164px !important;
   }
   .ring-pct {
-    font-size: 28px !important;
+    font-size: 38px !important;
   }
   .ring-stat-row {
     flex-direction: row !important;
     align-items: center !important;
-    gap: 8px;
+    gap: 10px;
+    justify-content: space-between !important;
   }
   .ring-stat-inline {
-    grid-template-columns: 16px 42px 12px 16px 42px !important;
+    grid-template-columns: 18px 54px 16px 18px 54px !important;
     justify-content: flex-end !important;
-    font-size: 12px !important;
-    column-gap: 6px !important;
+    font-size: 14px !important;
+    column-gap: 8px !important;
   }
   .contratos-control {
-    gap: 8px !important;
+    gap: 10px !important;
   }
   .btn-control {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 20px !important;
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 22px !important;
   }
   .valor-contratos {
-    min-width: 62px !important;
-    font-size: 22px !important;
-    padding: 7px 12px !important;
+    min-width: 82px !important;
+    font-size: 28px !important;
+    padding: 8px 16px !important;
   }
   .contratos-card .currency-row {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 8px !important;
+    gap: 10px !important;
   }
   .contratos-card .currency-pill {
-    padding: 7px 8px !important;
-    gap: 6px !important;
+    padding: 9px 10px !important;
+    gap: 8px !important;
   }
-  .contratos-card .currency-pill > span:first-child {
-    font-size: 9px !important;
-  }
-  .contratos-card .currency-pill > span:last-child {
-    font-size: 11px !important;
+  .contratos-card .currency-pill .currency-prefix { font-size: 10px !important; }
+  .contratos-card .currency-pill .currency-label { font-size: 11px !important; }
+  .contratos-card .currency-pill .currency-value { font-size: 12px !important; }
+  .dist-chart-wrap {
+    height: 250px !important;
   }
   .calendar-header-row {
-    font-size: 8px !important;
+    font-size: 9px !important;
   }
   .calendar-card {
     overflow-x: visible !important;
@@ -3192,9 +3199,9 @@ body.light-theme .site-footer .footer-bottom p {
   .calendar-title-row {
     min-width: 0 !important;
     flex-wrap: wrap !important;
-    justify-content: center !important;
+    justify-content: space-between !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 10px !important;
   }
   .calendar-header-row,
   .calendar-grid {
@@ -3202,31 +3209,31 @@ body.light-theme .site-footer .footer-bottom p {
     width: 100% !important;
   }
   .calendar-grid {
-    gap: 3px !important;
+    gap: 4px !important;
   }
   .day {
-    min-height: 66px !important;
-    padding: 4px 3px 18px !important;
+    min-height: 78px !important;
+    padding: 6px 4px 20px !important;
     border-radius: 10px !important;
   }
   .day-number {
-    font-size: 8px !important;
+    font-size: 9px !important;
   }
   .day-points {
-    font-size: 11px !important;
-    margin: 1px 0 !important;
+    font-size: 13px !important;
+    margin: 2px 0 !important;
   }
   .day-info {
-    font-size: 7px !important;
-    line-height: 1.22 !important;
+    font-size: 8px !important;
+    line-height: 1.28 !important;
   }
   .back-to-months-btn {
-    padding: 5px 8px !important;
-    font-size: 9px !important;
+    padding: 6px 10px !important;
+    font-size: 10px !important;
   }
   .card-title,
   .table-card .card-title {
-    font-size: 15px !important;
+    font-size: 17px !important;
   }
 }
 </style>
@@ -3404,6 +3411,48 @@ body::after {
       worstCombinedEl.innerHTML = worstText;
     }
   };
+})();
+</script>
+<script>
+(function ajustarCalendarioMobile() {
+  if (typeof Dashboard === 'undefined' || !Dashboard || typeof Dashboard.renderizarCalendario !== 'function') return;
+
+  const renderOriginal = Dashboard.renderizarCalendario.bind(Dashboard);
+
+  function simplificarTextoCalendarioMobile() {
+    if (window.innerWidth > 600) return;
+
+    document.querySelectorAll('.calendar-card .day:not(.empty)').forEach((day) => {
+      day.querySelectorAll('.day-info').forEach((info) => {
+        const txt = (info.textContent || '')
+          .replace(/\btrades?\b/gi, 'T')
+          .replace(/\bgains?\b/gi, 'G')
+          .replace(/\bstops?\b/gi, 'S')
+          .replace(/0x0/gi, 'B')
+          .replace(/\s+/g, ' ')
+          .trim();
+        info.textContent = txt;
+      });
+
+      day.querySelectorAll('span').forEach((span) => {
+        if ((span.textContent || '').includes('NQ:') || (span.textContent || '').includes('DJ:')) {
+          span.style.fontSize = '11px';
+          span.style.fontWeight = '900';
+        }
+      });
+    });
+  }
+
+  Dashboard.renderizarCalendario = function(dados) {
+    renderOriginal(dados);
+    simplificarTextoCalendarioMobile();
+  };
+
+  window.addEventListener('resize', () => {
+    if (typeof Dashboard.atualizar === 'function') {
+      Dashboard.atualizar();
+    }
+  });
 })();
 </script>
 <script src="theme.js"></script>
