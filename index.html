@@ -1330,9 +1330,9 @@ body.light-theme .theme-toggle {
                 <div class="kpi-sub">NQ acumulado</div>
               </div>
               <div class="kpi-box orange-accent">
-                <div class="kpi-label">Pontos DOW</div>
+                <div class="kpi-label">Dow Jones</div>
                 <div class="kpi-value orange" id="kPontosDow">0</div>
-                <div class="kpi-sub">YM acumulado</div>
+                <div class="kpi-sub">DJ acumulado</div>
               </div>
             </div>
           </div>
@@ -1895,13 +1895,13 @@ const Dashboard = {
   },
  
   renderizarGraficos(dados) {
-    let saldo=0; const labels=[],acumulado=[0];
-    dados.forEach(d=>{saldo+=d.pontos;labels.push(d.dia);acumulado.push(saldo);});
+    let saldo=0; const labels=[],acumulado=[0], diarios=[0];
+    dados.forEach(d=>{saldo+=d.pontos;labels.push(d.dia);acumulado.push(saldo);diarios.push(d.pontos);});
     if(this.chartAcumulado)this.chartAcumulado.destroy();
     if(this.chartBar)this.chartBar.destroy();
     const ctxAc=document.getElementById('chartAcumulado');
     if(ctxAc){
-      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets:[{label:'Pontos',data:acumulado,borderColor:'#00dcff',backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,'rgba(0,220,255,0.20)');g.addColorStop(1,'rgba(0,220,255,0.01)');return g;},fill:true,tension:0.4,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#00dcff',pointBorderColor:'#030a1a',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(3,10,26,0.95)',titleColor:'#e8f4ff',bodyColor:'#7fa8d0',borderColor:'rgba(0,220,255,0.4)',borderWidth:1,padding:12,displayColors:false,callbacks:{title:(i)=>i[0].label,label:(i)=>`Acumulado: ${i.formattedValue} pts`}}},scales:{y:{ticks:{color:'#3a5a7a',font:{family:'JetBrains Mono',size:11}},grid:{color:'rgba(59,130,246,0.06)'}},x:{ticks:{color:'#7fa8d0',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
+      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets:[{label:'Pontos',data:acumulado,borderColor:'#00dcff',backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,'rgba(0,220,255,0.24)');g.addColorStop(1,'rgba(0,220,255,0.02)');return g;},fill:true,tension:0.4,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#00dcff',pointBorderColor:'#030a1a',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:(context)=>{const idx=context?.tooltip?.dataPoints?.[0]?.dataIndex??0;return diarios[idx]<0?'#ff7b93':'#dff6ff';},borderColor:'rgba(0,220,255,0.4)',borderWidth:1,padding:12,displayColors:false,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario=diarios[idx]||0;const diarioTxt=`Resultado do dia: ${diario>0?'+':''}${diario} pts`;const acumTxt=`Acumulado: ${i.formattedValue} pts`;return [diarioTxt,acumTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
     }
     const ctxBar=document.getElementById('chartBar');
     if(ctxBar){
@@ -3230,20 +3230,100 @@ body.light-theme .site-footer .footer-bottom p {
   }
 }
 </style>
+<style>
+.chart-card .chart-wrap {
+  position: relative;
+}
+.chart-card .chart-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 8% 4% 6%;
+  background:
+    radial-gradient(45% 35% at 18% 24%, rgba(132, 170, 232, 0.10) 0%, transparent 72%),
+    radial-gradient(38% 26% at 82% 70%, rgba(241, 183, 118, 0.08) 0%, transparent 74%);
+  pointer-events: none;
+  opacity: 0.9;
+}
+.chart-card .chart-wrap canvas {
+  position: relative;
+  z-index: 1;
+}
+.contratos-card .currency-pill {
+  display: grid !important;
+  grid-template-columns: 20px 24px minmax(0, 1fr) !important;
+  align-items: center !important;
+  column-gap: 8px !important;
+}
+.contratos-card .currency-pill .currency-prefix {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-dim);
+}
+.contratos-card .currency-pill .currency-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: left;
+}
+.contratos-card .currency-pill .currency-value {
+  min-width: 0;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+body {
+  background:
+    radial-gradient(48% 34% at 16% 12%, rgba(120, 154, 216, 0.24) 0%, rgba(120, 154, 216, 0.10) 30%, transparent 72%),
+    radial-gradient(38% 28% at 84% 12%, rgba(240, 185, 122, 0.18) 0%, rgba(240, 185, 122, 0.07) 32%, transparent 74%),
+    radial-gradient(65% 48% at 50% 100%, rgba(31, 72, 138, 0.28) 0%, rgba(10, 18, 31, 0.06) 54%, transparent 78%),
+    linear-gradient(180deg, #1b2230 0%, #101722 46%, #0a1018 100%) !important;
+}
+body::before { opacity: 0.56 !important; }
+body::after {
+  background:
+    radial-gradient(56% 38% at 50% 8%, rgba(255,255,255,0.06) 0%, transparent 76%),
+    radial-gradient(28% 24% at 10% 74%, rgba(92, 141, 223, 0.16) 0%, transparent 82%),
+    radial-gradient(30% 24% at 90% 72%, rgba(232, 170, 100, 0.12) 0%, transparent 80%),
+    radial-gradient(circle at center, transparent 50%, rgba(4, 7, 12, 0.42) 100%) !important;
+}
+.app-wrapper {
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 0 1px rgba(134,156,191,0.06),
+    0 0 120px rgba(72, 102, 155, 0.10) !important;
+}
+@media (max-width: 900px) {
+  .contratos-card .currency-pill {
+    grid-template-columns: 18px 20px minmax(0, 1fr) !important;
+    column-gap: 6px !important;
+  }
+  .contratos-card .currency-pill .currency-label {
+    font-size: 10px !important;
+  }
+  .contratos-card .currency-pill .currency-value {
+    font-size: 12px !important;
+  }
+}
+</style>
 <script>
 (function ajustarCalculadoraContratos() {
   const pills = document.querySelectorAll('.contratos-card .currency-pill');
-  const labels = ['NQ', 'DJ', 'NQ', 'DJ'];
+  const configs = [
+    { prefix: '●', label: 'NQ', color: 'var(--green)' },
+    { prefix: '●', label: 'DJ', color: 'var(--orange)' },
+    { prefix: 'BR', label: 'NQ', color: 'var(--text)' },
+    { prefix: 'BR', label: 'DJ', color: 'var(--text)' }
+  ];
   pills.forEach((pill, index) => {
-    const spans = pill.querySelectorAll('span');
-    if (!spans.length) return;
-    if (spans.length === 1) {
-      const label = document.createElement('span');
-      label.textContent = labels[index] || 'Ativo';
-      pill.insertBefore(label, spans[0]);
-    } else {
-      spans[0].textContent = labels[index] || spans[0].textContent;
-    }
+    const valueEl = pill.querySelector('span[id]');
+    const cfg = configs[index];
+    if (!valueEl || !cfg) return;
+    valueEl.classList.add('currency-value');
+    valueEl.style.color = cfg.color;
+    pill.innerHTML = `<span class="currency-prefix">${cfg.prefix}</span><span class="currency-label">${cfg.label}</span>`;
+    pill.appendChild(valueEl);
   });
 })();
 </script>
