@@ -2340,6 +2340,123 @@ body.light-theme .card-title {
   }
 }
 </style>
+
+<style>
+/* Terceira passada visual: assertividade, grafico e calendario */
+.dashboard-grid {
+  grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
+  align-items: start;
+}
+
+.ring-card {
+  padding: 24px 24px 22px;
+}
+.ring-container {
+  width: 182px;
+  height: 182px;
+  margin: 2px auto 16px;
+}
+.ring-pct {
+  font-size: 42px;
+}
+.ring-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.ring-stats {
+  gap: 10px;
+}
+.ring-stat-row {
+  padding: 12px 14px;
+  border-top: none;
+  background: rgba(30, 48, 78, 0.45);
+  border: 1px solid rgba(104, 135, 194, 0.22);
+  border-radius: 12px;
+}
+.ring-stat-row span:first-child {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(222, 232, 246, 0.82);
+}
+.ring-stat-row span:last-child {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.chart-card {
+  padding: 22px 24px 20px;
+}
+.chart-wrap {
+  height: 340px;
+}
+
+.contratos-card {
+  min-height: 224px;
+  justify-content: center;
+}
+.dist-card {
+  min-height: 270px;
+}
+.dist-chart-wrap {
+  height: 210px;
+}
+
+.calendar-card {
+  padding: 24px 24px 26px;
+  min-height: 560px;
+}
+.calendar-title-row {
+  margin-bottom: 18px;
+}
+.calendar-header-row {
+  margin-bottom: 14px;
+}
+.calendar-grid {
+  gap: 8px;
+}
+.day {
+  min-height: 92px;
+  padding: 8px 8px 24px;
+  border-radius: 10px;
+}
+.day-number {
+  font-size: 11px;
+}
+.day-points {
+  font-size: 22px;
+}
+.day-info {
+  font-size: 10px;
+}
+
+@media(max-width:1200px) {
+  .chart-wrap {
+    height: 310px;
+  }
+  .calendar-card {
+    min-height: 0;
+  }
+}
+
+@media(max-width:900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-wrap {
+    height: 260px;
+  }
+  .ring-stat-row span:first-child {
+    font-size: 13px;
+  }
+  .ring-stat-row span:last-child {
+    font-size: 19px;
+  }
+  .day {
+    min-height: 82px;
+  }
+}
+</style>
 <script src="theme.js"></script>
 </body>
 </html>
