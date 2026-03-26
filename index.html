@@ -3307,6 +3307,36 @@ body::after {
   }
 }
 </style>
+<style>
+.chart-card .chart-wrap::after {
+  display: none !important;
+}
+body {
+  background:
+    radial-gradient(26% 20% at 14% 12%, rgba(120, 154, 216, 0.10) 0%, transparent 70%),
+    radial-gradient(22% 18% at 86% 14%, rgba(240, 185, 122, 0.08) 0%, transparent 72%),
+    radial-gradient(34% 24% at 50% 100%, rgba(55, 88, 140, 0.10) 0%, transparent 78%),
+    linear-gradient(180deg, #1a2130 0%, #111824 48%, #0b1018 100%) !important;
+}
+body::before {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.025), transparent 18%, transparent 82%, rgba(255,255,255,0.018)),
+    radial-gradient(circle, rgba(255,255,255,0.028) 0 1px, transparent 1px) !important;
+  background-size: auto, 32px 32px !important;
+  opacity: 0.26 !important;
+}
+body::after {
+  background:
+    radial-gradient(40% 24% at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 82%),
+    radial-gradient(circle at center, transparent 58%, rgba(4, 7, 12, 0.36) 100%) !important;
+}
+.app-wrapper {
+  box-shadow:
+    0 26px 72px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 0 1px rgba(134,156,191,0.05) !important;
+}
+</style>
 <script>
 (function ajustarCalculadoraContratos() {
   const pills = document.querySelectorAll('.contratos-card .currency-pill');
