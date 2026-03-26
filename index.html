@@ -2358,8 +2358,8 @@ body.light-theme .card-title {
   gap: 18px;
 }
 .dashboard-bottom-right {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
 }
 .dashboard-calendar-row {
@@ -2371,10 +2371,9 @@ body.light-theme .card-title {
 
 .col-left,
 .col-right {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
-  align-items: start;
 }
 
 .ring-card {
@@ -2417,18 +2416,18 @@ body.light-theme .card-title {
   padding: 22px 24px 20px;
 }
 .chart-wrap {
-  height: 390px;
+  height: 410px;
 }
 
 .contratos-card {
-  min-height: 224px;
+  min-height: 210px;
   justify-content: center;
 }
 .dist-card {
-  min-height: 270px;
+  min-height: 180px;
 }
 .dist-chart-wrap {
-  height: 210px;
+  height: 170px;
 }
 
 .calendar-card {
@@ -2475,7 +2474,8 @@ body.light-theme .card-title {
   .dashboard-bottom-right,
   .col-left,
   .col-right {
-    grid-template-rows: auto;
+    display: flex;
+    flex-direction: column;
   }
   .chart-wrap {
     height: 260px;
