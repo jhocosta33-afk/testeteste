@@ -2649,12 +2649,16 @@ body.light-theme .card-title {
 .table-card .card-title { font-size: 18px; }
 .table-card th { font-size: 12px; }
 .table-card td { font-size: 14px; }
+.app-wrapper { overflow: visible !important; }
 .filters-bar {
   position: sticky !important;
-  top: 76px;
-  z-index: 49;
+  top: 74px;
+  z-index: 60;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
 }
 .contratos-card .card-title { font-size: 15px; }
+.contratos-card .valor-contratos { font-size: 34px; }
+.contratos-card .btn-control { font-size: 24px; }
 .contratos-card .currency-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2667,9 +2671,32 @@ body.light-theme .card-title {
   min-width: 0;
   width: 100%;
   padding: 8px 12px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .currency-pill > span:first-child { font-size: 12px; font-weight: 700; color: var(--text-dim); }
+.currency-pill > span:last-child { font-size: 14px; font-weight: 800; }
+.ring-stat-row span:last-child {
+  font-size: 18px !important;
+}
+.ring-stat-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 800;
+}
+.ring-stat-inline .nq-label,
+.ring-stat-inline .dj-label {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.ring-stat-inline .nq-value { color: var(--green); }
+.ring-stat-inline .dj-value { color: var(--orange); }
+.ring-stat-inline .worst-value { color: var(--red); }
+.ring-stat-inline .spacer { display: inline-block; width: 18px; }
 
 body.light-theme { background: linear-gradient(180deg, #eef2f7 0%, #e7edf6 100%); }
 body.light-theme::before { opacity: 0.1; }
@@ -2700,6 +2727,11 @@ body.light-theme .welcome-text p,
 body.light-theme .kpi-sub,
 body.light-theme td,
 body.light-theme .day-info { color: #5d6f8a; }
+body.light-theme .kpi-value.blue { color: #2f466c; }
+body.light-theme .kpi-value.green { color: #13a96d; }
+body.light-theme .kpi-value.red { color: #e15678; }
+body.light-theme .kpi-value.yellow { color: #d3a13b; }
+body.light-theme .kpi-value.orange { color: #dd8c42; }
 body.light-theme .ring-pct,
 body.light-theme .ring-stat-row span:first-child,
 body.light-theme .currency-pill > span:first-child,
@@ -2708,6 +2740,11 @@ body.light-theme .table-card td,
 body.light-theme .table-card th {
   color: #405470;
 }
+body.light-theme .ring-stat-inline .nq-label,
+body.light-theme .ring-stat-inline .dj-label { color: #5f7390; }
+body.light-theme .ring-stat-inline .nq-value { color: #08a86b; }
+body.light-theme .ring-stat-inline .dj-value { color: #d78635; }
+body.light-theme .ring-stat-inline .worst-value { color: #de5878; }
 body.light-theme .filter-select,
 body.light-theme .topbar-btn,
 body.light-theme .portal-btn,
@@ -2726,6 +2763,10 @@ body.light-theme .ring-stat-row {
 body.light-theme .currency-pill {
   background: rgba(243, 246, 250, 0.96);
   border-color: rgba(187, 199, 218, 0.85);
+}
+body.light-theme .filters-bar {
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 10px 28px rgba(166, 179, 201, 0.18);
 }
 </style>
 <script>
@@ -2770,16 +2811,26 @@ body.light-theme .currency-pill {
     const bestCombinedEl = document.getElementById('bestDayCombined');
     const worstCombinedEl = document.getElementById('worstDayCombined');
 
-    const bestText = `NQ ${bestNasdaq > 0 ? `+${bestNasdaq}` : bestNasdaq} DJ ${bestDow > 0 ? `+${bestDow}` : bestDow}`;
-    const worstText = `NQ ${worstNasdaq > 0 ? `+${worstNasdaq}` : worstNasdaq} DJ ${worstDow > 0 ? `+${worstDow}` : worstDow}`;
+    const bestText = `
+      <span class="ring-stat-inline">
+        <span class="nq-label">NQ</span><span class="nq-value">${bestNasdaq > 0 ? `+${bestNasdaq}` : bestNasdaq}</span>
+        <span class="spacer"></span>
+        <span class="dj-label">DJ</span><span class="dj-value">${bestDow > 0 ? `+${bestDow}` : bestDow}</span>
+      </span>
+    `;
+    const worstText = `
+      <span class="ring-stat-inline">
+        <span class="nq-label">NQ</span><span class="worst-value">${worstNasdaq > 0 ? `+${worstNasdaq}` : worstNasdaq}</span>
+        <span class="spacer"></span>
+        <span class="dj-label">DJ</span><span class="worst-value">${worstDow > 0 ? `+${worstDow}` : worstDow}</span>
+      </span>
+    `;
 
     if (bestCombinedEl) {
-      bestCombinedEl.textContent = bestText;
-      bestCombinedEl.style.color = 'var(--text)';
+      bestCombinedEl.innerHTML = bestText;
     }
     if (worstCombinedEl) {
-      worstCombinedEl.textContent = worstText;
-      worstCombinedEl.style.color = 'var(--text)';
+      worstCombinedEl.innerHTML = worstText;
     }
   };
 })();
