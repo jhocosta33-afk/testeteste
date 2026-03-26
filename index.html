@@ -1365,17 +1365,6 @@ body.light-theme .theme-toggle {
             </div>
           </div>
  
-          <!-- Calendário de trading -->
-          <div class="glass-card calendar-card">
-            <div class="calendar-title-row">
-              <div class="card-title" id="calendarTitle" style="margin-bottom:0">Calendário de Trading</div>
-            </div>
-            <div class="calendar-header-row" id="calendarHeaderRow">
-              <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
-            </div>
-            <div class="calendar-grid" id="calendar"></div>
-          </div>
- 
           <!-- Tabela -->
           <div class="glass-card table-card">
             <div class="card-title">Histórico de Operações</div>
@@ -1462,6 +1451,19 @@ body.light-theme .theme-toggle {
  
         </div><!-- /col-right -->
       </div><!-- /dashboard-grid -->
+
+      <!-- Calendário de trading -->
+      <div class="dashboard-calendar-row">
+        <div class="glass-card calendar-card">
+          <div class="calendar-title-row">
+            <div class="card-title" id="calendarTitle" style="margin-bottom:0">Calendário de Trading</div>
+          </div>
+          <div class="calendar-header-row" id="calendarHeaderRow">
+            <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+          </div>
+          <div class="calendar-grid" id="calendar"></div>
+        </div>
+      </div>
     </div><!-- /contentDashboard -->
  
     <!-- ── ABA CALENDÁRIO ECONÔMICO ── -->
@@ -2347,6 +2349,9 @@ body.light-theme .card-title {
   grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
   align-items: start;
 }
+.dashboard-calendar-row {
+  margin-top: 18px;
+}
 
 .ring-card {
   padding: 24px 24px 22px;
@@ -2388,7 +2393,7 @@ body.light-theme .card-title {
   padding: 22px 24px 20px;
 }
 .chart-wrap {
-  height: 340px;
+  height: 390px;
 }
 
 .contratos-card {
@@ -2404,7 +2409,7 @@ body.light-theme .card-title {
 
 .calendar-card {
   padding: 24px 24px 26px;
-  min-height: 560px;
+  min-height: 640px;
 }
 .calendar-title-row {
   margin-bottom: 18px;
@@ -2432,7 +2437,7 @@ body.light-theme .card-title {
 
 @media(max-width:1200px) {
   .chart-wrap {
-    height: 310px;
+    height: 320px;
   }
   .calendar-card {
     min-height: 0;
