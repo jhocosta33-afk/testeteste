@@ -2901,6 +2901,281 @@ body.light-theme .site-footer .mesa-footer-name,
 body.light-theme .site-footer .footer-bottom p {
   color: #586d8b;
 }
+@media (max-width: 900px) {
+  .app-wrapper {
+    width: calc(100% - 16px) !important;
+    margin: 8px auto 18px !important;
+    border-radius: 22px !important;
+  }
+  .topbar {
+    padding: 12px 14px !important;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topbar-left {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .topbar-logo {
+    max-height: 42px !important;
+  }
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .portal-btn,
+  .topbar-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .theme-toggle {
+    flex: 0 0 42px;
+  }
+  .mobile-tabs {
+    padding: 10px 14px !important;
+    gap: 8px !important;
+  }
+  .mobile-tabs .tab-btn {
+    min-height: 42px;
+    font-size: 12px !important;
+  }
+  .filters-bar {
+    top: 0 !important;
+    padding: 12px 14px 14px !important;
+    gap: 10px !important;
+  }
+  .filter-label {
+    width: 100%;
+    margin-bottom: 2px;
+  }
+  .filter-select {
+    min-width: 0 !important;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  .stats-pills {
+    width: 100%;
+    margin-left: 0 !important;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .main-content {
+    padding: 14px !important;
+  }
+  .dashboard-row,
+  .dashboard-row-top,
+  .dashboard-row-middle,
+  .dashboard-left-top,
+  .dashboard-right-top,
+  .dashboard-left-middle,
+  .dashboard-right-middle {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    gap: 14px !important;
+    height: auto !important;
+  }
+  .welcome-card,
+  .ring-card,
+  .chart-card,
+  .contratos-card,
+  .dist-card,
+  .calendar-card,
+  .table-card {
+    padding: 18px 16px !important;
+    border-radius: 20px !important;
+  }
+  .welcome-text h2 {
+    font-size: 24px !important;
+  }
+  .kpi-row,
+  .kpi-secondary-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+  .kpi-box {
+    padding: 16px 14px !important;
+  }
+  .kpi-value {
+    font-size: 2.1rem !important;
+  }
+  .chart-wrap {
+    height: 260px !important;
+  }
+  .ring-container {
+    width: 170px !important;
+    height: 170px !important;
+  }
+  .ring-stat-row {
+    padding: 10px 12px !important;
+  }
+  .contratos-control {
+    gap: 12px !important;
+  }
+  .valor-contratos {
+    min-width: 88px !important;
+    font-size: 30px !important;
+    padding: 8px 18px !important;
+  }
+  .contratos-card .currency-row {
+    grid-template-columns: 1fr !important;
+  }
+  .dist-chart-wrap {
+    height: 220px !important;
+  }
+  .calendar-title-row {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .calendar-grid {
+    gap: 6px !important;
+  }
+  .day {
+    min-height: 96px !important;
+    padding: 7px 6px 24px !important;
+  }
+  .day-points {
+    font-size: 16px !important;
+  }
+  .day-info {
+    font-size: 10px !important;
+    line-height: 1.42 !important;
+  }
+  .table-wrap {
+    margin: 0 -4px;
+  }
+  table {
+    min-width: 760px !important;
+  }
+  .site-footer {
+    padding: 18px 16px 14px !important;
+  }
+  .footer-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .footer-row-label {
+    min-width: 100% !important;
+  }
+  .footer-bottom {
+    align-items: flex-start !important;
+  }
+}
+@media (max-width: 600px) {
+  .app-wrapper {
+    width: calc(100% - 10px) !important;
+    margin: 5px auto 14px !important;
+    border-radius: 18px !important;
+  }
+  .topbar-left {
+    align-items: center;
+  }
+  .topbar-logo {
+    max-height: 38px !important;
+  }
+  .portal-btn span,
+  .topbar-btn span {
+    display: inline !important;
+  }
+  .portal-btn,
+  .topbar-btn {
+    font-size: 11px !important;
+    padding: 9px 10px !important;
+  }
+  .filters-bar {
+    padding: 10px 12px 12px !important;
+  }
+  .main-content {
+    padding: 12px !important;
+  }
+  .welcome-top {
+    align-items: flex-start;
+  }
+  .welcome-icon {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .welcome-text h2 {
+    font-size: 21px !important;
+  }
+  .welcome-text p {
+    font-size: 13px !important;
+  }
+  .kpi-row,
+  .kpi-secondary-row {
+    grid-template-columns: 1fr !important;
+  }
+  .kpi-value {
+    font-size: 1.9rem !important;
+  }
+  .chart-wrap {
+    height: 220px !important;
+  }
+  .ring-container {
+    width: 156px !important;
+    height: 156px !important;
+  }
+  .ring-pct {
+    font-size: 34px !important;
+  }
+  .ring-stat-row {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 6px;
+  }
+  .ring-stat-inline {
+    grid-template-columns: 20px 56px 18px 20px 56px !important;
+    justify-content: flex-start !important;
+    font-size: 14px !important;
+    column-gap: 8px !important;
+  }
+  .contratos-control {
+    gap: 10px !important;
+  }
+  .btn-control {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .valor-contratos {
+    min-width: 78px !important;
+    font-size: 27px !important;
+  }
+  .contratos-card .currency-pill {
+    padding: 8px 10px !important;
+  }
+  .contratos-card .currency-pill > span:first-child {
+    font-size: 10px !important;
+  }
+  .contratos-card .currency-pill > span:last-child {
+    font-size: 12px !important;
+  }
+  .calendar-header-row {
+    font-size: 9px !important;
+  }
+  .day {
+    min-height: 88px !important;
+  }
+  .day-number {
+    font-size: 9px !important;
+  }
+  .day-points {
+    font-size: 15px !important;
+  }
+  .day-info {
+    font-size: 9px !important;
+  }
+  .card-title,
+  .table-card .card-title {
+    font-size: 16px !important;
+  }
+}
 </style>
 <script>
 (function ajustarCalculadoraContratos() {
