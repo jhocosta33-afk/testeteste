@@ -2646,11 +2646,30 @@ body.light-theme .card-title {
 .filter-label { font-size: 12px; }
 .filter-select { font-size: 13px; }
 .day-info { font-size: 11px; line-height: 1.48; }
-.table-card .card-title { font-size: 17px; }
-.table-card th { font-size: 11px; }
-.table-card td { font-size: 13px; }
-.currency-pill { justify-content: space-between; gap: 12px; min-width: 148px; }
-.currency-pill > span:first-child { font-size: 11px; font-weight: 700; color: var(--text-dim); }
+.table-card .card-title { font-size: 18px; }
+.table-card th { font-size: 12px; }
+.table-card td { font-size: 14px; }
+.filters-bar {
+  position: sticky;
+  top: 84px;
+  z-index: 40;
+}
+.contratos-card .card-title { font-size: 15px; }
+.contratos-card .currency-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+.currency-pill {
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.currency-pill > span:first-child { font-size: 12px; font-weight: 700; color: var(--text-dim); }
 
 body.light-theme { background: linear-gradient(180deg, #eef2f7 0%, #e7edf6 100%); }
 body.light-theme::before { opacity: 0.1; }
@@ -2681,6 +2700,14 @@ body.light-theme .welcome-text p,
 body.light-theme .kpi-sub,
 body.light-theme td,
 body.light-theme .day-info { color: #5d6f8a; }
+body.light-theme .ring-pct,
+body.light-theme .ring-stat-row span:first-child,
+body.light-theme .currency-pill > span:first-child,
+body.light-theme .currency-pill,
+body.light-theme .table-card td,
+body.light-theme .table-card th {
+  color: #405470;
+}
 body.light-theme .filter-select,
 body.light-theme .topbar-btn,
 body.light-theme .portal-btn,
@@ -2692,8 +2719,14 @@ body.light-theme .stat-pill {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
 }
 body.light-theme .ring-track { stroke: rgba(120, 140, 170, 0.18); }
-body.light-theme .ring-stat-row { background: #eef3fa; border-color: rgba(180, 194, 218, 0.7); }
-body.light-theme .currency-pill { background: #f4f7fb; border-color: rgba(187, 199, 218, 0.8); }
+body.light-theme .ring-stat-row {
+  background: rgba(243, 246, 250, 0.96);
+  border-color: rgba(180, 194, 218, 0.75);
+}
+body.light-theme .currency-pill {
+  background: rgba(243, 246, 250, 0.96);
+  border-color: rgba(187, 199, 218, 0.85);
+}
 </style>
 <script>
 (function ajustarCalculadoraContratos() {
@@ -2710,6 +2743,42 @@ body.light-theme .currency-pill { background: #f4f7fb; border-color: rgba(187, 1
       spans[0].textContent = labels[index] || spans[0].textContent;
     }
   });
+})();
+</script>
+<script>
+(function ajustarAssertividadePorAtivo() {
+  if (typeof Dashboard === 'undefined' || !Dashboard) return;
+
+  const ringStats = document.querySelector('.ring-stats');
+  if (ringStats) {
+    ringStats.innerHTML = `
+      <div class="ring-stat-row"><span>Melhor Dia Nasdaq</span><span style="color:var(--green)" id="bestNasdaq">0</span></div>
+      <div class="ring-stat-row"><span>Melhor Dia Dow Jones</span><span style="color:var(--orange)" id="bestDow">0</span></div>
+      <div class="ring-stat-row"><span>Pior Dia Nasdaq</span><span style="color:var(--red)" id="worstNasdaq">0</span></div>
+      <div class="ring-stat-row"><span>Pior Dia Dow Jones</span><span style="color:var(--red)" id="worstDow">0</span></div>
+    `;
+  }
+
+  Dashboard.atualizarSidebarStats = function(dados) {
+    const diasOperados = dados.filter(d => d.trades > 0);
+    const nasdaq = diasOperados.map(d => Number(d.pontosNasdaq || 0));
+    const dow = diasOperados.map(d => Number(d.pontosDow || 0));
+
+    const bestNasdaq = nasdaq.length ? Math.max(...nasdaq) : 0;
+    const bestDow = dow.length ? Math.max(...dow) : 0;
+    const worstNasdaq = nasdaq.length ? Math.min(...nasdaq) : 0;
+    const worstDow = dow.length ? Math.min(...dow) : 0;
+
+    const bestNasdaqEl = document.getElementById('bestNasdaq');
+    const bestDowEl = document.getElementById('bestDow');
+    const worstNasdaqEl = document.getElementById('worstNasdaq');
+    const worstDowEl = document.getElementById('worstDow');
+
+    if (bestNasdaqEl) bestNasdaqEl.textContent = bestNasdaq > 0 ? `+${bestNasdaq}` : `${bestNasdaq}`;
+    if (bestDowEl) bestDowEl.textContent = bestDow > 0 ? `+${bestDow}` : `${bestDow}`;
+    if (worstNasdaqEl) worstNasdaqEl.textContent = `${worstNasdaq}`;
+    if (worstDowEl) worstDowEl.textContent = `${worstDow}`;
+  };
 })();
 </script>
 <script src="theme.js"></script>
