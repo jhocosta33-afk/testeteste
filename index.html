@@ -3095,85 +3095,138 @@ body.light-theme .site-footer .footer-bottom p {
   .main-content {
     padding: 12px !important;
   }
+  .dashboard-row-top,
+  .dashboard-row-middle {
+    grid-template-columns: minmax(0, 1.1fr) minmax(145px, 0.9fr) !important;
+    align-items: start !important;
+  }
+  .dashboard-left-top,
+  .dashboard-left-middle,
+  .dashboard-right-top,
+  .dashboard-right-middle {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
   .welcome-top {
     align-items: flex-start;
   }
   .welcome-icon {
-    width: 50px !important;
-    height: 50px !important;
+    width: 44px !important;
+    height: 44px !important;
   }
   .welcome-text h2 {
-    font-size: 21px !important;
+    font-size: 18px !important;
   }
   .welcome-text p {
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
   .kpi-row,
   .kpi-secondary-row {
-    grid-template-columns: 1fr !important;
-  }
-  .kpi-value {
-    font-size: 1.9rem !important;
-  }
-  .chart-wrap {
-    height: 220px !important;
-  }
-  .ring-container {
-    width: 156px !important;
-    height: 156px !important;
-  }
-  .ring-pct {
-    font-size: 34px !important;
-  }
-  .ring-stat-row {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 6px;
-  }
-  .ring-stat-inline {
-    grid-template-columns: 20px 56px 18px 20px 56px !important;
-    justify-content: flex-start !important;
-    font-size: 14px !important;
-    column-gap: 8px !important;
-  }
-  .contratos-control {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
   }
-  .btn-control {
-    width: 36px !important;
-    height: 36px !important;
+  .kpi-value {
+    font-size: 1.6rem !important;
   }
-  .valor-contratos {
-    min-width: 78px !important;
-    font-size: 27px !important;
-  }
-  .contratos-card .currency-pill {
-    padding: 8px 10px !important;
-  }
-  .contratos-card .currency-pill > span:first-child {
+  .kpi-label {
     font-size: 10px !important;
   }
-  .contratos-card .currency-pill > span:last-child {
+  .kpi-sub {
+    font-size: 10px !important;
+  }
+  .chart-wrap {
+    height: 210px !important;
+  }
+  .ring-container {
+    width: 132px !important;
+    height: 132px !important;
+  }
+  .ring-pct {
+    font-size: 28px !important;
+  }
+  .ring-stat-row {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px;
+  }
+  .ring-stat-inline {
+    grid-template-columns: 16px 42px 12px 16px 42px !important;
+    justify-content: flex-end !important;
     font-size: 12px !important;
+    column-gap: 6px !important;
+  }
+  .contratos-control {
+    gap: 8px !important;
+  }
+  .btn-control {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 20px !important;
+  }
+  .valor-contratos {
+    min-width: 62px !important;
+    font-size: 22px !important;
+    padding: 7px 12px !important;
+  }
+  .contratos-card .currency-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  .contratos-card .currency-pill {
+    padding: 7px 8px !important;
+    gap: 6px !important;
+  }
+  .contratos-card .currency-pill > span:first-child {
+    font-size: 9px !important;
+  }
+  .contratos-card .currency-pill > span:last-child {
+    font-size: 11px !important;
   }
   .calendar-header-row {
-    font-size: 9px !important;
+    font-size: 8px !important;
+  }
+  .calendar-card {
+    overflow-x: visible !important;
+  }
+  .calendar-title-row {
+    min-width: 0 !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .calendar-header-row,
+  .calendar-grid {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  .calendar-grid {
+    gap: 3px !important;
   }
   .day {
-    min-height: 88px !important;
+    min-height: 66px !important;
+    padding: 4px 3px 18px !important;
+    border-radius: 10px !important;
   }
   .day-number {
-    font-size: 9px !important;
+    font-size: 8px !important;
   }
   .day-points {
-    font-size: 15px !important;
+    font-size: 11px !important;
+    margin: 1px 0 !important;
   }
   .day-info {
+    font-size: 7px !important;
+    line-height: 1.22 !important;
+  }
+  .back-to-months-btn {
+    padding: 5px 8px !important;
     font-size: 9px !important;
   }
   .card-title,
   .table-card .card-title {
-    font-size: 16px !important;
+    font-size: 15px !important;
   }
 }
 </style>
