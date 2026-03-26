@@ -2078,6 +2078,54 @@ Dashboard.init();
 document.getElementById('tradePhotoModal')?.addEventListener('click',(e)=>{if(e.target.id==='tradePhotoModal')Dashboard.fecharModal();});
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape')Dashboard.fecharModal();});
 </script>
+<script>
+const DASHBOARD_FALLBACK_CONFIG = {
+  sheets_spreadsheet_id: '1iawimQW3a9bWC4-pTJxvnu3ED62AcN-TjthXwpaIQ10',
+  sheets_tab_name: 'atual dashboard NASDAQ'
+};
+
+(async function repararCarregamentoDashboard() {
+  try {
+    if (Array.isArray(window.Dashboard?.dados) && window.Dashboard.dados.length > 0) return;
+
+    if (window._supabase) {
+      const { data, error } = await window._supabase
+        .from('config')
+        .select('*')
+        .eq('id', 'public')
+        .single();
+
+      if (!error && data) {
+        const configPublica = (data && typeof data.data === 'object' && data.data !== null)
+          ? { ...data, ...data.data }
+          : data;
+
+        CSV_URL = CSV_URL || configPublica.csv_url || null;
+        GOOGLE_DRIVE_FOLDER_ID = GOOGLE_DRIVE_FOLDER_ID || configPublica.drive_folder_id || null;
+        SHEETS_API_KEY = SHEETS_API_KEY || configPublica.sheets_api_key || null;
+        SHEETS_SPREADSHEET_ID = SHEETS_SPREADSHEET_ID || configPublica.sheets_spreadsheet_id || null;
+        SHEETS_TAB_NAME = SHEETS_TAB_NAME || configPublica.sheets_tab_name || null;
+      }
+    }
+
+    SHEETS_SPREADSHEET_ID = SHEETS_SPREADSHEET_ID || DASHBOARD_FALLBACK_CONFIG.sheets_spreadsheet_id;
+    SHEETS_TAB_NAME = SHEETS_TAB_NAME || DASHBOARD_FALLBACK_CONFIG.sheets_tab_name;
+
+    if ((SHEETS_API_KEY && SHEETS_SPREADSHEET_ID) || CSV_URL) {
+      await window.Dashboard.carregarDados();
+      window.Dashboard.atualizar();
+      window.Dashboard.atualizarPerformanceIndicator();
+    } else {
+      console.warn('Nenhuma fonte de dados configurada para o dashboard.');
+    }
+  } catch (err) {
+    console.error('Falha ao reparar o carregamento do dashboard:', err);
+  } finally {
+    const loading = document.getElementById('loading');
+    if (loading) loading.classList.add('hidden');
+  }
+})();
+</script>
 <script src="theme.js"></script>
 </body>
 </html>
