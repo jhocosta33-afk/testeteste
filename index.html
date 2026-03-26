@@ -2691,12 +2691,20 @@ body.light-theme .card-title {
 .dashboard-right-middle {
   justify-content: space-between;
 }
+.dashboard-right-top .ring-card,
+.dashboard-left-top .welcome-card {
+  height: 100%;
+}
+.dashboard-left-top .kpi-secondary-row {
+  align-self: stretch;
+}
 .ring-stat-inline {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 22px 64px 24px 22px 64px;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
-  width: 100%;
+  column-gap: 10px;
+  width: auto;
   white-space: nowrap;
   font-size: 15px;
   font-weight: 800;
@@ -2705,11 +2713,17 @@ body.light-theme .card-title {
 .ring-stat-inline .dj-label {
   font-size: 12px;
   color: var(--text-dim);
+  text-align: left;
 }
 .ring-stat-inline .nq-value { color: var(--green); }
 .ring-stat-inline .dj-value { color: var(--orange); }
 .ring-stat-inline .worst-value { color: var(--red); }
-.ring-stat-inline .spacer { display: inline-block; width: 34px; }
+.ring-stat-inline .nq-value,
+.ring-stat-inline .dj-value,
+.ring-stat-inline .worst-value {
+  text-align: left;
+}
+.ring-stat-inline .spacer { display: inline-block; width: 24px; }
 
 body.light-theme { background: linear-gradient(180deg, #eef2f7 0%, #e7edf6 100%); }
 body.light-theme::before { opacity: 0.1; }
@@ -2784,6 +2798,10 @@ body.light-theme .currency-pill {
 body.light-theme .filters-bar {
   background: rgba(255,255,255,0.96);
   box-shadow: 0 10px 28px rgba(166, 179, 201, 0.18);
+}
+.footer-row-label {
+  color: #6f8cb7;
+  font-size: 10px;
 }
 </style>
 <script>
