@@ -1731,16 +1731,25 @@ const Dashboard = {
     try {
       if(SHEETS_API_KEY&&SHEETS_SPREADSHEET_ID){
         const url=`https://youtube-upload-proxy.nasdaqpro7.workers.dev/sheets?spreadsheetId=${SHEETS_SPREADSHEET_ID}&range=${encodeURIComponent(SHEETS_TAB_NAME||'atual dashboard NASDAQ')}!A:I&apiKey=${SHEETS_API_KEY}`;
-        const resp=await fetch(url); const json=await resp.json();
-        if(json.success&&json.values){this.processarSheetsAPI(json.values);setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);return;}
+        const resp=await fetch(url);
+        if(resp.ok){
+          const json=await resp.json();
+          if(json.success&&json.values){this.processarSheetsAPI(json.values);setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);return;}
+        } else {
+          console.warn('Falha ao carregar planilha principal:', resp.status);
+        }
       }
-      if(!CSV_URL) throw new Error('CSV_URL não configurada');
+      if(!CSV_URL) {
+        console.warn('CSV_URL não configurada no carregamento inicial.');
+        document.getElementById('loading').classList.add('hidden');
+        return;
+      }
       const response=await fetch(CSV_URL+'&t='+Date.now());
       if(!response.ok) throw new Error('Erro ao carregar dados');
       this.processarCSV(await response.text());
       setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);
     } catch(erro) {
-      console.error('Erro:',erro); alert('Erro ao carregar dados.');
+      console.error('Erro:',erro);
       document.getElementById('loading').classList.add('hidden');
     }
   },
