@@ -1949,12 +1949,19 @@ const Dashboard = {
     for(let d=1;d<=ultimo.getDate();d++){
       const data=new Date(ano,mes,d), r=dados.find(x=>x.data.toDateString()===data.toDateString());
       const dayDiv=document.createElement('div'); dayDiv.className='day';
-      let pts="",info="";
+      let pts="",info="",infoExtra="";
       if(r){
         pts=r.pontos; if(pts>0)dayDiv.classList.add('positive'); if(pts<0)dayDiv.classList.add('negative');
-        let pl=`${r.trades}T`,sl=[];
-        if(r.gain>0)sl.push(`${r.gain}G`); if(r.stop>0)sl.push(`${r.stop}S`); if(r.zero>0)sl.push(`${r.zero}B`);
-        info=sl.length>0?`${pl} ${sl.join(' ')}`:pl;
+        const trades = Number(r.trades||0);
+        const gains = Number(r.gain||0);
+        const stops = Number(r.stop||0);
+        const zeros = Number(r.zero||0);
+        info = `${trades} ${trades===1?'trade':'trades'}`;
+        const detalhes = [];
+        if(gains>0) detalhes.push(`${gains} ${gains===1?'gain':'gains'}`);
+        if(stops>0) detalhes.push(`${stops} ${stops===1?'stop':'stops'}`);
+        if(zeros>0) detalhes.push(`${zeros} 0x0`);
+        infoExtra = detalhes.join(' • ');
         if(r.trades>0&&r.fotoId&&r.fotoId.toString().trim()!==''){dayDiv.classList.add('clickable');dayDiv.addEventListener('click',()=>{Dashboard.abrirModal(r);});}
       }
       let ptDisplay='';
@@ -1970,6 +1977,10 @@ const Dashboard = {
         }
       }
       dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
+      const infoHtml = r
+        ? `<div class="day-info">${info}</div>${infoExtra?`<div class="day-info">${infoExtra}</div>`:''}`
+        : '';
+      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
       grid.appendChild(dayDiv);
     }
   },
