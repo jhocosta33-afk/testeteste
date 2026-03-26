@@ -9,11 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-<script src="portal/firebase-config.js"></script>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="portal/supabase-config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
@@ -1201,13 +1199,28 @@ let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null, SHEETS_API_KEY = null, SHEETS
 
 async function carregarConfiguracoes() {
   try {
-    const doc = await db.collection('config').doc('public').get();
-    if (!doc.exists) throw new Error('config/public não encontrado no Firestore');
-    const data = doc.data();
-    CSV_URL = data.csv_url; GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id;
-    SHEETS_API_KEY = data.sheets_api_key || null; SHEETS_SPREADSHEET_ID = data.sheets_spreadsheet_id || null;
-    SHEETS_TAB_NAME = data.sheets_tab_name || 'atual dashboard NASDAQ';
-  } catch (err) { console.error('Erro configurações:', err); alert('❌ Erro ao carregar configurações.'); }
+    // Aguarda Supabase estar pronto
+    await new Promise(resolve => {
+      if (window._supabase) return resolve();
+      document.addEventListener('supabase-ready', resolve, { once: true });
+      setTimeout(resolve, 5000);
+    });
+    if (!window._supabase) throw new Error('Supabase não inicializado');
+    const { data, error } = await window._supabase
+      .from('config')
+      .select('*')
+      .eq('id', 'public')
+      .single();
+    if (error || !data) throw new Error(error?.message || 'config/public não encontrado');
+    CSV_URL                = data.csv_url              || null;
+    GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id      || null;
+    SHEETS_API_KEY         = data.sheets_api_key        || null;
+    SHEETS_SPREADSHEET_ID  = data.sheets_spreadsheet_id || null;
+    SHEETS_TAB_NAME        = data.sheets_tab_name       || 'atual dashboard NASDAQ';
+  } catch (err) {
+    console.error('Erro configurações:', err);
+    alert('❌ Erro ao carregar configurações. Verifique o Supabase.');
+  }
 }
 
 const nomesMeses = {"01":"Janeiro","02":"Fevereiro","03":"Março","04":"Abril","05":"Maio","06":"Junho","07":"Julho","08":"Agosto","09":"Setembro","10":"Outubro","11":"Novembro","12":"Dezembro"};
@@ -1219,26 +1232,24 @@ const Dashboard = {
 
   async init() {
     this.carregarTema();
-    await new Promise(resolve => {
-      if (typeof db !== 'undefined') return resolve();
-      const check = setInterval(() => { if (typeof db !== 'undefined') { clearInterval(check); resolve(); } }, 50);
-      setTimeout(() => { clearInterval(check); resolve(); }, 5000);
-    });
     await carregarConfiguracoes();
     await this.carregarDados();
     this.atualizarPerformanceIndicator();
     this.inicializarConversorMoeda();
     this.inicializarGestosMobile();
+    // Verifica se é admin no Supabase
     try {
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          const uDoc = await db.collection('users').doc(user.uid).get();
-          if (uDoc.exists && uDoc.data().role === 'admin') {
+      if (window._supabase) {
+        const { data: { session } } = await window._supabase.auth.getSession();
+        if (session?.user) {
+          const { data: uData } = await window._supabase
+            .from('users').select('role').eq('id', session.user.id).single();
+          if (uData?.role === 'admin') {
             const btn = document.getElementById('pdfReportBtn');
             if (btn) btn.style.visibility = 'visible';
           }
         }
-      });
+      }
     } catch(e) {}
   },
 
