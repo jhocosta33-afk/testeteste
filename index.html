@@ -1297,20 +1297,6 @@ body.light-theme .theme-toggle {
     <select id="filtroAno" class="filter-select"></select>
     <select id="filtroMes" class="filter-select"></select>
     <select id="filtroSemana" class="filter-select"></select>
-    <div class="stats-pills">
-      <div class="stat-pill">
-        <span class="stat-pill-label">Assertividade</span>
-        <span class="stat-pill-value" id="sidebarWinRate">0%</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-pill-label">Melhor Dia</span>
-        <span class="stat-pill-value" id="sidebarBestDay" style="color:var(--green)">0</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-pill-label">Pior Dia</span>
-        <span class="stat-pill-value" id="sidebarWorstDay">0</span>
-      </div>
-    </div>
   </div>
  
   <!-- CONTEÚDO PRINCIPAL -->
@@ -1430,20 +1416,12 @@ body.light-theme .theme-toggle {
             </div>
             <div class="ring-stats">
               <div class="ring-stat-row">
-                <span>Gains</span>
-                <span style="color:var(--green)" id="rGains">0</span>
+                <span>Melhor Dia</span>
+                <span style="color:var(--green)" id="sidebarBestDay">0</span>
               </div>
               <div class="ring-stat-row">
-                <span>Stops</span>
-                <span style="color:var(--red)" id="rStops">0</span>
-              </div>
-              <div class="ring-stat-row">
-                <span>Breakeven</span>
-                <span style="color:var(--yellow)" id="rZero">0</span>
-              </div>
-              <div class="ring-stat-row">
-                <span>Total Operações</span>
-                <span id="rTotal">0</span>
+                <span>Pior Dia</span>
+                <span style="color:var(--red)" id="sidebarWorstDay">0</span>
               </div>
             </div>
           </div>
@@ -1861,13 +1839,9 @@ const Dashboard = {
     this.atualizarValorReal();
   },
  
-  atualizarRing(ass, gains, stops, zero, total) {
+  atualizarRing(ass) {
     const pct = document.getElementById('ringPct');
     const ring = document.getElementById('ringProgress');
-    const rG = document.getElementById('rGains');
-    const rS = document.getElementById('rStops');
-    const rZ = document.getElementById('rZero');
-    const rT = document.getElementById('rTotal');
     if(pct) pct.textContent = ass + '%';
     if(ring) {
       const circumference = 2 * Math.PI * 65; // ~408.4
@@ -1875,10 +1849,6 @@ const Dashboard = {
       ring.style.strokeDasharray = circumference;
       ring.style.strokeDashoffset = offset;
     }
-    if(rG) rG.textContent = gains;
-    if(rS) rS.textContent = stops;
-    if(rZ) rZ.textContent = zero;
-    if(rT) rT.textContent = total;
   },
  
   atualizarSidebarStats(dados) {
@@ -2140,13 +2110,13 @@ const DASHBOARD_FALLBACK_CONFIG = {
 <style>
 /* Segunda passada visual: mais claro, mais elegante, menos "tech pesado" */
 .topbar {
-  padding: 20px 30px;
+  padding: 16px 24px;
 }
 .topbar-left {
   gap: 18px;
 }
 .topbar-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   opacity: 0.92;
 }
@@ -2155,8 +2125,8 @@ const DASHBOARD_FALLBACK_CONFIG = {
   border-radius: 16px;
 }
 .tab-btn {
-  min-height: 42px;
-  font-size: 13px;
+  min-height: 38px;
+  font-size: 12px;
   font-weight: 700;
 }
 .topbar-right {
@@ -2164,97 +2134,93 @@ const DASHBOARD_FALLBACK_CONFIG = {
 }
 .portal-btn,
 .topbar-btn {
-  min-height: 40px;
-  padding: 9px 15px;
-  border-radius: 12px;
+  min-height: 38px;
+  padding: 8px 13px;
+  border-radius: 11px;
   font-weight: 700;
 }
 .theme-toggle {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
 }
 
 .filters-bar {
-  gap: 14px;
-  padding: 16px 30px 18px;
+  gap: 12px;
+  padding: 12px 24px 14px;
 }
 .filter-select {
-  min-width: 156px;
-  min-height: 42px;
-  border-radius: 12px;
-  font-size: 13px;
+  min-width: 170px;
+  min-height: 38px;
+  border-radius: 10px;
+  font-size: 12px;
   font-weight: 700;
-}
-.stats-pills {
-  gap: 10px;
-}
-.stat-pill {
-  min-height: 34px;
-  padding: 7px 14px;
-  border-radius: 999px;
-}
-.stat-pill-value {
-  font-size: 14px;
+  padding: 8px 38px 8px 14px;
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 11px 11px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .main-content {
-  padding: 30px;
+  padding: 24px;
 }
 .dashboard-grid {
-  gap: 22px;
+  gap: 18px;
   grid-template-columns: minmax(0, 1.28fr) minmax(320px, 0.72fr);
 }
 .col-left,
 .col-right {
-  gap: 22px;
+  gap: 18px;
 }
 
 .welcome-card {
-  padding: 32px;
-  border-radius: 26px;
+  padding: 26px;
+  border-radius: 22px;
 }
 .welcome-top {
-  margin-bottom: 26px;
+  margin-bottom: 20px;
 }
 .welcome-icon {
-  width: 66px;
-  height: 66px;
-  font-size: 28px;
-  border-radius: 20px;
+  width: 58px;
+  height: 58px;
+  font-size: 24px;
+  border-radius: 18px;
 }
 .welcome-text h2,
 body.light-theme .welcome-text h2 {
-  font-size: 44px;
+  font-size: 36px;
   line-height: 1.02;
 }
 .welcome-text p {
-  font-size: 16px;
+  font-size: 14px;
   color: rgba(224,232,243,0.68);
 }
 .kpi-row {
-  gap: 18px;
+  gap: 14px;
 }
 .kpi-box {
-  min-height: 126px;
-  padding: 20px 20px 18px;
+  min-height: 108px;
+  padding: 16px 16px 14px;
 }
 .kpi-label,
 body.light-theme .kpi-label {
-  font-size: 12px;
+  font-size: 10px;
 }
 .kpi-value {
-  font-size: clamp(2.25rem, 3.3vw, 3rem);
+  font-size: clamp(2rem, 2.8vw, 2.5rem);
 }
 .kpi-sub {
-  font-size: 12px;
-  margin-top: 10px;
+  font-size: 11px;
+  margin-top: 8px;
 }
 
 .kpi-secondary-row {
-  gap: 18px;
+  gap: 14px;
 }
 .kpi-secondary-row .kpi-box {
-  min-height: 104px;
+  min-height: 92px;
 }
 
 .chart-card,
@@ -2263,70 +2229,70 @@ body.light-theme .kpi-label {
 .dist-card,
 .calendar-card,
 .table-card {
-  border-radius: 24px;
+  border-radius: 22px;
 }
 .chart-card {
-  padding: 26px 28px 22px;
+  padding: 22px 24px 20px;
 }
 .chart-wrap {
-  height: 300px;
+  height: 270px;
 }
 
 .ring-card {
-  padding: 26px 26px 24px;
+  padding: 22px 24px 20px;
 }
 .ring-container {
-  width: 196px;
-  height: 196px;
-  margin: 6px auto 18px;
+  width: 176px;
+  height: 176px;
+  margin: 6px auto 14px;
 }
 .ring-pct {
-  font-size: 46px;
+  font-size: 38px;
 }
 .ring-stat-row {
-  padding: 12px 2px;
-  font-size: 13px;
+  padding: 10px 2px;
+  font-size: 12px;
 }
 
 .contratos-card {
-  padding: 26px;
+  padding: 22px 24px;
 }
 .valor-contratos {
-  min-width: 88px;
-  min-height: 54px;
+  min-width: 78px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 34px;
+  font-size: 30px;
 }
 .btn-control {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
 }
 .currency-pill {
-  min-height: 32px;
+  min-height: 30px;
   padding: 6px 12px;
   border-radius: 999px;
 }
 
 .dist-card {
-  padding: 26px;
+  padding: 22px 24px;
 }
 .dist-chart-wrap {
-  height: 220px;
+  height: 190px;
 }
 
 .card-title,
 body.light-theme .card-title {
-  font-size: 14px;
-  margin-bottom: 20px;
+  font-size: 13px;
+  margin-bottom: 16px;
 }
 
 @media(max-width:1200px) {
   .welcome-text h2,
   body.light-theme .welcome-text h2 {
-    font-size: 36px;
+    font-size: 30px;
   }
 }
 
@@ -2341,14 +2307,14 @@ body.light-theme .card-title {
     gap: 18px;
   }
   .welcome-card {
-    padding: 24px;
+    padding: 22px;
   }
   .welcome-text h2,
   body.light-theme .welcome-text h2 {
-    font-size: 32px;
+    font-size: 28px;
   }
   .chart-wrap {
-    height: 250px;
+    height: 230px;
   }
 }
 
