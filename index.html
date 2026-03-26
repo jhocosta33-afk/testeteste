@@ -9,9 +9,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="portal/supabase-config.js"></script>
+<!-- Supabase via unpkg (evita bloqueio de tracking) -->
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+/* Tenta carregar supabase-config da pasta portal/, depois da raiz */
+(function(){
+  function tryLoad(paths, idx) {
+    if (idx >= paths.length) {
+      console.error('supabase-config.js não encontrado em nenhum caminho');
+      return;
+    }
+    var s = document.createElement('script');
+    s.src = paths[idx] + '?v=' + Date.now();
+    s.onerror = function() { tryLoad(paths, idx + 1); };
+    document.head.appendChild(s);
+  }
+  tryLoad(['portal/supabase-config.js', 'supabase-config.js'], 0);
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
