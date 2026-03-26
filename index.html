@@ -1308,6 +1308,7 @@ body.light-theme .theme-toggle {
  
         <!-- COLUNA ESQUERDA -->
         <div class="col-left">
+          <div class="dashboard-top-left">
  
           <!-- Card boas-vindas + KPIs principais -->
           <div class="glass-card welcome-card">
@@ -1358,6 +1359,8 @@ body.light-theme .theme-toggle {
           </div>
  
           <!-- Gráfico de performance -->
+          </div>
+
           <div class="glass-card chart-card">
             <div class="card-title">Evolução de Performance</div>
             <div class="chart-wrap">
@@ -1377,7 +1380,7 @@ body.light-theme .theme-toggle {
               </table>
             </div>
           </div>
- 
+
         </div><!-- /col-left -->
  
         <!-- COLUNA DIREITA -->
@@ -2349,8 +2352,29 @@ body.light-theme .card-title {
   grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
   align-items: start;
 }
+.dashboard-top-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.dashboard-bottom-right {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+}
 .dashboard-calendar-row {
   margin-top: 18px;
+}
+.dashboard-table-row {
+  margin-top: 18px;
+}
+
+.col-left,
+.col-right {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  align-items: start;
 }
 
 .ring-card {
@@ -2448,6 +2472,11 @@ body.light-theme .card-title {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
+  .dashboard-bottom-right,
+  .col-left,
+  .col-right {
+    grid-template-rows: auto;
+  }
   .chart-wrap {
     height: 260px;
   }
@@ -2462,6 +2491,56 @@ body.light-theme .card-title {
   }
 }
 </style>
+<script>
+(function organizarLayoutDashboard() {
+  const content = document.getElementById('contentDashboard');
+  if (!content) return;
+
+  const grid = content.querySelector('.dashboard-grid');
+  const colLeft = grid?.querySelector('.col-left');
+  const colRight = grid?.querySelector('.col-right');
+  if (!grid || !colLeft || !colRight) return;
+
+  const welcomeCard = colLeft.querySelector('.welcome-card');
+  const secondaryRow = colLeft.querySelector('.kpi-secondary-row');
+  const chartCard = colLeft.querySelector('.chart-card');
+  const tableCard = colLeft.querySelector('.table-card');
+  const contractsCard = colRight.querySelector('.contratos-card');
+  const distCard = colRight.querySelector('.dist-card');
+  const calendarRow = content.querySelector('.dashboard-calendar-row');
+
+  let topLeft = colLeft.querySelector('.dashboard-top-left');
+  if (!topLeft) {
+    topLeft = document.createElement('div');
+    topLeft.className = 'dashboard-top-left';
+    colLeft.insertBefore(topLeft, colLeft.firstChild);
+  }
+
+  if (welcomeCard) topLeft.appendChild(welcomeCard);
+  if (secondaryRow) topLeft.appendChild(secondaryRow);
+  if (chartCard) colLeft.appendChild(chartCard);
+
+  let bottomRight = colRight.querySelector('.dashboard-bottom-right');
+  if (!bottomRight) {
+    bottomRight = document.createElement('div');
+    bottomRight.className = 'dashboard-bottom-right';
+    colRight.appendChild(bottomRight);
+  }
+
+  if (contractsCard) bottomRight.appendChild(contractsCard);
+  if (distCard) bottomRight.appendChild(distCard);
+
+  if (tableCard && calendarRow) {
+    let tableRow = content.querySelector('.dashboard-table-row');
+    if (!tableRow) {
+      tableRow = document.createElement('div');
+      tableRow.className = 'dashboard-table-row';
+      calendarRow.insertAdjacentElement('afterend', tableRow);
+    }
+    tableRow.appendChild(tableCard);
+  }
+})();
+</script>
 <script src="theme.js"></script>
 </body>
 </html>
