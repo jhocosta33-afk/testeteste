@@ -2799,15 +2799,34 @@ body.light-theme .filters-bar {
   background: rgba(255,255,255,0.96);
   box-shadow: 0 10px 28px rgba(166, 179, 201, 0.18);
 }
-.footer-row-label {
-  color: #6f8cb7;
-  font-size: 10px;
+.performance-indicator {
+  display: none !important;
+}
+.site-footer .footer-row-label {
+  color: #8ea9d1;
+  font-size: 11px;
+  font-weight: 700;
+}
+.site-footer .mesa-footer-name,
+.site-footer .footer-bottom p {
+  color: #9db2d3;
+}
+.site-footer .footer-row,
+.site-footer .footer-bottom {
+  border-color: rgba(120, 150, 210, 0.18);
+}
+body.light-theme .site-footer .footer-row-label {
+  color: #627aa0;
+}
+body.light-theme .site-footer .mesa-footer-name,
+body.light-theme .site-footer .footer-bottom p {
+  color: #586d8b;
 }
 </style>
 <script>
 (function ajustarCalculadoraContratos() {
   const pills = document.querySelectorAll('.contratos-card .currency-pill');
-  const labels = ['Nasdaq', 'Dow Jones', 'Nasdaq', 'Dow Jones'];
+  const labels = ['NQ', 'DJ', 'NQ', 'DJ'];
   pills.forEach((pill, index) => {
     const spans = pill.querySelectorAll('span');
     if (!spans.length) return;
