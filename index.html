@@ -1572,8 +1572,11 @@ async function carregarConfiguracoes() {
       .eq('id', 'public')
       .single();
     if (error || !data) throw new Error(error?.message || 'config/public não encontrado');
-    CSV_URL                = data.csv_url              || null;
-    GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id      || null;
+    const configPublica = (data && typeof data.data === 'object' && data.data !== null)
+      ? { ...data, ...data.data }
+      : data;
+    CSV_URL                = configPublica.csv_url         || null;
+    GOOGLE_DRIVE_FOLDER_ID = configPublica.drive_folder_id || null;
   } catch (err) {
     console.error('Erro configurações:', err);
     alert('❌ Erro ao carregar configurações. Verifique o Supabase.');
@@ -1591,6 +1594,11 @@ const Dashboard = {
     this.carregarTema();
     await carregarConfiguracoes();
     await this.carregarDados();
+    if (!Array.isArray(this.dados) || this.dados.length === 0) {
+      await new Promise(resolve => setTimeout(resolve, 700));
+      await carregarConfiguracoes();
+      await this.carregarDados();
+    }
     this.atualizarPerformanceIndicator();
     this.inicializarConversorMoeda();
     this.inicializarGestosMobile();
