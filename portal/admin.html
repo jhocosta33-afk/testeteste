@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <title>Admin | Dashboard NASDAQ PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* ══ TEMA COMPARTILHADO NasdaqPro ══ */
+/* â•â• TEMA COMPARTILHADO NasdaqPro â•â• */
 :root {
   --bg: #050711;
   --card: #0f1420;
@@ -181,14 +181,14 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
 <header>
   <div class="header-left">
-    <span class="logo">👑</span>
+    <span class="logo">ðŸ‘‘</span>
     <h1>Painel Admin</h1>
   </div>
   <div class="user-info">
-    <a href="../" style="display:inline-block;background:rgba(255,255,255,0.1);color:var(--text);border:1px solid var(--border);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;margin-right:12px;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">📊 Dashboard</a>
-    <button id="btnConectarYT" onclick="autenticarYouTube()" style="display:none;background:#ff0000;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">🔗 Conectar YouTube</button>
-    <button id="btnVisualizacao" onclick="alternarVisualizacao()" title="Alternar visualização" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);color:var(--blue);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;margin-right:8px;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">👁 Ver como Aluno</button>
-    <button class="theme-toggle-btn" onclick="NasTheme.toggle()" title="Alternar tema"><span id="themeIcon">🌙</span></button>
+    <a href="../" style="display:inline-block;background:rgba(255,255,255,0.1);color:var(--text);border:1px solid var(--border);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;margin-right:12px;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">ðŸ“Š Dashboard</a>
+    <button id="btnConectarYT" onclick="autenticarYouTube()" style="display:none;background:#ff0000;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">ðŸ”— Conectar YouTube</button>
+    <button id="btnVisualizacao" onclick="alternarVisualizacao()" title="Alternar visualizaÃ§Ã£o" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);color:var(--blue);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;margin-right:8px;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">ðŸ‘ Ver como Aluno</button>
+    <button class="theme-toggle-btn" onclick="NasTheme.toggle()" title="Alternar tema"><span id="themeIcon">ðŸŒ™</span></button>
     <div id="adminAvatarHeader" onclick="abrirPerfilAdmin()" title="Editar perfil" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;cursor:pointer;overflow:hidden;border:2px solid transparent;transition:all .2s;flex-shrink:0;">
       <span id="adminAvatarLetra">A</span>
     </div>
@@ -199,35 +199,35 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
 <div class="container">
   <div class="tabs" id="tabsBar" style="visibility:hidden;">
-    <button class="tab active" id="tabPosts" onclick="switchTab('posts')">📝 Posts</button>
-    <button class="tab" id="tabAprovacoes" onclick="switchTab('aprovacoes')">✅ Aprovar Alunos</button>
-    <button class="tab" id="tabPlanilha" onclick="switchTab('planilha')">📊 Planilha & Fotos</button>
-    <button class="tab tab-superadmin" id="tabAdmins" onclick="switchTab('admins')" style="display:none;">👑 Administradores</button>
+    <button class="tab active" id="tabPosts" onclick="switchTab('posts')">ðŸ“ Posts</button>
+    <button class="tab" id="tabAprovacoes" onclick="switchTab('aprovacoes')">âœ… Aprovar Alunos</button>
+    <button class="tab" id="tabPlanilha" onclick="switchTab('planilha')">ðŸ“Š Planilha & Fotos</button>
+    <button class="tab tab-superadmin" id="tabAdmins" onclick="switchTab('admins')" style="display:none;">ðŸ‘‘ Administradores</button>
   </div>
 
   <!-- POSTS -->
   <div id="posts-section" class="section active">
     <div class="card">
-      <h2>✨ Criar Novo Post</h2>
+      <h2>âœ¨ Criar Novo Post</h2>
       <div id="alert-post" class="alert"></div>
       <form id="formPost">
         <div class="form-group">
-          <label>Título</label>
-          <input type="text" id="postTitulo" placeholder="Ex: Análise semanal do NASDAQ" required>
+          <label>TÃ­tulo</label>
+          <input type="text" id="postTitulo" placeholder="Ex: AnÃ¡lise semanal do NASDAQ" required>
         </div>
         <div class="form-group">
-          <label>Descrição (opcional)</label>
-          <textarea id="postTexto" placeholder="Escreva uma descrição para o post..."></textarea>
+          <label>DescriÃ§Ã£o (opcional)</label>
+          <textarea id="postTexto" placeholder="Escreva uma descriÃ§Ã£o para o post..."></textarea>
         </div>
         <div class="form-group">
           <label>Categoria</label>
           <select id="postCategoria">
-            <option value="sala-ao-vivo">🔴 Sala ao Vivo</option>
-            <option value="materiais">📚 Materiais</option>
-            <option value="analise">📈 Análise</option>
-            <option value="tutorial">🎓 Tutorial</option>
-            <option value="noticia">📰 Notícia</option>
-            <option value="link">🔗 Link Útil</option>
+            <option value="sala-ao-vivo">ðŸ”´ Sala ao Vivo</option>
+            <option value="materiais">ðŸ“š Materiais</option>
+            <option value="analise">ðŸ“ˆ AnÃ¡lise</option>
+            <option value="tutorial">ðŸŽ“ Tutorial</option>
+            <option value="noticia">ðŸ“° NotÃ­cia</option>
+            <option value="link">ðŸ”— Link Ãštil</option>
           </select>
         </div>
         <div class="form-group">
@@ -235,16 +235,16 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
           <input type="url" id="postLink" placeholder="https://exemplo.com">
         </div>
         <div class="form-group">
-          <label>Arquivo/Mídia (opcional)</label>
+          <label>Arquivo/MÃ­dia (opcional)</label>
           <div class="upload-area" id="uploadAreaUniversal">
             <input type="file" id="postArquivo" accept="*" style="display:none">
             <div id="uploadPlaceholderUniversal">
-              <span style="font-size:64px">📎</span>
-              <p><strong>Arraste arquivos aqui</strong> (múltiplos permitidos)<br>ou clique para selecionar</p>
+              <span style="font-size:64px">ðŸ“Ž</span>
+              <p><strong>Arraste arquivos aqui</strong> (mÃºltiplos permitidos)<br>ou clique para selecionar</p>
             </div>
             <div id="uploadPreviewUniversal" style="display:none;">
               <div id="previewContent"></div>
-              <button type="button" class="btn-remove-image" onclick="removerArquivoUniversal()">❌ Remover</button>
+              <button type="button" class="btn-remove-image" onclick="removerArquivoUniversal()">âŒ Remover</button>
             </div>
             <div id="uploadProgressUniversal" style="display:none;">
               <div class="spinner"></div>
@@ -264,28 +264,28 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     </div>
 
     <div class="card">
-      <h2>📚 Posts Publicados</h2>
+      <h2>ðŸ“š Posts Publicados</h2>
       <div id="posts-list" class="posts-list">
         <div class="loading"><div class="spinner"></div><p>Carregando posts...</p></div>
       </div>
     </div>
   </div>
 
-  <!-- APROVAÇÕES -->
+  <!-- APROVAÃ‡Ã•ES -->
   <div id="aprovacoes-section" class="section">
 
     <!-- Stats bar -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
       <div class="card" style="padding:16px 20px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:var(--blue);" id="stat-total">–</div>
+        <div style="font-size:28px;font-weight:900;color:var(--blue);" id="stat-total">â€“</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Total de Alunos</div>
       </div>
       <div class="card" style="padding:16px 20px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:var(--green);" id="stat-aprovados">–</div>
+        <div style="font-size:28px;font-weight:900;color:var(--green);" id="stat-aprovados">â€“</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Aprovados</div>
       </div>
       <div class="card" style="padding:16px 20px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:#f97316;" id="stat-pendentes">–</div>
+        <div style="font-size:28px;font-weight:900;color:#f97316;" id="stat-pendentes">â€“</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Pendentes</div>
       </div>
     </div>
@@ -296,7 +296,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       <!-- Pendentes (coluna esquerda) -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-          <h2 style="margin:0;">👥 Pendentes</h2>
+          <h2 style="margin:0;">ðŸ‘¥ Pendentes</h2>
           <span id="badge-pendentes" style="background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.3);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;">0 aguardando</span>
         </div>
         <div id="alert-aprovacao" class="alert"></div>
@@ -306,14 +306,14 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       <!-- Aprovados com busca (coluna direita) -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-          <h2 style="margin:0;">✅ Aprovados</h2>
+          <h2 style="margin:0;">âœ… Aprovados</h2>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <span id="badge-aprovados" style="background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.2);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;">0 alunos</span>
-            <button onclick="exportarAlunos()" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.2);color:var(--blue);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">📥 CSV</button>
+            <button onclick="exportarAlunos()" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.2);color:var(--blue);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">ðŸ“¥ CSV</button>
           </div>
         </div>
         <div style="margin-bottom:16px;">
-          <input type="text" id="buscaAlunos" placeholder="🔍  Buscar por nome ou e-mail..." oninput="filtrarAlunos(this.value)"
+          <input type="text" id="buscaAlunos" placeholder="ðŸ”  Buscar por nome ou e-mail..." oninput="filtrarAlunos(this.value)"
             style="width:100%;padding:10px 16px;background:rgba(99,102,241,0.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;transition:all .2s;outline:none;"
             onfocus="this.style.borderColor='var(--blue)';this.style.background='rgba(99,102,241,0.1)'"
             onblur="this.style.borderColor='var(--border)';this.style.background='rgba(99,102,241,0.06)'">
@@ -328,16 +328,16 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   <!-- PLANILHA & FOTOS -->
   <div id="planilha-section" class="section">
     <div class="card">
-      <h2>📊 Registrar Trade do Dia</h2>
-      <p style="color:var(--text-muted);margin-bottom:16px;">Preencha os dados e a planilha será atualizada automaticamente.</p>
+      <h2>ðŸ“Š Registrar Trade do Dia</h2>
+      <p style="color:var(--text-muted);margin-bottom:16px;">Preencha os dados e a planilha serÃ¡ atualizada automaticamente.</p>
       <div id="alert-trade-data" class="alert"></div>
       <form id="formTradeData">
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
           <div class="form-group"><label>Dia</label><input type="number" id="diaData" min="1" max="31" required placeholder="12"></div>
           <div class="form-group">
-            <label>Mês</label>
+            <label>MÃªs</label>
             <select id="mesData" required>
-              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">MarÃ§o</option>
               <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
               <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
               <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
@@ -348,7 +348,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
         <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:16px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-            <span style="font-size:18px;">🔵</span>
+            <span style="font-size:18px;">ðŸ”µ</span>
             <strong style="font-size:15px;color:#60a5fa;">NASDAQ</strong>
             <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
               <input type="checkbox" id="nasOp" checked onchange="toggleAtivo('nas')"> Operado hoje
@@ -364,7 +364,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
         <div style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:16px;margin-bottom:16px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-            <span style="font-size:18px;">🟠</span>
+            <span style="font-size:18px;">ðŸŸ </span>
             <strong style="font-size:15px;color:#fb923c;">DOW JONES</strong>
             <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
               <input type="checkbox" id="dowOp" onchange="toggleAtivo('dow')"> Operado hoje
@@ -378,24 +378,24 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <div class="form-group"><label>0x0</label><input type="number" id="dowBreak" min="0" placeholder="Ex: 0"></div>
           </div>
         </div>
-        <button type="submit" class="btn" id="btnTradeData" style="margin-top:4px;width:100%;padding:14px;font-size:15px;">💾 Salvar na Planilha</button>
+        <button type="submit" class="btn" id="btnTradeData" style="margin-top:4px;width:100%;padding:14px;font-size:15px;">ðŸ’¾ Salvar na Planilha</button>
       </form>
       <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border);">
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">💡 Ver/editar a planilha completa:</p>
-        <a href="#" id="btnAbrirPlanilha" onclick="abrirPlanilhaDinamica(event)" target="_blank" class="btn btn-secondary" style="display:inline-block;padding:8px 16px;text-decoration:none;font-size:13px;">📊 Abrir no Google Sheets</a>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">ðŸ’¡ Ver/editar a planilha completa:</p>
+        <a href="#" id="btnAbrirPlanilha" onclick="abrirPlanilhaDinamica(event)" target="_blank" class="btn btn-secondary" style="display:inline-block;padding:8px 16px;text-decoration:none;font-size:13px;">ðŸ“Š Abrir no Google Sheets</a>
       </div>
     </div>
 
     <div class="card">
-      <h2>📸 Fotos dos Trades</h2>
+      <h2>ðŸ“¸ Fotos dos Trades</h2>
       <div id="alert-foto-trade" class="alert"></div>
       <form id="formFotoTrade">
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
           <div class="form-group"><label>Dia</label><input type="number" id="diaDoTrade" min="1" max="31" required placeholder="12"></div>
           <div class="form-group">
-            <label>Mês</label>
+            <label>MÃªs</label>
             <select id="mesDoTrade" required>
-              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">MarÃ§o</option>
               <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
               <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
               <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
@@ -408,13 +408,13 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
           <div class="upload-area" id="uploadAreaTrade" style="cursor:pointer;">
             <input type="file" id="fileInputTrade" accept="image/*" style="display:none">
             <div id="uploadPlaceholderTrade">
-              <span style="font-size:48px">📸</span>
+              <span style="font-size:48px">ðŸ“¸</span>
               <p><strong>Arraste a foto do trade aqui</strong><br>ou clique para selecionar</p>
-              <small style="color:var(--text-muted)">JPG, PNG até 10MB</small>
+              <small style="color:var(--text-muted)">JPG, PNG atÃ© 10MB</small>
             </div>
             <div id="uploadPreviewTrade" style="display:none">
               <img id="previewImgTrade" src="" alt="Preview" style="max-width:100%;max-height:300px;border-radius:8px;margin-bottom:12px;">
-              <button type="button" class="btn-remove" onclick="event.stopPropagation();removerImagemTrade()">✕ Remover</button>
+              <button type="button" class="btn-remove" onclick="event.stopPropagation();removerImagemTrade()">âœ• Remover</button>
             </div>
             <div id="uploadProgressTrade" style="display:none;text-align:center;padding:40px;">
               <div class="spinner"></div>
@@ -428,22 +428,22 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-  <!-- ADMINISTRADORES (só superadmin vê) -->
+  <!-- ADMINISTRADORES (sÃ³ superadmin vÃª) -->
   <div id="admins-section" class="section">
 
     <!-- Stats -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
       <div class="card" style="padding:16px 20px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:var(--blue);" id="stat-total-admins">–</div>
+        <div style="font-size:28px;font-weight:900;color:var(--blue);" id="stat-total-admins">â€“</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Total de Admins</div>
       </div>
       <div class="card" style="padding:16px 20px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:var(--green);" id="stat-admins-ativos">–</div>
+        <div style="font-size:28px;font-weight:900;color:var(--green);" id="stat-admins-ativos">â€“</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Ativos</div>
       </div>
       <div class="card" style="padding:16px 20px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:#f97316;" id="stat-admins-pendentes">–</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Alunos aprovados (elegíveis)</div>
+        <div style="font-size:28px;font-weight:900;color:#f97316;" id="stat-admins-pendentes">â€“</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Alunos aprovados (elegÃ­veis)</div>
       </div>
     </div>
 
@@ -451,25 +451,25 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
       <!-- Col esquerda: Promover aluno a admin -->
       <div class="card">
-        <h2 style="margin-bottom:4px;">➕ Promover Aluno a Admin</h2>
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Selecione um aluno aprovado e defina suas permissões.</p>
+        <h2 style="margin-bottom:4px;">âž• Promover Aluno a Admin</h2>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Selecione um aluno aprovado e defina suas permissÃµes.</p>
         <div id="alert-admins" class="alert"></div>
 
         <div class="form-group">
           <label>Selecionar Aluno</label>
           <select id="selectAlunoAdmin" style="width:100%;padding:10px 12px;background:rgba(99,102,241,0.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;">
-            <option value="">— Escolha um aluno aprovado —</option>
+            <option value="">â€” Escolha um aluno aprovado â€”</option>
           </select>
         </div>
 
         <div style="margin-bottom:16px;">
-          <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:10px;">🔐 Permissões</label>
+          <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:10px;">ðŸ” PermissÃµes</label>
           <div style="display:flex;flex-direction:column;gap:8px;" id="permissoesCheckboxes">
 
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_posts" value="posts" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">📝 Publicações</div>
+                <div style="font-size:13px;font-weight:700;">ðŸ“ PublicaÃ§Ãµes</div>
                 <div style="font-size:11px;color:var(--text-muted);">Criar e excluir posts</div>
               </div>
             </label>
@@ -477,15 +477,15 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_comentarios" value="comentarios" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">💬 Comentários</div>
-                <div style="font-size:11px;color:var(--text-muted);">Ver, responder e excluir comentários</div>
+                <div style="font-size:13px;font-weight:700;">ðŸ’¬ ComentÃ¡rios</div>
+                <div style="font-size:11px;color:var(--text-muted);">Ver, responder e excluir comentÃ¡rios</div>
               </div>
             </label>
 
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_alunos" value="alunos" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">👥 Aprovar Alunos</div>
+                <div style="font-size:13px;font-weight:700;">ðŸ‘¥ Aprovar Alunos</div>
                 <div style="font-size:11px;color:var(--text-muted);">Aprovar, rejeitar e revogar alunos</div>
               </div>
             </label>
@@ -493,7 +493,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_planilha" value="planilha" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">📊 Planilha & Fotos</div>
+                <div style="font-size:13px;font-weight:700;">ðŸ“Š Planilha & Fotos</div>
                 <div style="font-size:11px;color:var(--text-muted);">Registrar trades e enviar fotos</div>
               </div>
             </label>
@@ -501,8 +501,8 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_youtube" value="youtube" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">▶ YouTube</div>
-                <div style="font-size:11px;color:var(--text-muted);">Fazer upload de vídeos diretamente no YouTube (OAuth). Sem isso, ainda pode postar links de vídeos externos.</div>
+                <div style="font-size:13px;font-weight:700;">â–¶ YouTube</div>
+                <div style="font-size:11px;color:var(--text-muted);">Fazer upload de vÃ­deos diretamente no YouTube (OAuth). Sem isso, ainda pode postar links de vÃ­deos externos.</div>
               </div>
             </label>
 
@@ -510,14 +510,14 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
 
         <button onclick="promoverAdmin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">
-          👑 Promover a Administrador
+          ðŸ‘‘ Promover a Administrador
         </button>
       </div>
 
       <!-- Col direita: Lista de admins -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-          <h2 style="margin:0;">👑 Administradores Ativos</h2>
+          <h2 style="margin:0;">ðŸ‘‘ Administradores Ativos</h2>
           <span id="badge-admins" style="background:rgba(99,102,241,0.12);color:var(--blue);border:1px solid rgba(99,102,241,0.2);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;">0 admins</span>
         </div>
         <div id="lista-admins"><div class="loading"><div class="spinner"></div><p>Carregando...</p></div></div>
@@ -525,16 +525,16 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
     </div>
 
-    <!-- Modal editar permissões -->
+    <!-- Modal editar permissÃµes -->
     <div id="modalEditarPermissoes" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;">
       <div style="background:var(--card-bg,#0f172a);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:440px;position:relative;margin:16px;">
-        <button onclick="fecharModalPermissoes()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;">×</button>
-        <h3 style="font-size:17px;font-weight:800;margin-bottom:6px;">✏️ Editar Permissões</h3>
+        <button onclick="fecharModalPermissoes()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;">Ã—</button>
+        <h3 style="font-size:17px;font-weight:800;margin-bottom:6px;">âœï¸ Editar PermissÃµes</h3>
         <p id="editPermNome" style="font-size:13px;color:var(--text-muted);margin-bottom:18px;"></p>
         <div style="display:flex;flex-direction:column;gap:8px;" id="editPermCheckboxes"></div>
         <div style="display:flex;gap:10px;margin-top:20px;">
-          <button onclick="salvarPermissoes()" style="flex:1;padding:11px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">💾 Salvar</button>
-          <button onclick="rebaixarAdmin()" style="padding:11px 16px;background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">🚫 Remover Admin</button>
+          <button onclick="salvarPermissoes()" style="flex:1;padding:11px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">ðŸ’¾ Salvar</button>
+          <button onclick="rebaixarAdmin()" style="padding:11px 16px;background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">ðŸš« Remover Admin</button>
         </div>
       </div>
     </div>
@@ -544,28 +544,28 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   <!-- MODAL EDITAR POST -->
   <div id="modalEditarPost" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1500;align-items:center;justify-content:center;padding:16px;">
     <div style="background:var(--card-bg,#0f172a);border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;position:relative;">
-      <button onclick="fecharEditarPost()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;line-height:1;">×</button>
-      <h3 style="font-size:18px;font-weight:800;margin-bottom:20px;">✏️ Editar Publicação</h3>
+      <button onclick="fecharEditarPost()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;line-height:1;">Ã—</button>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:20px;">âœï¸ Editar PublicaÃ§Ã£o</h3>
       <div id="alert-edit-post" class="alert"></div>
       <input type="hidden" id="editPostId">
       <div class="form-group">
-        <label>Título</label>
-        <input type="text" id="editPostTitulo" placeholder="Título do post" required style="width:100%;">
+        <label>TÃ­tulo</label>
+        <input type="text" id="editPostTitulo" placeholder="TÃ­tulo do post" required style="width:100%;">
       </div>
       <div class="form-group">
-        <label>Descrição (opcional)</label>
-        <textarea id="editPostTexto" placeholder="Descrição do post..." style="width:100%;min-height:80px;"></textarea>
+        <label>DescriÃ§Ã£o (opcional)</label>
+        <textarea id="editPostTexto" placeholder="DescriÃ§Ã£o do post..." style="width:100%;min-height:80px;"></textarea>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="form-group">
           <label>Categoria</label>
           <select id="editPostCategoria" style="width:100%;">
-            <option value="sala-ao-vivo">🔴 Sala ao Vivo</option>
-            <option value="materiais">📚 Materiais</option>
-            <option value="analise">📈 Análise</option>
-            <option value="tutorial">🎓 Tutorial</option>
-            <option value="noticia">📰 Notícia</option>
-            <option value="link">🔗 Link Útil</option>
+            <option value="sala-ao-vivo">ðŸ”´ Sala ao Vivo</option>
+            <option value="materiais">ðŸ“š Materiais</option>
+            <option value="analise">ðŸ“ˆ AnÃ¡lise</option>
+            <option value="tutorial">ðŸŽ“ Tutorial</option>
+            <option value="noticia">ðŸ“° NotÃ­cia</option>
+            <option value="link">ðŸ”— Link Ãštil</option>
           </select>
         </div>
         <div class="form-group">
@@ -574,7 +574,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
       </div>
       <div style="display:flex;gap:10px;margin-top:8px;">
-        <button onclick="salvarEdicaoPost()" style="flex:1;padding:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">💾 Salvar Alterações</button>
+        <button onclick="salvarEdicaoPost()" style="flex:1;padding:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">ðŸ’¾ Salvar AlteraÃ§Ãµes</button>
         <button onclick="fecharEditarPost()" style="padding:12px 20px;background:rgba(100,116,139,0.12);color:var(--text-muted);border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;">Cancelar</button>
       </div>
     </div>
@@ -583,8 +583,8 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 <!-- MODAL PERFIL ADMIN -->
 <div id="modalPerfilAdmin" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;">
   <div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;width:100%;max-width:420px;position:relative;">
-    <button onclick="fecharPerfilAdmin()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">×</button>
-    <h3 style="font-size:18px;font-weight:800;margin-bottom:24px;">✏️ Meu Perfil</h3>
+    <button onclick="fecharPerfilAdmin()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">Ã—</button>
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:24px;">âœï¸ Meu Perfil</h3>
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:24px;">
       <div id="adminAvatarBig" onclick="document.getElementById('inputFotoAdmin').click()" title="Clique para trocar foto" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;overflow:hidden;cursor:pointer;border:3px solid rgba(255,255,255,.1);transition:all .2s;">
         <span id="adminAvatarBigLetra">A</span>
@@ -598,15 +598,15 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <div style="margin-bottom:16px;"><label style="display:block;font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;text-transform:uppercase;">E-mail</label>
       <input type="text" id="inputEmailAdmin" disabled style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;color:#64748b;font-size:14px;font-family:inherit;cursor:not-allowed;">
     </div>
-    <button onclick="salvarPerfilAdmin()" style="width:100%;background:#6366f1;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;">💾 Salvar</button>
+    <button onclick="salvarPerfilAdmin()" style="width:100%;background:#6366f1;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;">ðŸ’¾ Salvar</button>
     <p id="msgPerfilAdmin" style="text-align:center;margin-top:12px;font-size:13px;color:#22c55e;display:none;"></p>
   </div>
 </div>
 
-<!-- MODAL INFO USUÁRIO -->
+<!-- MODAL INFO USUÃRIO -->
 <div id="modalInfoUser" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;">
   <div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;width:100%;max-width:380px;position:relative;text-align:center;">
-    <button onclick="document.getElementById('modalInfoUser').style.display='none';" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">×</button>
+    <button onclick="document.getElementById('modalInfoUser').style.display='none';" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">Ã—</button>
     <div id="infoUserAvatar" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;margin:0 auto 16px;overflow:hidden;"></div>
     <h3 id="infoUserNome" style="font-size:20px;font-weight:800;margin-bottom:6px;"></h3>
     <p id="infoUserEmail" style="font-size:14px;color:#94a3b8;margin-bottom:16px;"></p>
@@ -615,13 +615,13 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 </div>
 
 <script>
-/* ── NasTheme inline ── */
+/* â”€â”€ NasTheme inline â”€â”€ */
 (function(){
   var KEY='dashboard-tema';
   function aplicar(t){
     if(t==='light'){document.documentElement.classList.add('light-theme');if(document.body)document.body.classList.add('light-theme');}
     else{document.documentElement.classList.remove('light-theme');if(document.body)document.body.classList.remove('light-theme');}
-    var ic=document.getElementById('themeIcon');if(ic)ic.textContent=t==='dark'?'🌙':'☀️';
+    var ic=document.getElementById('themeIcon');if(ic)ic.textContent=t==='dark'?'ðŸŒ™':'â˜€ï¸';
   }
   function get(){return localStorage.getItem(KEY)||'dark';}
   aplicar(get());
@@ -630,7 +630,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       var n=get()==='dark'?'light':'dark';
       localStorage.setItem(KEY,n);aplicar(n);
       var ic=document.getElementById('themeIcon');
-      if(ic){ic.style.transform='rotate(360deg) scale(0)';setTimeout(function(){ic.textContent=n==='dark'?'🌙':'☀️';ic.style.transform='none';},150);}
+      if(ic){ic.style.transform='rotate(360deg) scale(0)';setTimeout(function(){ic.textContent=n==='dark'?'ðŸŒ™':'â˜€ï¸';ic.style.transform='none';},150);}
     },
     getTema:get
   };
@@ -641,12 +641,12 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 <script src="supabase-config.js"></script>
 
 <script>
-// Alias Supabase → sb (usado em todo o script)
+// Alias Supabase â†’ sb (usado em todo o script)
 function getSB() { return window._supabase; }
 
-// ══════════════════════════════════════════════
-// PERFIL ADMIN — definidas PRIMEIRO para hoisting seguro
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// PERFIL ADMIN â€” definidas PRIMEIRO para hoisting seguro
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function atualizarAvatarAdmin() {
   const letra = (window._adminNome||'A').charAt(0).toUpperCase();
   ['adminAvatarLetra','adminAvatarBigLetra'].forEach(function(id) {
@@ -674,7 +674,7 @@ function fecharPerfilAdmin() { document.getElementById('modalPerfilAdmin').style
 
 function previsualizarFotoAdmin(input) {
   var file = input.files[0]; if (!file) return;
-  if (file.size > 500*1024) { alert('Foto muito grande. Use até 500KB.'); return; }
+  if (file.size > 500*1024) { alert('Foto muito grande. Use atÃ© 500KB.'); return; }
   var reader = new FileReader();
   reader.onload = function(e) {
     window._adminFotoTemp = e.target.result;
@@ -698,32 +698,32 @@ async function salvarPerfilAdmin() {
     if (window._adminFotoTemp) { window._adminFotoUrl = window._adminFotoTemp; delete window._adminFotoTemp; }
     document.getElementById('adminName').textContent = nome;
     atualizarAvatarAdmin();
-    msgEl.textContent = '✅ Perfil salvo!'; msgEl.style.display = 'block';
+    msgEl.textContent = 'âœ… Perfil salvo!'; msgEl.style.display = 'block';
     setTimeout(function() { fecharPerfilAdmin(); }, 1200);
-  } catch(e) { msgEl.textContent = '❌ Erro ao salvar'; msgEl.style.color = '#ef4444'; msgEl.style.display = 'block'; }
+  } catch(e) { msgEl.textContent = 'âŒ Erro ao salvar'; msgEl.style.color = '#ef4444'; msgEl.style.display = 'block'; }
 }
 
 async function verInfoUsuario(autorId, nomeExibido) {
-  if (!autorId) { alert('ID do usuário não disponível.'); return; }
+  if (!autorId) { alert('ID do usuÃ¡rio nÃ£o disponÃ­vel.'); return; }
   try {
-    var doc = const { data: _res2 } = await getSB().from('users').select('nome,email,created_at').eq('id', autorId).single();
+    const { data: _res2 } = await getSB().from('users').select('nome,email,created_at,foto_url').eq('id', autorId).single();
     var data = _res2 || {};
     var nome = data.nome || nomeExibido || 'Desconhecido';
     var email = data.email || autorId;
-    var criado = data.criado_em ? new Date(data.criado_em).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '—';
+    var criado = data.criado_em ? new Date(data.criado_em).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : 'â€”';
     document.getElementById('infoUserNome').textContent = nome;
-    document.getElementById('infoUserEmail').textContent = '📧 ' + email;
+    document.getElementById('infoUserEmail').textContent = 'ðŸ“§ ' + email;
     document.getElementById('infoUserCadastro').textContent = 'Cadastrado em: ' + criado;
     var avatarEl = document.getElementById('infoUserAvatar');
     if (data.foto_url) avatarEl.innerHTML = '<img src="' + data.foto_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
     else avatarEl.textContent = nome.charAt(0).toUpperCase();
     document.getElementById('modalInfoUser').style.display = 'flex';
-  } catch(e) { alert('Erro ao buscar dados do usuário.'); }
+  } catch(e) { alert('Erro ao buscar dados do usuÃ¡rio.'); }
 }
 
-// ══════════════════════════════════════════════
-// CONFIGURAÇÃO — carregada do Firestore
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// CONFIGURAÃ‡ÃƒO â€” carregada do Firestore
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let APPS_SCRIPT_URL  = null;
 let YT_CLIENT_ID     = null;
 let YT_CLIENT_SECRET = null;
@@ -740,19 +740,19 @@ async function carregarConfiguracoes() {
       getSB().from('config').select('data').eq('id','oauth').single(),
       getSB().from('config').select('data').eq('id','public').single()
     ]);
-    if (docOauth.error || !docOauth.data) throw new Error('Documento config/oauth não encontrado');
+    if (docOauth.error || !docOauth.data) throw new Error('Documento config/oauth nÃ£o encontrado');
     const data = docOauth.data.data;
     APPS_SCRIPT_URL  = data.apps_script_url;
     YT_CLIENT_ID     = data.client_id;
     YT_CLIENT_SECRET = data.client_secret;
-    // config/public — spreadsheet ID para o botão abrir planilha
+    // config/public â€” spreadsheet ID para o botÃ£o abrir planilha
     if (!docPublic.error && docPublic.data) {
       const pub = docPublic.data.data;
       SHEETS_SPREADSHEET_ID = pub.sheets_spreadsheet_id || null;
     }
   } catch (err) {
-    console.error('Erro ao carregar configurações:', err);
-    alert('❌ Erro ao carregar configurações do sistema. Verifique o Firestore.');
+    console.error('Erro ao carregar configuraÃ§Ãµes:', err);
+    alert('âŒ Erro ao carregar configuraÃ§Ãµes do sistema. Verifique o Firestore.');
   }
 }
 
@@ -775,9 +775,9 @@ async function inicializarYouTubeAuth() {
     return;
   }
   try {
-    const doc = const { data: _ytCfg } = await getSB().from('config').select('data').eq('id','youtube').single();
+    const { data: _ytCfg } = await getSB().from('config').select('data').eq('id','youtube').single();
     if (_ytCfg?.data?.refresh_token) await renovarAccessToken(_ytCfg.data.refresh_token);
-  } catch (err) { console.log('Token YouTube não configurado ainda.'); }
+  } catch (err) { console.log('Token YouTube nÃ£o configurado ainda.'); }
   atualizarBotaoYouTube();
 }
 
@@ -795,7 +795,7 @@ async function renovarAccessToken(refreshToken) {
 
 async function autenticarYouTube() {
   if (!YT_CLIENT_ID) await carregarConfiguracoes();
-  if (!YT_CLIENT_ID) { alert('❌ Erro ao carregar configurações. Tente recarregar a página.'); return; }
+  if (!YT_CLIENT_ID) { alert('âŒ Erro ao carregar configuraÃ§Ãµes. Tente recarregar a pÃ¡gina.'); return; }
   const verifier = Array.from(crypto.getRandomValues(new Uint8Array(32))).map(b => b.toString(16).padStart(2,'0')).join('');
   localStorage.setItem('yt_verifier', verifier);
   const encoder = new TextEncoder();
@@ -817,10 +817,10 @@ async function trocarCodePorToken(code) {
   console.log('[YT] code (primeiros 20):', code?.substring(0,20));
 
   const btn = document.getElementById('btnConectarYT');
-  if (btn) { btn.textContent = '⏳ Conectando YouTube...'; btn.disabled = true; }
+  if (btn) { btn.textContent = 'â³ Conectando YouTube...'; btn.disabled = true; }
 
   if (!verifier) {
-    console.warn('[YT] PKCE verifier não encontrado no localStorage');
+    console.warn('[YT] PKCE verifier nÃ£o encontrado no localStorage');
   }
   if (verifier) localStorage.removeItem('yt_verifier');
 
@@ -850,20 +850,20 @@ async function trocarCodePorToken(code) {
             configurado_por: window._adminUid || 'admin'
           }
         });
-        console.log('[YT] ✅ refresh_token salvo no Supabase');
+        console.log('[YT] âœ… refresh_token salvo no Supabase');
       } else {
-        console.warn('[YT] ⚠️ Sem refresh_token — access_token válido por 1h');
+        console.warn('[YT] âš ï¸ Sem refresh_token â€” access_token vÃ¡lido por 1h');
       }
       atualizarBotaoYouTube();
-      alert('✅ YouTube conectado com sucesso!');
+      alert('âœ… YouTube conectado com sucesso!');
     } else {
-      const errMsg = data.error || data.google_detail || 'Resposta inválida';
-      console.error('[YT] ❌ Erro:', errMsg, data);
-      alert('❌ Falha ao conectar YouTube:\n' + errMsg + '\n\nAbra o Console (F12) para mais detalhes.');
+      const errMsg = data.error || data.google_detail || 'Resposta invÃ¡lida';
+      console.error('[YT] âŒ Erro:', errMsg, data);
+      alert('âŒ Falha ao conectar YouTube:\n' + errMsg + '\n\nAbra o Console (F12) para mais detalhes.');
     }
   } catch (err) {
     console.error('Erro trocarCodePorToken:', err);
-    alert('❌ Erro de rede ao conectar YouTube: ' + err.message);
+    alert('âŒ Erro de rede ao conectar YouTube: ' + err.message);
   } finally {
     if (btn) btn.disabled = false;
   }
@@ -871,18 +871,18 @@ async function trocarCodePorToken(code) {
 
 async function uploadYouTubeDireto(file, titulo, descricao) {
   if (!ytAccessToken) {
-    const doc = const { data: _ytDoc } = await getSB().from('config').select('data').eq('id','youtube').single();
+    const { data: _ytDoc } = await getSB().from('config').select('data').eq('id','youtube').single();
     if (_ytDoc?.data?.refresh_token) {
       const ok = await renovarAccessToken(_ytDoc.data.refresh_token);
-      if (!ok) throw new Error('Não foi possível renovar o token. Clique em "Reconectar YouTube".');
-    } else { throw new Error('YouTube não conectado. Clique em "Conectar YouTube" primeiro.'); }
+      if (!ok) throw new Error('NÃ£o foi possÃ­vel renovar o token. Clique em "Reconectar YouTube".');
+    } else { throw new Error('YouTube nÃ£o conectado. Clique em "Conectar YouTube" primeiro.'); }
   }
   const progressBar  = document.getElementById('uploadProgressBar');
   const progressPct  = document.getElementById('uploadProgressPercent');
   const progressText = document.getElementById('uploadProgressTextUniversal');
-  progressText.textContent = '🎥 Iniciando upload no YouTube...';
+  progressText.textContent = 'ðŸŽ¥ Iniciando upload no YouTube...';
   const metadata = {
-    snippet: { title: titulo || 'Vídeo', description: descricao || '', categoryId: '27' },
+    snippet: { title: titulo || 'VÃ­deo', description: descricao || '', categoryId: '27' },
     status:  { privacyStatus: 'unlisted', selfDeclaredMadeForKids: false }
   };
   const initResp = await fetch(`${YT_WORKER}/init-upload`, {
@@ -900,7 +900,7 @@ async function uploadYouTubeDireto(file, titulo, descricao) {
     const pct = Math.round((end / file.size) * 95);
     progressBar.style.width = pct + '%';
     progressPct.textContent = pct + '%';
-    progressText.textContent = `🎥 Enviando... ${(end/(1024*1024)).toFixed(0)}MB de ${(file.size/(1024*1024)).toFixed(0)}MB`;
+    progressText.textContent = `ðŸŽ¥ Enviando... ${(end/(1024*1024)).toFixed(0)}MB de ${(file.size/(1024*1024)).toFixed(0)}MB`;
     const chunkResp = await fetch(`${YT_WORKER}/upload-chunk`, {
       method: 'POST',
       headers: { 'Content-Type': file.type || 'video/mp4', 'X-Upload-Url': uploadUrl, 'X-Content-Range': `bytes ${offset}-${end-1}/${file.size}`, 'X-Content-Type': file.type || 'video/mp4' },
@@ -910,20 +910,20 @@ async function uploadYouTubeDireto(file, titulo, descricao) {
     if (!chunkData.success) throw new Error(chunkData.error || 'Erro no envio do chunk');
     if (chunkData.done) {
       progressBar.style.width = '100%'; progressPct.textContent = '100%';
-      progressText.textContent = '✅ Vídeo publicado no YouTube!';
+      progressText.textContent = 'âœ… VÃ­deo publicado no YouTube!';
       return { videoId: chunkData.videoId, embedURL: chunkData.embedURL, watchURL: chunkData.watchURL };
     }
     offset = chunkData.range ? parseInt(chunkData.range.split('-')[1]) + 1 : end;
   }
-  throw new Error('Upload não completou corretamente');
+  throw new Error('Upload nÃ£o completou corretamente');
 }
 
 function atualizarBotaoYouTube() {
   const btn = document.getElementById('btnConectarYT');
   if (!btn) return;
 
-  // Botão de conexão só visível para o superadmin
-  // Admins comuns usam o token salvo pelo superadmin — sem precisar ver o botão
+  // BotÃ£o de conexÃ£o sÃ³ visÃ­vel para o superadmin
+  // Admins comuns usam o token salvo pelo superadmin â€” sem precisar ver o botÃ£o
   if (!window._isSuperAdmin) {
     btn.style.display = 'none';
     return;
@@ -931,13 +931,13 @@ function atualizarBotaoYouTube() {
 
   btn.style.display = '';
   if (ytAccessToken) {
-    btn.textContent = '✅ YouTube Conectado';
+    btn.textContent = 'âœ… YouTube Conectado';
     btn.style.background = '#10b981';
     btn.style.color = '#fff';
     btn.onclick = desconectarYouTube;
     btn.title = 'Clique para desconectar e reconectar';
   } else {
-    btn.textContent = '🔗 Conectar YouTube';
+    btn.textContent = 'ðŸ”— Conectar YouTube';
     btn.style.background = '#ff0000';
     btn.style.color = '#fff';
     btn.onclick = autenticarYouTube;
@@ -946,7 +946,7 @@ function atualizarBotaoYouTube() {
 }
 
 async function desconectarYouTube() {
-  if (!confirm('Desconectar o YouTube? Você precisará reconectar para enviar vídeos.')) return;
+  if (!confirm('Desconectar o YouTube? VocÃª precisarÃ¡ reconectar para enviar vÃ­deos.')) return;
   ytAccessToken = null;
   try {
     await getSB().from('config').delete().eq('id','youtube');
@@ -955,34 +955,34 @@ async function desconectarYouTube() {
   alert('YouTube desconectado. Clique em "Conectar YouTube" para reconectar.');
 }
 
-// ══════════════════════════════════════════════
-// SISTEMA DE PERMISSÕES — SUPERADMIN
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// SISTEMA DE PERMISSÃ•ES â€” SUPERADMIN
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-// Permissões disponíveis com labels
+// PermissÃµes disponÃ­veis com labels
 const TODAS_PERMISSOES = [
-  { id: 'posts',       icon: '📝', label: 'Publicações',      desc: 'Criar e excluir posts' },
-  { id: 'comentarios', icon: '💬', label: 'Comentários',      desc: 'Ver, responder e excluir comentários' },
-  { id: 'alunos',      icon: '👥', label: 'Aprovar Alunos',   desc: 'Aprovar, rejeitar e revogar alunos' },
-  { id: 'planilha',    icon: '📊', label: 'Planilha & Fotos', desc: 'Registrar trades e enviar fotos' },
-  { id: 'youtube',     icon: '▶',  label: 'YouTube',          desc: 'Postar vídeos diretamente no YouTube via integração OAuth' },
+  { id: 'posts',       icon: 'ðŸ“', label: 'PublicaÃ§Ãµes',      desc: 'Criar e excluir posts' },
+  { id: 'comentarios', icon: 'ðŸ’¬', label: 'ComentÃ¡rios',      desc: 'Ver, responder e excluir comentÃ¡rios' },
+  { id: 'alunos',      icon: 'ðŸ‘¥', label: 'Aprovar Alunos',   desc: 'Aprovar, rejeitar e revogar alunos' },
+  { id: 'planilha',    icon: 'ðŸ“Š', label: 'Planilha & Fotos', desc: 'Registrar trades e enviar fotos' },
+  { id: 'youtube',     icon: 'â–¶',  label: 'YouTube',          desc: 'Postar vÃ­deos diretamente no YouTube via integraÃ§Ã£o OAuth' },
 ];
 
 // UID do superadmin (preenchido no login)
 window._isSuperAdmin = false;
-// Permissões do admin logado
-window._adminPerms = null; // null = superadmin (acesso total), [] ou array = admin com restrições
+// PermissÃµes do admin logado
+window._adminPerms = null; // null = superadmin (acesso total), [] ou array = admin com restriÃ§Ãµes
 
-// Verifica se o admin logado tem uma permissão específica
+// Verifica se o admin logado tem uma permissÃ£o especÃ­fica
 function temPermissao(perm) {
   if (window._isSuperAdmin) return true;
   if (!window._adminPerms) return true;
   return Array.isArray(window._adminPerms) && window._adminPerms.includes(perm);
 }
 
-// Aplica visibilidade das abas e elementos baseado nas permissões
+// Aplica visibilidade das abas e elementos baseado nas permissÃµes
 function aplicarPermissoesUI() {
-  // Mapa aba → id do elemento → permissão necessária
+  // Mapa aba â†’ id do elemento â†’ permissÃ£o necessÃ¡ria
   const abas = [
     { id: 'tabPosts',       secao: 'posts',       perm: () => temPermissao('posts')    },
     { id: 'tabAprovacoes',  secao: 'aprovacoes',  perm: () => temPermissao('alunos')   },
@@ -995,7 +995,7 @@ function aplicarPermissoesUI() {
     if (el) el.style.display = a.perm() ? '' : 'none';
   });
 
-  // Ativa a primeira aba que o usuário pode ver
+  // Ativa a primeira aba que o usuÃ¡rio pode ver
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
 
@@ -1022,30 +1022,31 @@ function aplicarPermissoesUI() {
 // Carrega dados do superadmin e lista de admins
 async function carregarAdmins() {
   try {
-    const snapshot = const { data: admins } = await getSB().from('users').select('*').eq('role','admin');
-    // admins already array
+    const { data: adminsData, error } = await getSB().from('users').select('*').eq('role','admin');
+    if (error) throw error;
+    const admins = adminsData || [];
 
     // Stats
     document.getElementById('stat-total-admins').textContent = admins.length;
     document.getElementById('stat-admins-ativos').textContent = admins.length;
     document.getElementById('badge-admins').textContent = admins.length + ' admin' + (admins.length !== 1 ? 's' : '');
 
-    // Conta alunos aprovados elegíveis (não são admins)
-    const { data: _usersAprov } = await getSB().from('users').select('id,nome,email').eq('aprovado',true).neq('role','admin');
-    let elegíveis = 0;
+    // Conta alunos aprovados elegÃ­veis (nÃ£o sÃ£o admins)
+    const { data: _usersAprov } = await getSB().from('users').select('id,nome,email,role').eq('aprovado',true).neq('role','admin');
+    let elegÃ­veis = 0;
     const selectEl = document.getElementById('selectAlunoAdmin');
-    selectEl.innerHTML = '<option value="">— Escolha um aluno aprovado —</option>';
+    selectEl.innerHTML = '<option value="">â€” Escolha um aluno aprovado â€”</option>';
 
     (_usersAprov || []).forEach(d => {
       if (d.role === 'admin') return;
-      elegíveis++;
+      elegÃ­veis++;
       const opt = document.createElement('option');
       opt.value = d.id;
-      opt.textContent = (d.nome || d.email || d.id) + ' — ' + (d.email || '');
+      opt.textContent = (d.nome || d.email || d.id) + ' â€” ' + (d.email || '');
       opt.dataset.nome = d.nome || d.email || '';
       selectEl.appendChild(opt);
     });
-    document.getElementById('stat-admins-pendentes').textContent = elegíveis;
+    document.getElementById('stat-admins-pendentes').textContent = elegÃ­veis;
 
     // Renderiza lista de admins
     const lista = document.getElementById('lista-admins');
@@ -1058,20 +1059,20 @@ async function carregarAdmins() {
 
   } catch (err) {
     console.error('Erro carregarAdmins:', err);
-    document.getElementById('lista-admins').innerHTML = '<p style="color:var(--red);padding:16px;">❌ Erro: ' + err.message + '</p>';
+    document.getElementById('lista-admins').innerHTML = '<p style="color:var(--red);padding:16px;">âŒ Erro: ' + err.message + '</p>';
   }
 }
 
 function renderAdminCard(a) {
   const av = avatarHtml(a.nome || a.email || '?', a.foto_url || null, 42);
-  const nome = a.nome || '—';
-  const email = a.email || '—';
+  const nome = a.nome || 'â€”';
+  const email = a.email || 'â€”';
   const isSuperA = !a.permissoes; // null/undefined = superadmin (acesso total)
   const perms = a.permissoes || [];
 
-  // Tags de permissões
+  // Tags de permissÃµes
   const permTags = isSuperA
-    ? '<span class="superadmin-badge">⭐ Super Admin</span>'
+    ? '<span class="superadmin-badge">â­ Super Admin</span>'
     : TODAS_PERMISSOES.map(p => {
         const has = perms.includes(p.id);
         return `<span class="perm-tag${has ? '' : ' perm-off'}" title="${p.desc}">${p.icon} ${p.label}</span>`;
@@ -1080,8 +1081,8 @@ function renderAdminCard(a) {
   const editBtn = (window._isSuperAdmin && a.id !== window._adminUid)
     ? `<button onclick="abrirModalPermissoes('${a.id}','${(a.nome||a.email||'').replace(/'/g,"\\'")}',${JSON.stringify(a.permissoes||null).replace(/"/g,"'")})"
          style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:var(--blue);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .2s;"
-         onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'">✏️ Editar</button>`
-    : (a.id === window._adminUid ? '<span style="font-size:11px;color:var(--text-muted);flex-shrink:0;">👤 Você</span>' : '');
+         onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'">âœï¸ Editar</button>`
+    : (a.id === window._adminUid ? '<span style="font-size:11px;color:var(--text-muted);flex-shrink:0;">ðŸ‘¤ VocÃª</span>' : '');
 
   return `
     <div class="admin-card">
@@ -1099,37 +1100,37 @@ function renderAdminCard(a) {
 async function promoverAdmin() {
   const select = document.getElementById('selectAlunoAdmin');
   const uid = select.value;
-  if (!uid) { mostrarAlerta('alert-admins', '❌ Selecione um aluno primeiro.', 'error'); return; }
+  if (!uid) { mostrarAlerta('alert-admins', 'âŒ Selecione um aluno primeiro.', 'error'); return; }
 
   const perms = TODAS_PERMISSOES
     .filter(p => document.getElementById('perm_' + p.id)?.checked)
     .map(p => p.id);
 
   if (perms.length === 0) {
-    mostrarAlerta('alert-admins', '❌ Selecione ao menos uma permissão.', 'error'); return;
+    mostrarAlerta('alert-admins', 'âŒ Selecione ao menos uma permissÃ£o.', 'error'); return;
   }
 
   const nomeAluno = select.options[select.selectedIndex]?.dataset.nome || uid;
-  if (!confirm('Promover ' + nomeAluno + ' a administrador com ' + perms.length + ' permissão(ões)?')) return;
+  if (!confirm('Promover ' + nomeAluno + ' a administrador com ' + perms.length + ' permissÃ£o(Ãµes)?')) return;
 
   try {
     await getSB().from('users').update({ role:'admin', permissoes:perms, promoted_by:window._adminUid, promoted_at:new Date().toISOString() }).eq('id',uid);
-    mostrarAlerta('alert-admins', '✅ ' + nomeAluno + ' é agora administrador!', 'success');
+    mostrarAlerta('alert-admins', 'âœ… ' + nomeAluno + ' Ã© agora administrador!', 'success');
     // Reset form
     select.value = '';
     TODAS_PERMISSOES.forEach(p => { const el = document.getElementById('perm_' + p.id); if (el) el.checked = false; });
     carregarAdmins();
   } catch (err) {
-    mostrarAlerta('alert-admins', '❌ Erro: ' + err.message, 'error');
+    mostrarAlerta('alert-admins', 'âŒ Erro: ' + err.message, 'error');
   }
 }
 
-// ── Modal editar permissões ──
+// â”€â”€ Modal editar permissÃµes â”€â”€
 let _editingAdminId = null;
 
 function abrirModalPermissoes(uid, nome, permsAtual) {
   _editingAdminId = uid;
-  document.getElementById('editPermNome').textContent = '👤 ' + nome;
+  document.getElementById('editPermNome').textContent = 'ðŸ‘¤ ' + nome;
 
   const container = document.getElementById('editPermCheckboxes');
   container.innerHTML = TODAS_PERMISSOES.map(p => {
@@ -1159,37 +1160,37 @@ async function salvarPermissoes() {
   const novasPerms = TODAS_PERMISSOES
     .filter(p => document.getElementById('edit_perm_' + p.id)?.checked)
     .map(p => p.id);
-  if (novasPerms.length === 0) { alert('❌ Selecione ao menos uma permissão.'); return; }
+  if (novasPerms.length === 0) { alert('âŒ Selecione ao menos uma permissÃ£o.'); return; }
   try {
     await getSB().from('users').update({ permissoes:novasPerms, promoted_by:window._adminUid, promoted_at:new Date().toISOString() }).eq('id',_editingAdminId);
     fecharModalPermissoes();
-    mostrarAlerta('alert-admins', '✅ Permissões atualizadas!', 'success');
+    mostrarAlerta('alert-admins', 'âœ… PermissÃµes atualizadas!', 'success');
     carregarAdmins();
-  } catch (err) { alert('❌ Erro: ' + err.message); }
+  } catch (err) { alert('âŒ Erro: ' + err.message); }
 }
 
 async function rebaixarAdmin() {
   if (!_editingAdminId) return;
-  if (!confirm('Remover este administrador? Ele voltará a ser aluno.')) return;
+  if (!confirm('Remover este administrador? Ele voltarÃ¡ a ser aluno.')) return;
   try {
     await getSB().from('users').update({ role:'aluno', permissoes:null, promoted_by:null, promoted_at:null }).eq('id',_editingAdminId);
     fecharModalPermissoes();
-    mostrarAlerta('alert-admins', '✅ Admin removido, voltou a ser aluno.', 'success');
+    mostrarAlerta('alert-admins', 'âœ… Admin removido, voltou a ser aluno.', 'success');
     carregarAdmins();
-  } catch (err) { alert('❌ Erro: ' + err.message); }
+  } catch (err) { alert('âŒ Erro: ' + err.message); }
 }
 
 
-// ══════════════════════════════════════════════
-// AUTENTICAÇÃO
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// AUTENTICAÃ‡ÃƒO
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 getSB().auth.getSession().then(async ({ data: { session } }) => {
   const user = session?.user;
   if (!user) { window.location.href = 'login.html'; return; }
   try {
     const { data: adminData, error: _authErr } = await getSB().from('users').select('*').eq('id', user.id).single();
     if (_authErr || !adminData || adminData.role !== 'admin') {
-      alert('❌ Acesso negado.');
+      alert('âŒ Acesso negado.');
       await getSB().auth.signOut();
       window.location.href = 'login.html';
       return;
@@ -1199,7 +1200,7 @@ getSB().auth.getSession().then(async ({ data: { session } }) => {
     window._adminEmail = user.email;
     window._adminFotoUrl = adminData.foto_url || user.user_metadata?.avatar_url || null;
 
-    // Permissões: null/undefined = superadmin (acesso total); array = admin com restrições
+    // PermissÃµes: null/undefined = superadmin (acesso total); array = admin com restriÃ§Ãµes
     const perms = adminData.permissoes;
     window._isSuperAdmin = !perms || !Array.isArray(perms);
     window._adminPerms = window._isSuperAdmin ? null : perms;
@@ -1216,13 +1217,13 @@ getSB().auth.getSession().then(async ({ data: { session } }) => {
   } catch (error) {
     console.error('Erro auth admin:', error);
     const postsEl = document.getElementById('posts-list');
-    if (postsEl) postsEl.innerHTML = '<div style="padding:20px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;"><p style="color:#ef4444;font-weight:700;">❌ Erro de inicialização</p><p style="color:#94a3b8;font-size:13px;margin-top:8px;">' + error.message + '</p></div>';
+    if (postsEl) postsEl.innerHTML = '<div style="padding:20px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;"><p style="color:#ef4444;font-weight:700;">âŒ Erro de inicializaÃ§Ã£o</p><p style="color:#94a3b8;font-size:13px;margin-top:8px;">' + error.message + '</p></div>';
   }
 });
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // AUXILIARES
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function switchTab(tabName) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(tab => {
@@ -1250,9 +1251,9 @@ function tempoRelativo(ts) {
   const date = ts instanceof Date ? ts : (ts.toDate ? ts.toDate() : new Date(ts));
   const diff = Math.floor((Date.now() - date.getTime()) / 1000);
   if (diff < 60) return 'agora mesmo';
-  if (diff < 3600) return `há ${Math.floor(diff/60)} min`;
-  if (diff < 86400) return `há ${Math.floor(diff/3600)}h`;
-  if (diff < 604800) return `há ${Math.floor(diff/86400)} dia${Math.floor(diff/86400)>1?'s':''}`;
+  if (diff < 3600) return `hÃ¡ ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `hÃ¡ ${Math.floor(diff/3600)}h`;
+  if (diff < 604800) return `hÃ¡ ${Math.floor(diff/86400)} dia${Math.floor(diff/86400)>1?'s':''}`;
   return date.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
 }
 
@@ -1264,9 +1265,9 @@ function avatarHtml(nome, fotoUrl, size) {
   return '<div style="' + style + '">' + inner + '</div>';
 }
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // UPLOAD UNIVERSAL
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let arquivoUniversal = null;
 let tipoArquivo = null;
 
@@ -1284,7 +1285,7 @@ uploadAreaUniversal.addEventListener('drop', e => { if (e.dataTransfer.files[0])
 fileInputUniversal.addEventListener('change', e => { if (e.target.files[0]) handleArquivoUniversal(e.target.files[0]); });
 
 function handleArquivoUniversal(file) {
-  if (file.size > 500 * 1024 * 1024) { alert('❌ Arquivo muito grande. Máximo 500MB'); return; }
+  if (file.size > 500 * 1024 * 1024) { alert('âŒ Arquivo muito grande. MÃ¡ximo 500MB'); return; }
   arquivoUniversal = file;
   tipoArquivo = file.type.startsWith('image/') ? 'imagem' : file.type.startsWith('video/') ? 'video' : 'pdf';
   uploadPlaceholderUniversal.style.display = 'none';
@@ -1293,12 +1294,12 @@ function handleArquivoUniversal(file) {
   const sizeMB = (file.size / (1024*1024)).toFixed(2);
   if (tipoArquivo === 'imagem') {
     const reader = new FileReader();
-    reader.onload = e => { previewContent.innerHTML = `<img src="${e.target.result}" style="max-width:100%;max-height:300px;border-radius:8px;margin-bottom:12px;"><p style="font-size:13px;color:var(--text-muted);">📸 ${file.name} (${sizeMB} MB)</p>`; };
+    reader.onload = e => { previewContent.innerHTML = `<img src="${e.target.result}" style="max-width:100%;max-height:300px;border-radius:8px;margin-bottom:12px;"><p style="font-size:13px;color:var(--text-muted);">ðŸ“¸ ${file.name} (${sizeMB} MB)</p>`; };
     reader.readAsDataURL(file);
   } else if (tipoArquivo === 'video') {
-    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,0,0,0.05);border:1px solid rgba(255,0,0,0.2);border-radius:8px;margin-bottom:12px;"><span style="font-size:48px;">🎥</span><p style="font-size:16px;font-weight:700;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p><span class="yt-badge" style="margin-top:8px;display:inline-flex;">▶ Será publicado no YouTube como não listado</span></div>`;
+    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,0,0,0.05);border:1px solid rgba(255,0,0,0.2);border-radius:8px;margin-bottom:12px;"><span style="font-size:48px;">ðŸŽ¥</span><p style="font-size:16px;font-weight:700;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p><span class="yt-badge" style="margin-top:8px;display:inline-flex;">â–¶ SerÃ¡ publicado no YouTube como nÃ£o listado</span></div>`;
   } else {
-    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,255,255,0.05);border-radius:8px;margin-bottom:12px;"><span style="font-size:64px;">📄</span><p style="font-size:16px;font-weight:600;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p></div>`;
+    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,255,255,0.05);border-radius:8px;margin-bottom:12px;"><span style="font-size:64px;">ðŸ“„</span><p style="font-size:16px;font-weight:600;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p></div>`;
   }
 }
 
@@ -1319,12 +1320,12 @@ async function fileToBase64(file) {
   });
 }
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // PUBLICAR POST
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 document.getElementById('formPost').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!temPermissao('posts')) { alert('❌ Sem permissão para criar posts.'); return; }
+  if (!temPermissao('posts')) { alert('âŒ Sem permissÃ£o para criar posts.'); return; }
   const btnPost = document.getElementById('btnPost');
   btnPost.disabled = true; btnPost.textContent = 'Publicando...';
   try {
@@ -1337,14 +1338,14 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
       let progressInterval = null;
       try {
         if (tipoArquivo === 'video') {
-          if (!ytAccessToken) throw new Error('Clique em "Conectar YouTube" no topo da página antes de enviar vídeos.');
+          if (!ytAccessToken) throw new Error('Clique em "Conectar YouTube" no topo da pÃ¡gina antes de enviar vÃ­deos.');
           const titulo = document.getElementById('postTitulo').value.trim() || arquivoUniversal.name;
           const descricao = document.getElementById('postTexto').value.trim();
           const resultado = await uploadYouTubeDireto(arquivoUniversal, titulo, descricao);
           youtubeEmbedURL = resultado.embedURL; youtubeVideoId = resultado.videoId;
           finalMidiaURL = resultado.watchURL; midiaTipo = 'youtube';
         } else {
-          document.getElementById('uploadProgressTextUniversal').textContent = `📤 Enviando ${sizeMB}MB para Google Drive...`;
+          document.getElementById('uploadProgressTextUniversal').textContent = `ðŸ“¤ Enviando ${sizeMB}MB para Google Drive...`;
           let progress = 0;
           progressInterval = setInterval(() => { progress += Math.random() * 8; if (progress > 85) progress = 85; progressBar.style.width = progress + '%'; progressPercent.textContent = Math.round(progress) + '%'; }, 300);
           const base64 = await fileToBase64(arquivoUniversal);
@@ -1368,8 +1369,8 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
       uploadProgressUniversal.style.display = 'none'; uploadPreviewUniversal.style.display = 'block';
     }
     const titulo = document.getElementById('postTitulo').value.trim();
-    if (!titulo) { alert('❌ Preencha o título do post'); throw new Error('Título obrigatório'); }
-    const { data: _newPost, error: _postErr } .select().single();= await getSB().from('posts').insert({
+    if (!titulo) { alert('âŒ Preencha o tÃ­tulo do post'); throw new Error('TÃ­tulo obrigatÃ³rio'); }
+    const { data: _newPost, error: _postErr } = await getSB().from('posts').insert({
       titulo, texto: document.getElementById('postTexto').value.trim(),
       categoria: document.getElementById('postCategoria').value,
       link: document.getElementById('postLink').value || null,
@@ -1378,23 +1379,24 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
       criado_em: new Date().toISOString(),
       autor: window._adminNome || window._adminNome || 'Admin',
       autorUid: window._adminUid || window._adminUid
-    });
-    mostrarAlerta('alert-post', '✅ Post publicado com sucesso!', 'success');
+    }).select().single();
+    if (_postErr) throw _postErr;
+    mostrarAlerta('alert-post', 'âœ… Post publicado com sucesso!', 'success');
     document.getElementById('formPost').reset();
     removerArquivoUniversal();
     carregarPosts();
   } catch (error) {
     console.error('Erro ao publicar:', error);
-    mostrarAlerta('alert-post', '❌ Erro: ' + error.message, 'error');
+    mostrarAlerta('alert-post', 'âŒ Erro: ' + error.message, 'error');
     uploadProgressUniversal.style.display = 'none';
     if (arquivoUniversal) uploadPreviewUniversal.style.display = 'block';
   }
   btnPost.disabled = false; btnPost.textContent = 'Publicar Post';
 });
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CARREGAR POSTS
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function buildPostItemHTML(doc, isNovo) {
   const post = doc.data ? doc.data() : doc;
   const postId = doc.id || post.id;
@@ -1408,28 +1410,28 @@ function buildPostItemHTML(doc, isNovo) {
   } else if (post.midia_url && post.midia_tipo === 'imagem') {
     midiaHTML = `<img src="${post.midia_url}" class="post-image" alt="${post.titulo}" onerror="this.style.display='none'">`;
   } else if (post.midia_url && post.midia_tipo === 'pdf') {
-    midiaHTML = `<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;">📄</div>`;
+    midiaHTML = `<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;">ðŸ“„</div>`;
   }
 
   const canEdit = window._isSuperAdmin || (temPermissao('posts') && post.autorUid === window._adminUid);
   const actionBtns = canEdit
-    ? `<button class="btn btn-sm" onclick="abrirEditarPost('${postId}')" style="background:rgba(99,102,241,0.15);color:var(--blue);border:1px solid rgba(99,102,241,0.3);">✏️ Editar</button>
-       <button class="btn btn-sm btn-danger" onclick="deletarPost('${postId}')">🗑️ Excluir</button>`
-    : `<span style="font-size:11px;color:var(--text-muted);padding:4px 8px;">🔒 Post de outro admin</span>`;
+    ? `<button class="btn btn-sm" onclick="abrirEditarPost('${postId}')" style="background:rgba(99,102,241,0.15);color:var(--blue);border:1px solid rgba(99,102,241,0.3);">âœï¸ Editar</button>
+       <button class="btn btn-sm btn-danger" onclick="deletarPost('${postId}')">ðŸ—‘ï¸ Excluir</button>`
+    : `<span style="font-size:11px;color:var(--text-muted);padding:4px 8px;">ðŸ”’ Post de outro admin</span>`;
 
   return `<div class="post-item${isNovo ? ' post-item--novo' : ''}" id="post-item-${postId}" style="${isNovo ? 'animation:slideInPost .4s cubic-bezier(0.34,1.56,0.64,1);' : ''}">
     ${midiaHTML}
     <div class="post-content">
-      ${isNovo ? '<span style="display:inline-block;background:#10b981;color:#000;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">✨ Novo</span>' : ''}
+      ${isNovo ? '<span style="display:inline-block;background:#10b981;color:#000;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">âœ¨ Novo</span>' : ''}
       <div class="post-title">${post.titulo}</div>
-      ${(post.texto||'').trim() ? `<div class="post-desc" style="font-size:12px;color:var(--text-muted);line-height:1.5;margin:4px 0 6px;font-style:italic;"><span style="color:var(--blue);font-style:normal;font-weight:700;font-size:11px;">DESCRIÇÃO</span> ${(post.texto||'').substring(0,140)}${(post.texto||'').length>140?'…':''}</div>` : ''}
+      ${(post.texto||'').trim() ? `<div class="post-desc" style="font-size:12px;color:var(--text-muted);line-height:1.5;margin:4px 0 6px;font-style:italic;"><span style="color:var(--blue);font-style:normal;font-weight:700;font-size:11px;">DESCRIÃ‡ÃƒO</span> ${(post.texto||'').substring(0,140)}${(post.texto||'').length>140?'â€¦':''}</div>` : ''}
       <div class="post-meta" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        📅 ${data} • 📁 ${post.categoria} • ✍️ ${post.autor||'Admin'}
-        ${post.youtube_embed_url ? '<span class="yt-badge">▶ YouTube</span>' : ''}
+        ðŸ“… ${data} â€¢ ðŸ“ ${post.categoria} â€¢ âœï¸ ${post.autor||'Admin'}
+        ${post.youtube_embed_url ? '<span class="yt-badge">â–¶ YouTube</span>' : ''}
       </div>
       <div class="post-actions">
         <button class="btn btn-sm" onclick="toggleComentariosAdmin('${postId}')" style="background:var(--blue);color:#fff;">
-          💬 Comentários (<span id="count-admin-${postId}">…</span>)
+          ðŸ’¬ ComentÃ¡rios (<span id="count-admin-${postId}">â€¦</span>)
         </button>
         ${actionBtns}
       </div>
@@ -1438,7 +1440,7 @@ function buildPostItemHTML(doc, isNovo) {
         <div style="margin-top:16px;display:flex;gap:10px;align-items:flex-start;">
           <div id="adminAvatarComent-${postId}" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden;margin-top:2px;"></div>
           <div style="flex:1;">
-            <textarea id="texto-admin-${postId}" placeholder="Comentário como admin..." style="width:100%;min-height:80px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;"></textarea>
+            <textarea id="texto-admin-${postId}" placeholder="ComentÃ¡rio como admin..." style="width:100%;min-height:80px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;"></textarea>
             <button class="btn btn-sm" onclick="enviarComentarioAdmin('${postId}')" style="margin-top:8px;">Enviar</button>
           </div>
         </div>
@@ -1457,7 +1459,7 @@ async function carregarPosts() {
   async function _renderPosts() {
     const { data: postsData, error } = await getSB()
       .from('posts').select('*').order('criado_em', { ascending: false }).limit(50);
-    if (error) { container.innerHTML = '<p style="color:var(--red);padding:20px;">❌ Erro ao carregar posts.</p>'; return; }
+    if (error) { container.innerHTML = '<p style="color:var(--red);padding:20px;">âŒ Erro ao carregar posts.</p>'; return; }
     if (!postsData?.length) { container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px;">Nenhum post ainda.</p>'; return; }
     const snapshot = { docs: postsData.map(d => ({ id: d.id, data: () => d })), empty: false };
     container.innerHTML = snapshot.docs.map(doc => buildPostItemHTML(doc, false)).join('');
@@ -1486,7 +1488,7 @@ function toggleComentariosAdmin(postId) {
 }
 
 function iniciarListenerAdmin(postId) {
-  if (_adminListeners[postId]) return; // já ouvindo
+  if (_adminListeners[postId]) return; // jÃ¡ ouvindo
   const lista   = document.getElementById('lista-admin-' + postId);
   const countEl = document.getElementById('count-admin-' + postId);
   lista.innerHTML = '<p style="text-align:center;padding:16px;color:#64748b;font-size:13px;">Carregando...</p>';
@@ -1497,7 +1499,7 @@ function iniciarListenerAdmin(postId) {
     const docs = _coments || [];
     if (countEl) countEl.textContent = docs.length;
     if (!docs.length) {
-      lista.innerHTML = '<p style="text-align:center;padding:16px;color:var(--text-muted);">Nenhum comentário ainda.</p>';
+      lista.innerHTML = '<p style="text-align:center;padding:16px;color:var(--text-muted);">Nenhum comentÃ¡rio ainda.</p>';
       return;
     }
     let html = '';
@@ -1526,8 +1528,8 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
   let respostasHtml = '';
   if (co.respostas && co.respostas.length > 0) {
     co.respostas.forEach((r, idx) => {
-      const rTempo = tempoRelativo(r.criadoEm ? new Date(r.criadoEm) : null);
-      const rAv = avatarHtml(r.autor||'?', r.fotoUrl||null, 28);
+      const rTempo = tempoRelativo(r.criado_em ? new Date(r.criado_em) : null);
+      const rAv = avatarHtml(r.autor||'?', r.foto_url||null, 28);
       respostasHtml += `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;padding:10px 12px;background:rgba(99,102,241,0.06);border-left:3px solid #6366f1;border-radius:0 8px 8px 0;">
         ${rAv}
         <div style="flex:1;min-width:0;">
@@ -1535,7 +1537,7 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
             <strong style="font-size:12px;color:#a5b4fc;">${r.autor||'?'}</strong>
             <div style="display:flex;gap:6px;align-items:center;">
               <span style="font-size:11px;color:#475569;">${rTempo}</span>
-              ${(window._isSuperAdmin || temPermissao('comentarios') || r.autorId === window._adminUid) ? `<button onclick="deletarRespostaAdmin('${postId}','${docId}',${idx},'${r.autorId||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:12px;">🗑️</button>` : ''}
+              ${(window._isSuperAdmin || temPermissao('comentarios') || r.autor_id === window._adminUid) ? `<button onclick="deletarRespostaAdmin('${postId}','${docId}',${idx},'${r.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:12px;">ðŸ—‘ï¸</button>` : ''}
             </div>
           </div>
           <p style="margin:0;font-size:13px;color:var(--text);line-height:1.5;">${r.texto}</p>
@@ -1554,7 +1556,7 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
         <strong style="color:var(--accent);font-size:13px;">${nomeAutor}</strong>
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:11px;color:var(--text-muted);" title="${dateCriado ? dateCriado.toLocaleString('pt-BR') : ''}">${tempo}</span>
-          ${(window._isSuperAdmin || temPermissao('comentarios') || co.autor_id === window._adminUid) ? `<button onclick="deletarComentarioAdmin('${postId}','${docId}','${co.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;" title="Deletar comentário">🗑️</button>` : ''}
+          ${(window._isSuperAdmin || temPermissao('comentarios') || co.autor_id === window._adminUid) ? `<button onclick="deletarComentarioAdmin('${postId}','${docId}','${co.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;" title="Deletar comentÃ¡rio">ðŸ—‘ï¸</button>` : ''}
         </div>
       </div>
       <p style="margin:0 0 8px;font-size:14px;line-height:1.6;">${co.texto}${co.editado_em ? '<span style="font-size:11px;color:#64748b;margin-left:6px;font-style:italic;">(editado)</span>' : ''}</p>
@@ -1565,13 +1567,13 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
           <div style="flex:1;">
             <textarea id="texto-resposta-admin-${docId}" placeholder="Responder como admin..." style="width:100%;min-height:60px;background:rgba(255,255,255,0.05);border:1px solid rgba(99,102,241,0.4);border-radius:8px;padding:10px;color:var(--text);font-family:inherit;font-size:13px;resize:vertical;"></textarea>
             <div style="display:flex;gap:8px;margin-top:6px;">
-              <button class="btn btn-sm" onclick="enviarRespostaAdmin('${postId}','${docId}')" style="background:#6366f1;color:#fff;">↩ Responder</button>
+              <button class="btn btn-sm" onclick="enviarRespostaAdmin('${postId}','${docId}')" style="background:#6366f1;color:#fff;">â†© Responder</button>
               <button class="btn btn-sm" onclick="document.getElementById('form-resposta-admin-${docId}').style.display='none'" style="background:rgba(255,255,255,0.1);color:var(--text);">Cancelar</button>
             </div>
           </div>
         </div>
       </div>
-      <button onclick="mostrarFormRespostaAdmin('${docId}')" style="background:none;border:none;color:#6366f1;cursor:pointer;font-size:12px;font-weight:600;padding:4px 0;margin-top:4px;">↩ Responder</button>
+      <button onclick="mostrarFormRespostaAdmin('${docId}')" style="background:none;border:none;color:#6366f1;cursor:pointer;font-size:12px;font-weight:600;padding:4px 0;margin-top:4px;">â†© Responder</button>
     </div>
   </div>`;
 }
@@ -1603,13 +1605,13 @@ async function enviarRespostaAdmin(postId, comentarioId) {
     document.getElementById('form-resposta-admin-' + comentarioId).style.display = 'none';
     // onSnapshot atualiza automaticamente
   } catch (err) { alert('Erro ao enviar resposta: ' + err.message); }
-  finally { textarea.disabled = false; if (btn) { btn.disabled = false; btn.textContent = '↩ Responder'; } }
+  finally { textarea.disabled = false; if (btn) { btn.disabled = false; btn.textContent = 'â†© Responder'; } }
 }
 
 async function deletarRespostaAdmin(postId, comentarioId, idx, autorId) {
   const ehPropria = autorId && autorId === window._adminUid;
   if (!window._isSuperAdmin && !temPermissao('comentarios') && !ehPropria) {
-    alert('❌ Sem permissão para excluir respostas de outros.'); return;
+    alert('âŒ Sem permissÃ£o para excluir respostas de outros.'); return;
   }
   if (!confirm('Deletar esta resposta?')) return;
   try {
@@ -1638,18 +1640,18 @@ async function enviarComentarioAdmin(postId) {
       criado_em: new Date().toISOString()
     });
     textarea.value = '';
-    // onSnapshot atualiza automaticamente — sem recarregar
-  } catch (err) { alert('Erro ao enviar comentário: ' + err.message); }
+    // onSnapshot atualiza automaticamente â€” sem recarregar
+  } catch (err) { alert('Erro ao enviar comentÃ¡rio: ' + err.message); }
   finally { textarea.disabled = false; if (btn) { btn.disabled = false; btn.textContent = 'Enviar'; } }
 }
 
 async function deletarComentarioAdmin(postId, comentarioId, autorId) {
-  // Pode deletar se: superadmin OU tem permissão 'comentarios' OU é o próprio autor
+  // Pode deletar se: superadmin OU tem permissÃ£o 'comentarios' OU Ã© o prÃ³prio autor
   const ehProprioComentario = autorId && autorId === window._adminUid;
   if (!window._isSuperAdmin && !temPermissao('comentarios') && !ehProprioComentario) {
-    alert('❌ Sem permissão para excluir comentários de outros.'); return;
+    alert('âŒ Sem permissÃ£o para excluir comentÃ¡rios de outros.'); return;
   }
-  if (!confirm('Deletar este comentário?')) return;
+  if (!confirm('Deletar este comentÃ¡rio?')) return;
   try {
     await getSB().from('comentarios').delete().eq('id',comentarioId);
     // onSnapshot atualiza automaticamente
@@ -1657,15 +1659,16 @@ async function deletarComentarioAdmin(postId, comentarioId, autorId) {
 }
 
 
-// ══════════════════════════════════════════════
-// USUÁRIOS
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// USUÃRIOS
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // Armazena todos os alunos para filtragem local
 let _todosAlunos = [];
 
 async function carregarUsuarios() {
   try {
-    const snapshot = const { data: _allUsers } = await getSB().from('users').select('*');
+    const { data: _allUsers, error } = await getSB().from('users').select('*');
+    if (error) throw error;
     _todosAlunos = [];
     let pendentes = [];
 
@@ -1677,7 +1680,7 @@ async function carregarUsuarios() {
       else pendentes.push(entry);
     });
 
-    // ── Stats ──
+    // â”€â”€ Stats â”€â”€
     const total = pendentes.length + _todosAlunos.length;
     document.getElementById('stat-total').textContent = total;
     document.getElementById('stat-aprovados').textContent = _todosAlunos.length;
@@ -1685,10 +1688,10 @@ async function carregarUsuarios() {
     document.getElementById('badge-aprovados').textContent = _todosAlunos.length + ' aluno' + (_todosAlunos.length !== 1 ? 's' : '');
     document.getElementById('badge-pendentes').textContent = pendentes.length + ' aguardando';
 
-    // ── Pendentes ──
+    // â”€â”€ Pendentes â”€â”€
     if (pendentes.length === 0) {
       document.getElementById('usuarios-pendentes').innerHTML =
-        '<div style="text-align:center;padding:24px;color:var(--text-muted);"><span style="font-size:40px;display:block;margin-bottom:8px;">🎉</span>Nenhum aluno pendente</div>';
+        '<div style="text-align:center;padding:24px;color:var(--text-muted);"><span style="font-size:40px;display:block;margin-bottom:8px;">ðŸŽ‰</span>Nenhum aluno pendente</div>';
     } else {
       document.getElementById('usuarios-pendentes').innerHTML = `
         <div style="display:flex;flex-direction:column;gap:10px;">
@@ -1696,21 +1699,21 @@ async function carregarUsuarios() {
         </div>`;
     }
 
-    // ── Aprovados (respeita busca atual) ──
+    // â”€â”€ Aprovados (respeita busca atual) â”€â”€
     const busca = document.getElementById('buscaAlunos')?.value || '';
     renderAprovados(busca);
 
   } catch (error) {
-    console.error('Erro usuários:', error);
-    document.getElementById('usuarios-pendentes').innerHTML = '<p style="color:var(--red);padding:16px;">❌ Erro: ' + error.message + '</p>';
+    console.error('Erro usuÃ¡rios:', error);
+    document.getElementById('usuarios-pendentes').innerHTML = '<p style="color:var(--red);padding:16px;">âŒ Erro: ' + error.message + '</p>';
   }
 }
 
 function renderAlunoCard(u, aprovado) {
-  const av = avatarHtml(u.nome || u.email || '?', u.fotoUrl || null, 40);
-  const nome = u.nome || '—';
-  const email = u.email || '—';
-  const dataStr = u.criadoEm ? tempoRelativo(u.criadoEm) : '';
+  const av = avatarHtml(u.nome || u.email || '?', u.foto_url || null, 40);
+  const nome = u.nome || 'â€”';
+  const email = u.email || 'â€”';
+  const dataStr = u.created_at ? tempoRelativo(u.created_at) : '';
   return `
     <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:12px;transition:all .2s;"
          onmouseover="this.style.borderColor='rgba(99,102,241,0.3)';this.style.background='rgba(99,102,241,0.07)'"
@@ -1720,8 +1723,8 @@ function renderAlunoCard(u, aprovado) {
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <strong style="font-size:14px;color:var(--text);">${nome}</strong>
           ${aprovado
-            ? '<span style="background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.2);border-radius:20px;padding:1px 8px;font-size:10px;font-weight:800;text-transform:uppercase;">✓ Aprovado</span>'
-            : '<span style="background:rgba(249,115,22,0.12);color:#f97316;border:1px solid rgba(249,115,22,0.2);border-radius:20px;padding:1px 8px;font-size:10px;font-weight:800;text-transform:uppercase;">⏳ Pendente</span>'
+            ? '<span style="background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.2);border-radius:20px;padding:1px 8px;font-size:10px;font-weight:800;text-transform:uppercase;">âœ“ Aprovado</span>'
+            : '<span style="background:rgba(249,115,22,0.12);color:#f97316;border:1px solid rgba(249,115,22,0.2);border-radius:20px;padding:1px 8px;font-size:10px;font-weight:800;text-transform:uppercase;">â³ Pendente</span>'
           }
         </div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${email}</div>
@@ -1729,9 +1732,9 @@ function renderAlunoCard(u, aprovado) {
       </div>
       <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">
         ${!aprovado
-          ? `<button onclick="aprovarUsuario('${u.id}')" style="background:#10b981;color:#000;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">✅ Aprovar</button>
-             <button onclick="rejeitarUsuario('${u.id}')" style="background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.12)'">❌ Rejeitar</button>`
-          : `<button onclick="revogarAprovacao('${u.id}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">🚫 Revogar</button>`
+          ? `<button onclick="aprovarUsuario('${u.id}')" style="background:#10b981;color:#000;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">âœ… Aprovar</button>
+             <button onclick="rejeitarUsuario('${u.id}')" style="background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.12)'">âŒ Rejeitar</button>`
+          : `<button onclick="revogarAprovacao('${u.id}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">ðŸš« Revogar</button>`
         }
       </div>
     </div>`;
@@ -1746,7 +1749,7 @@ function renderAprovados(busca) {
   const container = document.getElementById('usuarios-aprovados');
   if (filtrados.length === 0) {
     container.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-muted);">${
-      busca ? '🔍 Nenhum aluno encontrado para <strong>"' + busca + '"</strong>' : '📭 Nenhum aluno aprovado ainda'
+      busca ? 'ðŸ” Nenhum aluno encontrado para <strong>"' + busca + '"</strong>' : 'ðŸ“­ Nenhum aluno aprovado ainda'
     }</div>`;
     return;
   }
@@ -1774,26 +1777,26 @@ function exportarAlunos() {
   link.click();
 }
 async function aprovarUsuario(uid) {
-  if (!temPermissao('alunos')) { alert('❌ Sem permissão.'); return; }
-  try { await getSB().from('users').update({ aprovado:true }).eq('id',uid); mostrarAlerta('alert-aprovacao','✅ Aprovado!','success'); carregarUsuarios(); }
-  catch (err) { mostrarAlerta('alert-aprovacao','❌ Erro ao aprovar','error'); }
+  if (!temPermissao('alunos')) { alert('âŒ Sem permissÃ£o.'); return; }
+  try { await getSB().from('users').update({ aprovado:true }).eq('id',uid); mostrarAlerta('alert-aprovacao','âœ… Aprovado!','success'); carregarUsuarios(); }
+  catch (err) { mostrarAlerta('alert-aprovacao','âŒ Erro ao aprovar','error'); }
 }
 async function rejeitarUsuario(uid) {
-  if (!temPermissao('alunos')) { alert('❌ Sem permissão.'); return; }
-  if (!confirm('Rejeitar e excluir este usuário?')) return;
-  try { await getSB().from('users').delete().eq('id',uid); mostrarAlerta('alert-aprovacao','✅ Rejeitado','success'); carregarUsuarios(); }
-  catch (err) { mostrarAlerta('alert-aprovacao','❌ Erro','error'); }
+  if (!temPermissao('alunos')) { alert('âŒ Sem permissÃ£o.'); return; }
+  if (!confirm('Rejeitar e excluir este usuÃ¡rio?')) return;
+  try { await getSB().from('users').delete().eq('id',uid); mostrarAlerta('alert-aprovacao','âœ… Rejeitado','success'); carregarUsuarios(); }
+  catch (err) { mostrarAlerta('alert-aprovacao','âŒ Erro','error'); }
 }
 async function revogarAprovacao(uid) {
-  if (!temPermissao('alunos')) { alert('❌ Sem permissão.'); return; }
-  if (!confirm('Revogar aprovação?')) return;
-  try { await getSB().from('users').update({ aprovado:false }).eq('id',uid); mostrarAlerta('alert-aprovacao','✅ Revogado','success'); carregarUsuarios(); }
-  catch (err) { mostrarAlerta('alert-aprovacao','❌ Erro','error'); }
+  if (!temPermissao('alunos')) { alert('âŒ Sem permissÃ£o.'); return; }
+  if (!confirm('Revogar aprovaÃ§Ã£o?')) return;
+  try { await getSB().from('users').update({ aprovado:false }).eq('id',uid); mostrarAlerta('alert-aprovacao','âœ… Revogado','success'); carregarUsuarios(); }
+  catch (err) { mostrarAlerta('alert-aprovacao','âŒ Erro','error'); }
 }
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // FOTOS DE TRADES
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let tradeFile = null;
 const uploadAreaTrade = document.getElementById('uploadAreaTrade');
 const fileInputTrade  = document.getElementById('fileInputTrade');
@@ -1805,8 +1808,8 @@ uploadAreaTrade.addEventListener('click', () => fileInputTrade.click());
 fileInputTrade.addEventListener('change', e => { if (e.target.files[0]) processarArquivoTrade(e.target.files[0]); });
 
 function processarArquivoTrade(file) {
-  if (!file.type.startsWith('image/')) { alert('❌ Apenas imagens'); return; }
-  if (file.size > 10*1024*1024) { alert('❌ Máximo 10MB'); return; }
+  if (!file.type.startsWith('image/')) { alert('âŒ Apenas imagens'); return; }
+  if (file.size > 10*1024*1024) { alert('âŒ MÃ¡ximo 10MB'); return; }
   tradeFile = file;
   const reader = new FileReader();
   reader.onload = e => {
@@ -1825,8 +1828,8 @@ function removerImagemTrade() {
 
 document.getElementById('formFotoTrade').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!temPermissao('planilha')) { alert('❌ Sem permissão para enviar fotos.'); return; }
-  if (!tradeFile) { mostrarAlerta('alert-foto-trade','❌ Selecione uma foto','error'); return; }
+  if (!temPermissao('planilha')) { alert('âŒ Sem permissÃ£o para enviar fotos.'); return; }
+  if (!tradeFile) { mostrarAlerta('alert-foto-trade','âŒ Selecione uma foto','error'); return; }
   const btn = document.getElementById('btnFotoTrade');
   btn.disabled = true; btn.textContent = 'Enviando...';
   try {
@@ -1839,20 +1842,20 @@ document.getElementById('formFotoTrade').addEventListener('submit', async (e) =>
     });
     const resultado = await response.json();
     if (resultado.success) {
-      mostrarAlerta('alert-foto-trade', `✅ Foto salva! (Linha ${resultado.linha})`, 'success');
+      mostrarAlerta('alert-foto-trade', `âœ… Foto salva! (Linha ${resultado.linha})`, 'success');
       document.getElementById('formFotoTrade').reset(); removerImagemTrade();
     } else { throw new Error(resultado.error || 'Erro desconhecido'); }
   } catch (error) {
-    mostrarAlerta('alert-foto-trade', '❌ Erro: ' + error.message, 'error');
+    mostrarAlerta('alert-foto-trade', 'âŒ Erro: ' + error.message, 'error');
     document.getElementById('uploadPreviewTrade').style.display = 'block';
   }
   document.getElementById('uploadProgressTrade').style.display = 'none';
   btn.disabled = false; btn.textContent = 'Salvar Foto do Trade';
 });
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // DADOS DO TRADE
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function calcularSemanaMes(dia) {
   if (dia <= 7) return 'SEMANA 1'; if (dia <= 14) return 'SEMANA 2';
   if (dia <= 21) return 'SEMANA 3'; if (dia <= 28) return 'SEMANA 4';
@@ -1886,23 +1889,24 @@ async function salvarAtivo(dia, mes, ano, semana, alvo, pontos, trades, gains, s
   return await response.json();
 }
 async function deletarPost(postId) {
-  if (!temPermissao('posts')) { alert('❌ Sem permissão para excluir posts.'); return; }
-  if (!confirm('Excluir este post permanentemente? Esta ação não pode ser desfeita.')) return;
+  if (!temPermissao('posts')) { alert('âŒ Sem permissÃ£o para excluir posts.'); return; }
+  if (!confirm('Excluir este post permanentemente? Esta aÃ§Ã£o nÃ£o pode ser desfeita.')) return;
   try {
-    // Busca o post para verificar se tem vídeo no YouTube
-    const postDoc = const { data: _postDoc } = await getSB().from('posts').select('youtube_video_id').eq('id',postId).single();
+    // Busca o post para verificar se tem vÃ­deo no YouTube
+    const { data: _postDoc } = await getSB().from('posts').select('youtube_video_id').eq('id',postId).single();
     const postData = _postDoc;
     const videoId = postData?.youtube_video_id || null;
 
     // Apaga do Supabase
-    await getSB().fromlection('posts').doc(postId).delete();
+    const { error: _delPostErr } = await getSB().from('posts').delete().eq('id', postId);
+    if (_delPostErr) throw _delPostErr;
 
-    // Se tinha vídeo no YouTube, apaga também
+    // Se tinha vÃ­deo no YouTube, apaga tambÃ©m
     if (videoId) {
       try {
-        // Garante token válido
+        // Garante token vÃ¡lido
         if (!ytAccessToken) {
-          const cfgDoc = const { data: _cfgDoc } = await getSB().from('config').select('data').eq('id','youtube').single();
+          const { data: _cfgDoc } = await getSB().from('config').select('data').eq('id','youtube').single();
           if (_cfgDoc?.data?.refresh_token) {
             await renovarAccessToken(_cfgDoc.data.refresh_token);
           }
@@ -1915,29 +1919,29 @@ async function deletarPost(postId) {
           });
           const data = await resp.json();
           if (data.success) {
-            console.log('[YT] Vídeo deletado:', videoId);
+            console.log('[YT] VÃ­deo deletado:', videoId);
           } else {
-            console.warn('[YT] Falha ao deletar vídeo:', data.error, data.detail || '');
-            // Informa o admin mas não bloqueia
+            console.warn('[YT] Falha ao deletar vÃ­deo:', data.error, data.detail || '');
+            // Informa o admin mas nÃ£o bloqueia
             if (data.hint) console.warn('[YT] Dica:', data.hint);
           }
         }
       } catch (ytErr) {
-        console.warn('[YT] Erro ao deletar vídeo do YouTube:', ytErr.message);
-        // Não bloqueia — post já foi apagado do Firestore
+        console.warn('[YT] Erro ao deletar vÃ­deo do YouTube:', ytErr.message);
+        // NÃ£o bloqueia â€” post jÃ¡ foi apagado do Firestore
       }
     }
-  } catch (err) { alert('❌ Erro ao excluir: ' + err.message); }
+  } catch (err) { alert('âŒ Erro ao excluir: ' + err.message); }
 }
 
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // EDITAR POST
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let _editPostCache = {};
 
 function abrirEditarPost(postId) {
   getSB().from('posts').select('*').eq('id',postId).single().then(({data:p,error:_e}) => {
-    if (_e || !p) { alert('Post não encontrado.'); return; }
+    if (_e || !p) { alert('Post nÃ£o encontrado.'); return; }
     _editPostCache = { id: postId, ...p };
     document.getElementById('editPostId').value = postId;
     document.getElementById('editPostTitulo').value = p.titulo || '';
@@ -1946,7 +1950,7 @@ function abrirEditarPost(postId) {
     document.getElementById('editPostLink').value = p.link || '';
     const modal = document.getElementById('modalEditarPost');
     modal.style.display = 'flex';
-  }).catch(err => alert('❌ Erro: ' + err.message));
+  }).catch(err => alert('âŒ Erro: ' + err.message));
 }
 
 function fecharEditarPost() {
@@ -1958,7 +1962,7 @@ async function salvarEdicaoPost() {
   const postId = document.getElementById('editPostId').value;
   if (!postId) return;
   const titulo = document.getElementById('editPostTitulo').value.trim();
-  if (!titulo) { mostrarAlerta('alert-edit-post', '❌ Título obrigatório.', 'error'); return; }
+  if (!titulo) { mostrarAlerta('alert-edit-post', 'âŒ TÃ­tulo obrigatÃ³rio.', 'error'); return; }
 
   try {
     await getSB().from('posts').update({
@@ -1969,10 +1973,10 @@ async function salvarEdicaoPost() {
       editado_em: new Date().toISOString(),
       editado_por: window._adminNome || 'Admin'
     }).eq('id', postId);;
-    mostrarAlerta('alert-edit-post', '✅ Post atualizado!', 'success');
+    mostrarAlerta('alert-edit-post', 'âœ… Post atualizado!', 'success');
     setTimeout(() => fecharEditarPost(), 1200);
   } catch (err) {
-    mostrarAlerta('alert-edit-post', '❌ Erro: ' + err.message, 'error');
+    mostrarAlerta('alert-edit-post', 'âŒ Erro: ' + err.message, 'error');
   }
 }
 
@@ -1981,9 +1985,9 @@ document.getElementById('modalEditarPost')?.addEventListener('click', (e) => {
   if (e.target.id === 'modalEditarPost') fecharEditarPost();
 });
 
-// ══════════════════════════════════════════════
-// MÚLTIPLOS ARQUIVOS — preview list
-// ══════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// MÃšLTIPLOS ARQUIVOS â€” preview list
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let arquivosMultiplos = [];
 
 function inicializarVisualizacao() {
@@ -1998,14 +2002,14 @@ function alternarVisualizacao() {
 }
 
 function inicializarVisualizacao() {
-  // Garante que ao abrir o painel admin a preferência volta para admin
+  // Garante que ao abrir o painel admin a preferÃªncia volta para admin
   localStorage.setItem(VISTA_KEY, 'admin');
 }
 
 
 document.getElementById('formTradeData').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!temPermissao('planilha')) { alert('❌ Sem permissão para registrar trades.'); return; }
+  if (!temPermissao('planilha')) { alert('âŒ Sem permissÃ£o para registrar trades.'); return; }
   const btn = document.getElementById('btnTradeData');
   btn.disabled = true; btn.textContent = 'Salvando...';
   try {
@@ -2015,7 +2019,7 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
     const semana = document.getElementById('semana').value || calcularSemanaMes(dia);
     const nasOp = document.getElementById('nasOp').checked;
     const dowOp = document.getElementById('dowOp').checked;
-    if (!nasOp && !dowOp) { mostrarAlerta('alert-trade-data','❌ Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent='💾 Salvar na Planilha'; return; }
+    if (!nasOp && !dowOp) { mostrarAlerta('alert-trade-data','âŒ Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent='ðŸ’¾ Salvar na Planilha'; return; }
     const erros = [], linhas = [];
     if (nasOp) {
       const r = await salvarAtivo(dia, mes, ano, semana, 'NASDAQ', document.getElementById('nasPontos').value||0, document.getElementById('nasTrades').value||0, document.getElementById('nasGains').value||0, document.getElementById('nasStops').value||0, document.getElementById('nasBreak').value||0);
@@ -2026,11 +2030,12 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
       if (r.success) linhas.push(`DOW linha ${r.linha}`); else erros.push('DOW: ' + r.error);
     }
     if (erros.length) throw new Error(erros.join(' | '));
-    mostrarAlerta('alert-trade-data', `✅ Salvo! (${linhas.join(', ')})`, 'success');
+    mostrarAlerta('alert-trade-data', `âœ… Salvo! (${linhas.join(', ')})`, 'success');
     ['nasPontos','nasTrades','nasGains','nasStops','nasBreak','dowPontos','dowTrades','dowGains','dowStops','dowBreak'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
-  } catch (error) { mostrarAlerta('alert-trade-data', '❌ Erro: ' + error.message, 'error'); }
-  btn.disabled = false; btn.textContent = '💾 Salvar na Planilha';
+  } catch (error) { mostrarAlerta('alert-trade-data', 'âŒ Erro: ' + error.message, 'error'); }
+  btn.disabled = false; btn.textContent = 'ðŸ’¾ Salvar na Planilha';
 });
 </script>
 </body>
 </html>
+
