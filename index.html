@@ -12,7 +12,7 @@
 <!-- Supabase via unpkg -->
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-/* Supabase config embutido â€” nÃ£o depende de arquivo externo */
+/* Supabase config embutido  ?" não depende de arquivo externo */
 (function(){
   function init() {
     if (window.supabase && window.supabase.createClient) {
@@ -22,7 +22,7 @@
         window._supabaseUrl,
         window._supabaseAnonKey
       );
-      console.log('âœ… Supabase inicializado');
+      console.log(' o. Supabase inicializado');
       document.dispatchEvent(new Event('supabase-ready'));
     } else {
       setTimeout(init, 50);
@@ -34,9 +34,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
  
 <style>
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   VARIÃVEIS & RESET
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   VARIÁVEIS & RESET
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 :root {
   --glass-bg:       rgba(10, 18, 35, 0.72);
   --glass-bg-light: rgba(20, 35, 60, 0.60);
@@ -103,9 +103,9 @@ body::after {
   z-index: 0;
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    LOADING
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .loading-overlay {
   position: fixed; inset: 0;
   background: #030a1a;
@@ -134,9 +134,9 @@ body::after {
 }
 @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    PERFORMANCE INDICATOR
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .performance-indicator {
   position: fixed; top: 20px; right: 20px;
   background: var(--glass-bg);
@@ -155,9 +155,9 @@ body::after {
 .performance-dot.negative { background:var(--red); box-shadow:0 0 8px var(--red); }
 .performance-dot.neutral  { background:var(--yellow); box-shadow:0 0 8px var(--yellow); }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    WRAPPER PRINCIPAL
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .app-wrapper {
   position: relative;
   z-index: 1;
@@ -166,9 +166,9 @@ body::after {
   flex-direction: column;
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    TOP BAR
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .topbar {
   display: flex;
   align-items: center;
@@ -260,9 +260,9 @@ body::after {
 }
 .portal-btn:hover { background: linear-gradient(135deg, rgba(0,229,160,0.35), rgba(59,130,246,0.35)); box-shadow: 0 0 14px rgba(0,229,160,0.3); transform: translateY(-1px); }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    FILTROS BAR
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .filters-bar {
   display: flex;
   align-items: center;
@@ -316,9 +316,9 @@ body::after {
 .stat-pill-label { color: var(--text-muted); font-weight: 500; }
 .stat-pill-value { color: var(--text); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CONTEÃšDO PRINCIPAL
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CONTE sDO PRINCIPAL
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .main-content {
   flex: 1;
   padding: 24px 32px 32px;
@@ -329,9 +329,9 @@ body::after {
 .tab-content.active { display: block; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    GLASS CARD BASE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -372,9 +372,9 @@ body::after {
   box-shadow: 0 0 8px var(--glow-cyan);
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    LAYOUT GRID PRINCIPAL (inspirado na imagem)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -387,9 +387,9 @@ body::after {
 /* Coluna direita */
 .col-right { display: flex; flex-direction: column; gap: 20px; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD BOAS VINDAS + KPIs PRINCIPAIS
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .welcome-card {
   padding: 24px 28px;
 }
@@ -468,18 +468,18 @@ body::after {
   margin-top: 5px; font-weight: 500;
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   KPIs SECUNDÃRIOS (segunda linha)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   KPIs SECUNDÁRIOS (segunda linha)
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .kpi-secondary-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD DE CONTRATOS
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .contratos-card {
   padding: 22px 24px;
 }
@@ -527,9 +527,9 @@ body::after {
   display: flex; align-items: center; gap: 5px;
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CARD GRÃFICO DE PERFORMANCE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CARD GRÁFICO DE PERFORMANCE
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .chart-card {
   padding: 24px 28px;
   flex: 1;
@@ -537,9 +537,9 @@ body::after {
 .chart-wrap { position: relative; height: 220px; width: 100%; }
 canvas { width: 100%!important; height: 100%!important; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD ASSERTIVIDADE (ring circular)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .ring-card {
   padding: 24px 28px;
   display: flex; flex-direction: column;
@@ -598,15 +598,15 @@ canvas { width: 100%!important; height: 100%!important; }
 .ring-stat-row span:first-child { color: var(--text-dim); font-weight: 500; }
 .ring-stat-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CARD DISTRIBUIÃ‡ÃƒO (donut)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CARD DISTRIBUI ? fO (donut)
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .dist-card { padding: 24px 28px; }
 .dist-chart-wrap { position: relative; height: 180px; margin: 0 auto; width: 100%; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CALENDÃRIO DE TRADING
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CALENDÁRIO DE TRADING
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .calendar-card { padding: 24px 28px; }
 .calendar-header-row {
   display: grid;
@@ -662,7 +662,7 @@ canvas { width: 100%!important; height: 100%!important; }
   backdrop-filter: blur(4px);
 }
 .day.clickable { cursor: pointer; }
-.day.clickable::after { content:'ðŸ“¸'; position:absolute; top:4px; right:4px; font-size:10px; opacity:0; transition:opacity 0.2s; }
+.day.clickable::after { content:' Y" '; position:absolute; top:4px; right:4px; font-size:10px; opacity:0; transition:opacity 0.2s; }
 .day.clickable:hover::after { opacity:0.7; }
 .day.positive { background: rgba(0,229,160,0.06); border-color: rgba(0,229,160,0.22); }
 .day.negative { background: rgba(255,77,106,0.06); border-color: rgba(255,77,106,0.22); }
@@ -696,9 +696,9 @@ canvas { width: 100%!important; height: 100%!important; }
   margin-bottom: 20px;
 }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    TABELA
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .table-card { padding: 24px 28px; }
 .table-wrap { overflow-x: auto; border-radius: 10px; margin-top: 4px; }
 table { width:100%; min-width:900px; border-collapse:separate; border-spacing:0; }
@@ -725,9 +725,9 @@ tr.total td { border-bottom:none; padding:14px 14px; font-size:13px; color:var(-
 tbody tr { transition: all 0.2s; }
 tbody tr:hover { background: rgba(59,130,246,0.06); }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CALENDÃRIO ECONÃ”MICO
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CALENDÁRIO ECON "MICO
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .market-card { padding: 24px 28px; }
 .market-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--glass-border); }
 .market-header h3 { font-family:'Orbitron',monospace; font-size:11px; font-weight:600; color:var(--text-dim); letter-spacing:2.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
@@ -736,9 +736,9 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .calendar-refresh-btn { background:rgba(59,130,246,0.10); color:var(--accent2); border:1px solid var(--glass-border-bright); border-radius:8px; padding:7px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; white-space:nowrap; font-family:'Inter',sans-serif; }
 .calendar-refresh-btn:hover { background:rgba(59,130,246,0.25); color:#fff; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    MODAL
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .trade-photo-modal { position:fixed; inset:0; background:rgba(0,0,0,0.90); display:none; align-items:center; justify-content:center; z-index:10000; padding:20px; backdrop-filter:blur(16px); }
 .trade-photo-modal.active { display:flex; }
 .modal-content { background:rgba(10,18,40,0.95); border:1px solid var(--glass-border-bright); border-radius:var(--radius); max-width:650px; width:100%; max-height:85vh; overflow-y:auto; position:relative; box-shadow:0 24px 64px rgba(0,0,0,0.8),0 0 40px rgba(59,130,246,0.15); animation:slideInUp 0.35s cubic-bezier(0.4,0,0.2,1); backdrop-filter:blur(24px); }
@@ -769,9 +769,9 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .modal-photo-spinner { width:36px; height:36px; border:2px solid rgba(59,130,246,0.15); border-top-color:var(--accent2); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px; }
 .modal-photo-error { text-align:center; padding:40px 20px; color:var(--red); font-size:13px; font-weight:600; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CAPTURE CARD (fora da tela, para download)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .capture-card { position:fixed; top:-10000px; left:-10000px; background:linear-gradient(135deg,#030a1a 0%,#0a1628 100%); border:1px solid rgba(59,130,246,0.25); border-radius:16px; padding:24px; width:900px; }
 .capture-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid rgba(59,130,246,0.15); }
 .capture-header-icon { font-size:26px; }
@@ -785,9 +785,9 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .capture-footer { margin-top:16px; padding-top:16px; border-top:1px solid rgba(59,130,246,0.15); text-align:center; display:flex; align-items:center; justify-content:center; min-height:60px; }
 .capture-footer img { max-height:48px; max-width:280px; height:auto; width:auto; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    FOOTER
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .site-footer { background:rgba(5,10,25,0.85); border-top:1px solid var(--glass-border); padding:24px 32px 18px; backdrop-filter:blur(20px); position:relative; z-index:1; }
 .footer-inner { max-width:1800px; margin:0 auto; }
 .footer-row { display:flex; align-items:center; gap:16px; padding:12px 0; border-bottom:1px solid var(--glass-border); }
@@ -811,17 +811,17 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .footer-bottom { border-top:1px solid var(--glass-border); margin-top:12px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 .footer-bottom p { font-size:11px; color:var(--text-muted); }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    SCROLLBAR
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:rgba(5,10,25,0.5); }
 ::-webkit-scrollbar-thumb { background:rgba(59,130,246,0.3); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:rgba(0,220,255,0.5); }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   LIGHT THEME (sobrescreve o necessÃ¡rio)
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   LIGHT THEME (sobrescreve o necessário)
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 body.light-theme {
   background: linear-gradient(180deg, #e8f0ff 0%, #d0dff5 50%, #c8d8f0 100%);
 }
@@ -846,9 +846,9 @@ body.light-theme td { color: #3a5a7a; }
 body.light-theme .topbar-title { color: #1a4a8a; }
 body.light-theme .welcome-text h2 { color: #0f1e32; }
  
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    RESPONSIVO
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 @media(max-width:1200px) {
   .dashboard-grid { grid-template-columns: 1fr; }
   .col-right { flex-direction: row; flex-wrap: wrap; }
@@ -1261,7 +1261,7 @@ body.light-theme .theme-toggle {
 <!-- Performance indicator -->
 <div class="performance-indicator" id="perfIndicator" style="display:none;">
   <div class="performance-dot neutral"></div>
-  <span id="perfText">â€”</span>
+  <span id="perfText"> ?"</span>
 </div>
  
 <div class="app-wrapper">
@@ -1273,23 +1273,23 @@ body.light-theme .theme-toggle {
     </div>
     <div class="topbar-center">
       <button class="tab-btn active" id="tabDashboard" onclick="Dashboard.mudarAba('dashboard')">
-        <span class="tab-icon">ðŸ“Š</span>Dashboard
+        <span class="tab-icon">&#128202;</span>Dashboard
       </button>
       <button class="tab-btn" id="tabMercado" onclick="Dashboard.mudarAba('mercado')">
-        <span class="tab-icon">ðŸ“…</span>CalendÃ¡rio EconÃ´mico
+        <span class="tab-icon">&#128197;</span>Calendário Econômico
       </button>
     </div>
     <div class="topbar-right">
-      <a href="portal/login.html" class="portal-btn">ðŸŽ“ <span>Portal do Aluno</span></a>
-      <button class="topbar-btn" id="pdfReportBtn" onclick="Dashboard.gerarRelatorioPDF()" style="visibility:hidden;">ðŸ“¸ <span>Exportar</span></button>
-      <button class="theme-toggle" onclick="Dashboard.toggleTema()"><span id="themeIcon">ðŸŒ™</span></button>
+      <a href="portal/login.html" class="portal-btn">&#127891; <span>Portal do Aluno</span></a>
+      <button class="topbar-btn" id="pdfReportBtn" onclick="Dashboard.gerarRelatorioPDF()" style="visibility:hidden;">&#128248; <span>Exportar</span></button>
+      <button class="theme-toggle" onclick="Dashboard.toggleTema()"><span id="themeIcon">&#127769;</span></button>
     </div>
   </header>
  
   <!-- Mobile tabs -->
   <div class="mobile-tabs">
-    <button class="tab-btn active" onclick="Dashboard.mudarAba('dashboard')">ðŸ“Š Dashboard</button>
-    <button class="tab-btn" onclick="Dashboard.mudarAba('mercado')">ðŸ“… CalendÃ¡rio EconÃ´mico</button>
+    <button class="tab-btn active" onclick="Dashboard.mudarAba('dashboard')">&#128202; Dashboard</button>
+    <button class="tab-btn" onclick="Dashboard.mudarAba('mercado')">&#128197; Calendário Econômico</button>
   </div>
  
   <!-- FILTROS -->
@@ -1300,10 +1300,10 @@ body.light-theme .theme-toggle {
     <select id="filtroSemana" class="filter-select"></select>
   </div>
  
-  <!-- CONTEÃšDO PRINCIPAL -->
+  <!-- CONTE sDO PRINCIPAL -->
   <main class="main-content">
  
-    <!-- â”€â”€ ABA DASHBOARD â”€â”€ -->
+    <!--  "? "? ABA DASHBOARD  "? "? -->
     <div id="contentDashboard" class="tab-content active">
       <div class="dashboard-grid">
  
@@ -1314,7 +1314,7 @@ body.light-theme .theme-toggle {
           <!-- Card boas-vindas + KPIs principais -->
           <div class="glass-card welcome-card">
             <div class="welcome-top">
-              <div class="welcome-icon">ðŸ“ˆ</div>
+              <div class="welcome-icon">&#128200;</div>
               <div class="welcome-text">
                 <h2>Bem-vindo de Volta!</h2>
                 <p id="welcomePeriod">Carregando dados...</p>
@@ -1339,7 +1339,7 @@ body.light-theme .theme-toggle {
             </div>
           </div>
  
-          <!-- KPIs secundÃ¡rios -->
+          <!-- KPIs secundários -->
           <div class="kpi-secondary-row">
             <div class="glass-card kpi-box" style="padding:18px 20px;">
               <div class="kpi-label">Total Trades</div>
@@ -1359,11 +1359,11 @@ body.light-theme .theme-toggle {
             </div>
           </div>
  
-          <!-- GrÃ¡fico de performance -->
+          <!-- Gráfico de performance -->
           </div>
 
           <div class="glass-card chart-card">
-            <div class="card-title">EvoluÃ§Ã£o de Performance</div>
+            <div class="card-title">Evolução de Performance</div>
             <div class="chart-wrap">
               <canvas id="chartAcumulado"></canvas>
             </div>
@@ -1371,7 +1371,7 @@ body.light-theme .theme-toggle {
  
           <!-- Tabela -->
           <div class="glass-card table-card">
-            <div class="card-title">HistÃ³rico de OperaÃ§Ãµes</div>
+            <div class="card-title">Histórico de Operações</div>
             <div class="table-wrap">
               <table>
                 <thead>
@@ -1419,35 +1419,35 @@ body.light-theme .theme-toggle {
             </div>
           </div>
  
-          <!-- Contratos + Valor em dÃ³lar -->
+          <!-- Contratos + Valor em dólar -->
           <div class="glass-card contratos-card">
             <div class="card-title">Calculadora de Contratos</div>
             <div class="contratos-control">
-              <button id="btnMenos" class="btn-control">âˆ’</button>
+              <button id="btnMenos" class="btn-control"> ^'</button>
               <div id="valorContratos" class="valor-contratos">0</div>
               <button id="btnMais" class="btn-control">+</button>
             </div>
             <div class="currency-row">
               <div class="currency-pill">
-                ðŸ”µ <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
+                 Y"  <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
               </div>
               <div class="currency-pill">
-                ðŸŸ  <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
+                 YY  <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
               </div>
             </div>
             <div class="currency-row">
               <div class="currency-pill">
-                ðŸ‡§ðŸ‡· <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
+                 Y?  Y?  <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
               </div>
               <div class="currency-pill">
-                ðŸ‡§ðŸ‡· <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
+                 Y?  Y?  <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
               </div>
             </div>
           </div>
  
-          <!-- DistribuiÃ§Ã£o -->
+          <!-- Distribuição -->
           <div class="glass-card dist-card">
-            <div class="card-title">DistribuiÃ§Ã£o</div>
+            <div class="card-title">Distribuição</div>
             <div class="dist-chart-wrap">
               <canvas id="chartBar"></canvas>
             </div>
@@ -1456,28 +1456,28 @@ body.light-theme .theme-toggle {
         </div><!-- /col-right -->
       </div><!-- /dashboard-grid -->
 
-      <!-- CalendÃ¡rio de trading -->
+      <!-- Calendário de trading -->
       <div class="dashboard-calendar-row">
         <div class="glass-card calendar-card">
           <div class="calendar-title-row">
-            <div class="card-title" id="calendarTitle" style="margin-bottom:0">CalendÃ¡rio de Trading</div>
+            <div class="card-title" id="calendarTitle" style="margin-bottom:0">Calendário de Trading</div>
           </div>
           <div class="calendar-header-row" id="calendarHeaderRow">
-            <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>SÃ¡b</div>
+            <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
           </div>
           <div class="calendar-grid" id="calendar"></div>
         </div>
       </div>
     </div><!-- /contentDashboard -->
  
-    <!-- â”€â”€ ABA CALENDÃRIO ECONÃ”MICO â”€â”€ -->
+    <!--  "? "? ABA CALENDÁRIO ECON "MICO  "? "? -->
     <div id="contentMercado" class="tab-content">
       <div class="glass-card market-card">
         <div class="market-header">
-          <h3>ðŸ“… CalendÃ¡rio EconÃ´mico</h3>
+          <h3> Y". Calendário Econômico</h3>
           <div style="display:flex;align-items:center;gap:12px;">
-            <button class="calendar-refresh-btn" onclick="Dashboard.atualizarCalendario()">ðŸ”„ Atualizar</button>
-            <a href="https://br.investing.com/economic-calendar/" target="_blank" class="market-link">Ver Completo â†’</a>
+            <button class="calendar-refresh-btn" onclick="Dashboard.atualizarCalendario()"> Y"" Atualizar</button>
+            <a href="https://br.investing.com/economic-calendar/" target="_blank" class="market-link">Ver Completo  ?'</a>
           </div>
         </div>
         <div id="tvCalendarContainer" style="min-height:700px;"></div>
@@ -1517,8 +1517,8 @@ body.light-theme .theme-toggle {
         </div>
       </div>
       <div class="footer-bottom">
-        <p>Â© 2025 Mentoria Nasdaq Pro. Todos os direitos reservados.</p>
-        <p>âš ï¸ ConteÃºdo apenas educacional. NÃ£o constitui recomendaÃ§Ã£o de investimento.</p>
+        <p>© 2025 Mentoria Nasdaq Pro. Todos os direitos reservados.</p>
+        <p>&#9888;&#65039; Conteúdo apenas educacional. Não constitui recomendação de investimento.</p>
       </div>
     </div>
   </footer>
@@ -1529,8 +1529,8 @@ body.light-theme .theme-toggle {
 <div class="trade-photo-modal" id="tradePhotoModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 id="modalTitle">ðŸ“… Carregando...</h2>
-      <button class="modal-close-btn" onclick="Dashboard.fecharModal()">Ã—</button>
+      <h2 id="modalTitle">&#128197; Carregando...</h2>
+      <button class="modal-close-btn" onclick="Dashboard.fecharModal()">&times;</button>
     </div>
     <div class="modal-body">
       <div class="modal-info-grid" id="modalInfoGrid"></div>
@@ -1543,7 +1543,7 @@ body.light-theme .theme-toggle {
  
 <!-- Capture card (fora da tela) -->
 <div class="capture-card" id="captureCard">
-  <div class="capture-header"><span class="capture-header-icon" id="captureIcon">ðŸ“…</span><span class="capture-header-title" id="captureTitle">Carregando...</span></div>
+  <div class="capture-header"><span class="capture-header-icon" id="captureIcon">&#128197;</span><span class="capture-header-title" id="captureTitle">Carregando...</span></div>
   <div class="capture-stats" id="captureStats"></div>
   <div class="capture-photo" id="capturePhoto"></div>
   <div class="capture-footer" id="captureFooter">
@@ -1551,9 +1551,9 @@ body.light-theme .theme-toggle {
   </div>
 </div>
  
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-     TODA A LÃ“GICA JS â€” IDÃŠNTICA AO ORIGINAL
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!--  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+     TODA A L "GICA JS  ?" ID SNTICA AO ORIGINAL
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  -->
 <script>
 let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null;
  
@@ -1565,22 +1565,22 @@ async function carregarConfiguracoes() {
       document.addEventListener('supabase-ready', resolve, { once: true });
       setTimeout(resolve, 5000);
     });
-    if (!window._supabase) throw new Error('Supabase nÃ£o inicializado');
+    if (!window._supabase) throw new Error('Supabase não inicializado');
     const { data, error } = await window._supabase
       .from('config')
       .select('*')
       .eq('id', 'public')
       .single();
-    if (error || !data) throw new Error(error?.message || 'config/public nÃ£o encontrado');
+    if (error || !data) throw new Error(error?.message || 'config/public não encontrado');
     CSV_URL                = data.csv_url              || null;
     GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id      || null;
   } catch (err) {
-    console.error('Erro configuraÃ§Ãµes:', err);
-    alert('âŒ Erro ao carregar configuraÃ§Ãµes. Verifique o Supabase.');
+    console.error('Erro configurações:', err);
+    alert(' O Erro ao carregar configurações. Verifique o Supabase.');
   }
 }
  
-const nomesMeses = {"01":"Janeiro","02":"Fevereiro","03":"MarÃ§o","04":"Abril","05":"Maio","06":"Junho","07":"Julho","08":"Agosto","09":"Setembro","10":"Outubro","11":"Novembro","12":"Dezembro"};
+const nomesMeses = {"01":"Janeiro","02":"Fevereiro","03":"Março","04":"Abril","05":"Maio","06":"Junho","07":"Julho","08":"Agosto","09":"Setembro","10":"Outubro","11":"Novembro","12":"Dezembro"};
  
 const Dashboard = {
   dados:[], primeiraCarga:true, chartAcumulado:null, chartBar:null,
@@ -1594,7 +1594,7 @@ const Dashboard = {
     this.atualizarPerformanceIndicator();
     this.inicializarConversorMoeda();
     this.inicializarGestosMobile();
-    // Verifica se Ã© admin no Supabase
+    // Verifica se é admin no Supabase
     try {
       if (window._supabase) {
         const { data: { session } } = await window._supabase.auth.getSession();
@@ -1619,10 +1619,10 @@ const Dashboard = {
     const content = document.getElementById('content' + aba.charAt(0).toUpperCase() + aba.slice(1));
     if (content) content.classList.add('active');
     document.querySelectorAll('.tab-btn').forEach(btn => {
-      if (btn.textContent.toLowerCase().includes(aba === 'dashboard' ? 'dashboard' : 'calendÃ¡rio') ||
-          btn.textContent.toLowerCase().includes(aba === 'mercado' ? 'calendÃ¡rio' : '')) {
+      if (btn.textContent.toLowerCase().includes(aba === 'dashboard' ? 'dashboard' : 'calendário') ||
+          btn.textContent.toLowerCase().includes(aba === 'mercado' ? 'calendário' : '')) {
         if ((aba === 'dashboard' && btn.textContent.includes('Dashboard')) ||
-            (aba === 'mercado' && btn.textContent.includes('CalendÃ¡rio')))
+            (aba === 'mercado' && btn.textContent.includes('Calendário')))
           btn.classList.add('active');
       }
     });
@@ -1650,7 +1650,7 @@ const Dashboard = {
     if (!btn) return;
     const textoOriginal = btn.innerHTML;
     btn.classList.add('loading');
-    btn.innerHTML = '⏳ Gerando...';
+    btn.innerHTML = '? Gerando...';
 
     try {
       if (!window.html2canvas) {
@@ -1693,7 +1693,7 @@ const Dashboard = {
         const ultimo = new Date(ano2, mes2 + 1, 0);
         const nomeMesCal = nomesMeses[mesCalendario] || mesCalendario;
 
-        const headerCells = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+        const headerCells = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'S b']
           .map(ds => `<div style="text-align:center;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:4px 0;">${ds}</div>`)
           .join('');
 
@@ -1742,11 +1742,11 @@ const Dashboard = {
         }
 
         calCells = `
-          <div style="font-size:15px;font-weight:700;color:#94a3b8;margin-bottom:14px;">📅 ${nomeMesCal} ${ano2}</div>
+          <div style="font-size:15px;font-weight:700;color:#94a3b8;margin-bottom:14px;">?? ${nomeMesCal} ${ano2}</div>
           <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:8px;">${headerCells}</div>
           <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">${emptyCells}${dayCells}</div>`;
       } else {
-        calCells = `<div style="color:#64748b;text-align:center;padding:20px;font-size:14px;">Sem dados para o período selecionado</div>`;
+        calCells = `<div style="color:#64748b;text-align:center;padding:20px;font-size:14px;">Sem dados para o per odo selecionado</div>`;
       }
 
       const logoSrc = document.querySelector('.topbar-logo, .header-logo');
@@ -1812,7 +1812,7 @@ const Dashboard = {
       });
       document.body.removeChild(wrap);
 
-      btn.innerHTML = '💾 Salvando...';
+      btn.innerHTML = '?? Salvando...';
       canvas.toBlob(blob => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -1823,7 +1823,7 @@ const Dashboard = {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        btn.innerHTML = '✅ Imagem Salva!';
+        btn.innerHTML = '? Imagem Salva!';
         setTimeout(() => {
           btn.innerHTML = textoOriginal;
           btn.classList.remove('loading');
@@ -1831,9 +1831,9 @@ const Dashboard = {
       }, 'image/png');
 
     } catch (erro) {
-      console.error('❌ Erro ao exportar:', erro);
-      alert('❌ Erro ao gerar imagem. Tente novamente.');
-      btn.innerHTML = '❌ Erro';
+      console.error('? Erro ao exportar:', erro);
+      alert('? Erro ao gerar imagem. Tente novamente.');
+      btn.innerHTML = '? Erro';
       setTimeout(() => {
         btn.innerHTML = textoOriginal;
         btn.classList.remove('loading');
@@ -1865,7 +1865,7 @@ const Dashboard = {
         if(error) console.warn('Falha na Edge Function dashboard-dados:', error.message || error);
       }
       if(!CSV_URL) {
-        console.warn('CSV_URL nÃ£o configurada no carregamento inicial.');
+        console.warn('CSV_URL não configurada no carregamento inicial.');
         document.getElementById('loading').classList.add('hidden');
         return;
       }
@@ -1967,9 +1967,9 @@ const Dashboard = {
     const op=t.gain+t.stop, ass=op?Math.round((t.gain/op)*100):0, dias=dados.filter(d=>d.trades>0).length;
     const vc=document.getElementById('valorContratos'), contratos=vc?parseInt(vc.textContent)||0:0;
     const totalNasdaq=t.pontosNasdaq*contratos*2, totalDow=t.pontosDow*contratos*0.5;
-    // PerÃ­odo no header
+    // Período no header
     const wp=document.getElementById('welcomePeriod');
-    if(wp){const a=filtroAno.value,m=filtroMes.value;wp.textContent=m!=='ALL'?`${nomesMeses[m]||m} / ${a}`:`Ano ${a} â€” todos os meses`;}
+    if(wp){const a=filtroAno.value,m=filtroMes.value;wp.textContent=m!=='ALL'?`${nomesMeses[m]||m} / ${a}`:`Ano ${a}  ?" todos os meses`;}
     // KPIs
     document.getElementById("kDias").textContent=dias;
     document.getElementById("kTrades").textContent=t.trades;
@@ -1980,7 +1980,7 @@ const Dashboard = {
     const kz=document.getElementById("kZero"); if(kz)kz.textContent=t.zero;
     // Ring
     this.atualizarRing(ass, t.gain, t.stop, t.zero, op);
-    // DÃ³lar
+    // Dólar
     const kdN=document.getElementById("kDolarNasdaq"); if(kdN){kdN.textContent=totalNasdaq.toLocaleString('en-US',{style:'currency',currency:'USD'});kdN.style.color=totalNasdaq>=0?'var(--green)':'var(--red)';}
     const kdD=document.getElementById("kDolarDow"); if(kdD){kdD.textContent=totalDow.toLocaleString('en-US',{style:'currency',currency:'USD'});kdD.style.color=totalDow>=0?'var(--orange)':'var(--red)';}
     this.atualizarValorReal();
@@ -2044,7 +2044,7 @@ const Dashboard = {
     if(this.chartBar)this.chartBar.destroy();
     const ctxAc=document.getElementById('chartAcumulado');
     if(ctxAc){
-      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['InÃ­cio',...labels],datasets:[{label:'Pontos',data:acumulado,borderColor:'#00dcff',backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,'rgba(0,220,255,0.24)');g.addColorStop(1,'rgba(0,220,255,0.02)');return g;},fill:true,tension:0.4,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#00dcff',pointBorderColor:'#030a1a',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:(context)=>{const idx=context?.tooltip?.dataPoints?.[0]?.dataIndex??0;return diarios[idx]<0?'#ff7b93':'#dff6ff';},borderColor:'rgba(0,220,255,0.4)',borderWidth:1,padding:12,displayColors:false,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario=diarios[idx]||0;const diarioTxt=`Resultado do dia: ${diario>0?'+':''}${diario} pts`;const acumTxt=`Acumulado: ${i.formattedValue} pts`;return [diarioTxt,acumTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
+      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets:[{label:'Pontos',data:acumulado,borderColor:'#00dcff',backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,'rgba(0,220,255,0.24)');g.addColorStop(1,'rgba(0,220,255,0.02)');return g;},fill:true,tension:0.4,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#00dcff',pointBorderColor:'#030a1a',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:(context)=>{const idx=context?.tooltip?.dataPoints?.[0]?.dataIndex??0;return diarios[idx]<0?'#ff7b93':'#dff6ff';},borderColor:'rgba(0,220,255,0.4)',borderWidth:1,padding:12,displayColors:false,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario=diarios[idx]||0;const diarioTxt=`Resultado do dia: ${diario>0?'+':''}${diario} pts`;const acumTxt=`Acumulado: ${i.formattedValue} pts`;return [diarioTxt,acumTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
     }
     const ctxBar=document.getElementById('chartBar');
     if(ctxBar){
@@ -2089,7 +2089,7 @@ const Dashboard = {
     if(!grid)return; grid.innerHTML="";
  
     if(filtroMes.value==="ALL"){
-      if(ct)ct.innerHTML=`<div class="card-title" style="margin-bottom:0">CalendÃ¡rio de Trading</div>`;
+      if(ct)ct.innerHTML=`<div class="card-title" style="margin-bottom:0">Calendário de Trading</div>`;
       if(headerRow)headerRow.style.display='none';
       const md=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))].sort();
       md.forEach(mesNum=>{
@@ -2118,7 +2118,7 @@ const Dashboard = {
     const idxMesAtual=mesesDisponiveis.indexOf(filtroMes.value);
     const podeVoltar=idxMesAtual>0;
     const podeAvancar=idxMesAtual>-1&&idxMesAtual<mesesDisponiveis.length-1;
-    if(ct)ct.innerHTML=`<div class="calendar-month-nav"><button class="month-nav-btn" onclick="Dashboard.irMesAnterior()" ${podeVoltar?'':'disabled'}>â€¹</button><div class="card-title calendar-month-title" style="margin-bottom:0">ðŸ“… ${nomeMes} ${ano}</div><button class="month-nav-btn" onclick="Dashboard.irMesProximo()" ${podeAvancar?'':'disabled'}>â€º</button></div>`;
+    if(ct)ct.innerHTML=`<div class="calendar-month-nav"><button class="month-nav-btn" onclick="Dashboard.irMesAnterior()" ${podeVoltar?'':'disabled'}> ? </button><div class="card-title calendar-month-title" style="margin-bottom:0"> Y". ${nomeMes} ${ano}</div><button class="month-nav-btn" onclick="Dashboard.irMesProximo()" ${podeAvancar?'':'disabled'}> ? </button></div>`;
     for(let i=0;i<primeiro.getDay();i++){const e=document.createElement('div');e.className='day empty';grid.appendChild(e);}
     for(let d=1;d<=ultimo.getDate();d++){
       const data=new Date(ano,mes,d), r=dados.find(x=>x.data.toDateString()===data.toDateString());
@@ -2135,7 +2135,7 @@ const Dashboard = {
         if(gains>0) detalhes.push(`${gains} ${gains===1?'gain':'gains'}`);
         if(stops>0) detalhes.push(`${stops} ${stops===1?'stop':'stops'}`);
         if(zeros>0) detalhes.push(`${zeros} 0x0`);
-        infoExtra = detalhes.join(' â€¢ ');
+        infoExtra = detalhes.join('  ?  ');
         if(r.trades>0&&r.fotoId&&r.fotoId.toString().trim()!==''){dayDiv.classList.add('clickable');dayDiv.addEventListener('click',()=>{Dashboard.abrirModal(r);});}
       }
       let ptDisplay='';
@@ -2150,11 +2150,11 @@ const Dashboard = {
           ptDisplay=`<div class="day-points" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
         }
       }
-      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana} â€¢ ${(r.ativos||['NASDAQ']).join('/')}`:'â€”'}</div>`;
+      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana}  ?  ${(r.ativos||['NASDAQ']).join('/')}`:' ?"'}</div>`;
       const infoHtml = r
         ? `<div class="day-info">${info}</div>${infoExtra?`<div class="day-info">${infoExtra}</div>`:''}`
         : '';
-      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana} â€¢ ${(r.ativos||['NASDAQ']).join('/')}`:'â€”'}</div>`;
+      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana}  ?  ${(r.ativos||['NASDAQ']).join('/')}`:' ?"'}</div>`;
       grid.appendChild(dayDiv);
     }
   },
@@ -2164,7 +2164,7 @@ const Dashboard = {
     const modal=document.getElementById('tradePhotoModal'),mt=document.getElementById('modalTitle'),mig=document.getElementById('modalInfoGrid'),mpc=document.getElementById('modalPhotoContainer');
     if(!modal||!mt||!mig||!mpc)return;
     const data=new Date(dadosDia.data),dia=data.getDate(),mes=nomesMeses[dadosDia.mes],ano=dadosDia.ano;
-    mt.textContent=`ðŸ“… ${dia} de ${mes} de ${ano}`;
+    mt.textContent=` Y". ${dia} de ${mes} de ${ano}`;
     let infoHTML=`<div class="modal-info-item ${dadosDia.pontos>0?'positive':dadosDia.pontos<0?'negative':''}"><label>Pontos</label><div class="value">${dadosDia.pontos>0?'+':''}${dadosDia.pontos}</div></div><div class="modal-info-item"><label>Trades</label><div class="value">${dadosDia.trades}</div></div><div class="modal-info-item positive"><label>Gains</label><div class="value">${dadosDia.gain}</div></div><div class="modal-info-item negative"><label>Stops</label><div class="value">${dadosDia.stop}</div></div>`;
     if(dadosDia.zero>0)infoHTML+=`<div class="modal-info-item"><label>Breakeven</label><div class="value" style="color:var(--yellow)">${dadosDia.zero}</div></div>`;
     mig.innerHTML=infoHTML;
@@ -2192,8 +2192,8 @@ const Dashboard = {
   },
  
   inicializarZoomFoto(container,img){
-    const db=document.createElement('button');db.className='download-btn';db.innerHTML='<span>ðŸ“¥</span><span>Baixar</span>';db.onclick=()=>this.baixarFoto();container.appendChild(db);
-    const controls=document.createElement('div');controls.className='zoom-controls';controls.innerHTML=`<button class="zoom-btn" id="zoomIn">+</button><button class="zoom-btn" id="zoomOut">âˆ’</button><button class="zoom-btn" id="zoomReset">âŸ²</button>`;container.appendChild(controls);
+    const db=document.createElement('button');db.className='download-btn';db.innerHTML='<span> Y" </span><span>Baixar</span>';db.onclick=()=>this.baixarFoto();container.appendChild(db);
+    const controls=document.createElement('div');controls.className='zoom-controls';controls.innerHTML=`<button class="zoom-btn" id="zoomIn">+</button><button class="zoom-btn" id="zoomOut"> ^'</button><button class="zoom-btn" id="zoomReset"> Y </button>`;container.appendChild(controls);
     const zi=document.createElement('div');zi.className='zoom-info';zi.textContent='100%';container.appendChild(zi);
     document.getElementById('zoomIn').addEventListener('click',()=>this.zoom(img,container,0.2));
     document.getElementById('zoomOut').addEventListener('click',()=>this.zoom(img,container,-0.2));
@@ -2210,18 +2210,18 @@ const Dashboard = {
   mostrarZoomInfo(c){const z=c.querySelector('.zoom-info');if(z){z.textContent=`${Math.round(this.zoomLevel*100)}%`;z.classList.add('show');setTimeout(()=>z.classList.remove('show'),1500);}},
  
   async baixarFoto(){
-    if(!this.tradeAtual){alert('âŒ Nenhum trade selecionado');return;}
-    const btn=document.querySelector('.download-btn');if(btn){btn.classList.add('downloading');btn.innerHTML='<span>â³</span><span>Gerando...</span>';}
+    if(!this.tradeAtual){alert(' O Nenhum trade selecionado');return;}
+    const btn=document.querySelector('.download-btn');if(btn){btn.classList.add('downloading');btn.innerHTML='<span>⏳</span><span>Gerando...</span>';}
     try{
       const data=new Date(this.tradeAtual.data),dia=data.getDate(),mes=nomesMeses[this.tradeAtual.mes],ano=this.tradeAtual.ano;
-      document.getElementById('captureIcon').textContent='ðŸ“…';document.getElementById('captureTitle').textContent=`${dia} de ${mes} de ${ano}`;
+      document.getElementById('captureIcon').textContent=' Y".';document.getElementById('captureTitle').textContent=`${dia} de ${mes} de ${ano}`;
       document.getElementById('captureStats').innerHTML=`<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div><div class="capture-stat"><div class="capture-stat-label">TRADES</div><div class="capture-stat-value">${this.tradeAtual.trades}</div></div><div class="capture-stat"><div class="capture-stat-label">GAINS</div><div class="capture-stat-value" style="color:#00e5a0">${this.tradeAtual.gain}</div></div><div class="capture-stat"><div class="capture-stat-label">STOPS</div><div class="capture-stat-value" style="color:#ff4d6a">${this.tradeAtual.stop}</div></div><div class="capture-stat"><div class="capture-stat-label">BREAKEVEN</div><div class="capture-stat-value" style="color:#ffd166">${this.tradeAtual.zero}</div></div>`;
-      const mi=document.querySelector('#modalPhotoContainer img');if(mi)document.getElementById('capturePhoto').innerHTML=`<img src="${mi.src}" crossorigin="anonymous">`;else throw new Error('Imagem nÃ£o encontrada');
+      const mi=document.querySelector('#modalPhotoContainer img');if(mi)document.getElementById('capturePhoto').innerHTML=`<img src="${mi.src}" crossorigin="anonymous">`;else throw new Error('Imagem não encontrada');
       await new Promise(resolve=>setTimeout(resolve,500));
       const canvas=await html2canvas(document.getElementById('captureCard'),{backgroundColor:null,scale:2,logging:false,useCORS:true,allowTaint:true});
       const link=document.createElement('a');link.download=`trade-${this.tradeAtual.dia.replace(/\//g,'-')}.png`;link.href=canvas.toDataURL('image/png');link.click();
-    }catch(e){console.error(e);alert('âŒ Erro ao gerar imagem.');}
-    finally{if(btn){btn.classList.remove('downloading');btn.innerHTML='<span>ðŸ“¥</span><span>Baixar</span>';}}
+    }catch(e){console.error(e);alert(' O Erro ao gerar imagem.');}
+    finally{if(btn){btn.classList.remove('downloading');btn.innerHTML='<span> Y" </span><span>Baixar</span>';}}
   },
  
   carregarFotoTrade(dataStr,container,fotoId){
@@ -2231,14 +2231,14 @@ const Dashboard = {
       const urls=[`https://drive.google.com/uc?export=view&id=${idLimpo}`,`https://drive.google.com/thumbnail?id=${idLimpo}&sz=w1000`,`https://lh3.googleusercontent.com/d/${idLimpo}`];
       let t=0;
       const tentarProximaURL=()=>{
-        if(t>=urls.length){container.innerHTML=`<div class="modal-photo-error">âŒ NÃ£o foi possÃ­vel carregar a foto<br><small style="font-size:11px;opacity:0.7;margin-top:10px;display:block">ID: ${idLimpo}</small></div>`;return;}
+        if(t>=urls.length){container.innerHTML=`<div class="modal-photo-error"> O Não foi possível carregar a foto<br><small style="font-size:11px;opacity:0.7;margin-top:10px;display:block">ID: ${idLimpo}</small></div>`;return;}
         const img=new Image();img.crossOrigin='anonymous';
         img.onload=()=>{container.innerHTML=`<img src="${urls[t]}" alt="Trade ${dataStr}" crossorigin="anonymous" id="zoomableImage">`;setTimeout(()=>{const ie=document.getElementById('zoomableImage');if(ie){Dashboard.resetZoom(ie,container);Dashboard.inicializarZoomFoto(container,ie);}},100);};
         img.onerror=()=>{t++;tentarProximaURL();};img.src=urls[t];
       };
       tentarProximaURL();
     }else{
-      container.innerHTML=`<div class="modal-photo-error">ðŸ“· Nenhuma foto configurada<br><small style="font-size:11px;opacity:0.8;margin-top:10px;display:block">Adicione o ID da foto na planilha</small></div>`;
+      container.innerHTML=`<div class="modal-photo-error"> Y"  Nenhuma foto configurada<br><small style="font-size:11px;opacity:0.8;margin-top:10px;display:block">Adicione o ID da foto na planilha</small></div>`;
     }
   }
 };
@@ -3618,8 +3618,8 @@ body.light-theme .month-nav-btn {
 (function ajustarCalculadoraContratos() {
   const pills = document.querySelectorAll('.contratos-card .currency-pill');
   const configs = [
-    { prefix: 'â—', label: 'NQ', color: 'var(--green)' },
-    { prefix: 'â—', label: 'DJ', color: 'var(--orange)' },
+    { prefix: ' - ', label: 'NQ', color: 'var(--green)' },
+    { prefix: ' - ', label: 'DJ', color: 'var(--orange)' },
     { prefix: 'BR', label: 'NQ', color: 'var(--text)' },
     { prefix: 'BR', label: 'DJ', color: 'var(--text)' }
   ];
@@ -3736,4 +3736,5 @@ body.light-theme .month-nav-btn {
 <script src="theme.js"></script>
 </body>
 </html>
+
 
