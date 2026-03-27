@@ -16,9 +16,11 @@
 (function(){
   function init() {
     if (window.supabase && window.supabase.createClient) {
+      window._supabaseUrl = 'https://lpwrinaodhuyafyjumcs.supabase.co';
+      window._supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxwd3JpbmFvZGh1eWFmeWp1bWNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMDI2ODcsImV4cCI6MjA4OTg3ODY4N30.30h3LLzdygnj452hnjGyGkBj-TONet7EXrgVsmxyWjg';
       window._supabase = window.supabase.createClient(
-        'https://lpwrinaodhuyafyjumcs.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxwd3JpbmFvZGh1eWFmeWp1bWNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMDI2ODcsImV4cCI6MjA4OTg3ODY4N30.30h3LLzdygnj452hnjGyGkBj-TONet7EXrgVsmxyWjg'
+        window._supabaseUrl,
+        window._supabaseAnonKey
       );
       console.log('✅ Supabase inicializado');
       document.dispatchEvent(new Event('supabase-ready'));
@@ -1681,17 +1683,15 @@ const Dashboard = {
         }
         calCells=`<div style="font-size:13px;font-weight:700;color:#7fa8d0;margin-bottom:12px;">📅 ${nomeMesCal} ${ano2}</div><div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:8px;">${headerCells}</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">${emptyCells}${dayCells}</div>`;
       }else{calCells=`<div style="color:#3a5a7a;text-align:center;padding:20px;font-size:14px;">Sem dados para o período selecionado</div>`;}
-      const logoSrc=document.querySelector('.topbar-logo');
-      const logoHTML=logoSrc&&logoSrc.naturalWidth>0?`<img src="${logoSrc.src}" style="max-height:90px;width:auto;display:block;margin:0 auto;">`:`<div style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#00dcff;text-align:center;text-shadow:0 0 20px rgba(0,220,255,0.5);">NasdaqPro</div>`;
+      const logoHTML=`<div style="font-size:30px;font-weight:800;color:#e8f4ff;text-align:center;letter-spacing:-0.02em;">Mentoria NasdaqPro</div>`;
       const kpis=[{label:'DIAS OPERADOS',value:String(dias),color:'#e8f4ff'},{label:'TOTAL TRADES',value:String(t.trades),color:'#e8f4ff'},{label:'PONTOS NASDAQ',value:(t.pontosNasdaq>0?'+':'')+t.pontosNasdaq,color:t.pontosNasdaq>0?'#00e5a0':t.pontosNasdaq<0?'#ff4d6a':'#3a5a7a'},{label:'PONTOS DOW',value:(t.pontosDow>0?'+':'')+t.pontosDow,color:t.pontosDow>0?'#ff9f43':t.pontosDow<0?'#ff4d6a':'#3a5a7a'},{label:'ASSERTIVIDADE',value:ass+'%',color:'#00dcff'}];
       const kpisHTML=kpis.map(k=>`<div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);border-top:2px solid rgba(0,220,255,0.4);border-radius:10px;padding:14px 10px;text-align:center;"><div style="font-size:9px;font-weight:700;color:#3a5a7a;letter-spacing:2px;margin-bottom:8px;text-transform:uppercase;font-family:Orbitron,monospace;">${k.label}</div><div style="font-size:26px;font-weight:800;color:${k.color};font-family:'JetBrains Mono',monospace;">${k.value}</div></div>`).join('');
       const fullHTML=`<div style="text-align:center;margin-bottom:20px;">${logoHTML}</div><div style="height:1px;background:linear-gradient(90deg,transparent,rgba(0,220,255,0.4),transparent);margin-bottom:24px;"></div><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px;">${kpisHTML}</div><div style="background:rgba(10,20,50,0.8);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:20px;">${calCells}</div>`;
       const wrap=document.createElement('div');
-      wrap.style.cssText='position:absolute;left:-9999px;top:0;width:960px;background:#030a1a;padding:36px;box-sizing:border-box;font-family:Inter,sans-serif;color:#e8f4ff;border-radius:16px;';
+      wrap.style.cssText='position:fixed;left:-10000px;top:0;width:960px;background:#030a1a;padding:36px;box-sizing:border-box;font-family:Inter,sans-serif;color:#e8f4ff;border-radius:16px;overflow:hidden;';
       wrap.innerHTML=fullHTML; document.body.appendChild(wrap);
       await new Promise(r=>setTimeout(r,300));
-      const logoEl=wrap.querySelector('img'); if(logoEl&&!logoEl.complete) await new Promise(r=>{logoEl.onload=r;logoEl.onerror=r;setTimeout(r,2000);});
-      const canvas=await html2canvas(wrap,{backgroundColor:'#030a1a',scale:2,logging:false,useCORS:true,allowTaint:true,width:960,height:wrap.scrollHeight});
+      const canvas=await html2canvas(wrap,{backgroundColor:'#030a1a',scale:2,logging:false,useCORS:false,allowTaint:false,removeContainer:true,width:960,height:wrap.scrollHeight,windowWidth:960});
       document.body.removeChild(wrap);
       canvas.toBlob(blob=>{
         const url=URL.createObjectURL(blob), link=document.createElement('a');
@@ -1709,7 +1709,12 @@ const Dashboard = {
   async carregarDados() {
     try {
       if(window._supabase?.functions){
-        const { data, error } = await window._supabase.functions.invoke('dashboard-dados');
+        const { data, error } = await window._supabase.functions.invoke('dashboard-dados', {
+          headers: {
+            apikey: window._supabaseAnonKey || '',
+            Authorization: `Bearer ${window._supabaseAnonKey || ''}`
+          }
+        });
         if(!error && data){
           if(Array.isArray(data.values)){
             this.processarSheetsAPI(data.values);
