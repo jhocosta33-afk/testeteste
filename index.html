@@ -1278,6 +1278,8 @@ body.light-theme .theme-toggle {
       </button>
     </div>
     <div class="topbar-right">
+      <a href="portal/login.html" class="portal-btn">🎓 <span>Portal do Aluno</span></a>
+      <button class="topbar-btn" id="pdfReportBtn" onclick="Dashboard.gerarRelatorioPDF()" style="visibility:hidden;">📸 <span>Exportar</span></button>
       <button class="theme-toggle" onclick="Dashboard.toggleTema()"><span id="themeIcon">🌙</span></button>
     </div>
   </header>
@@ -1551,7 +1553,7 @@ body.light-theme .theme-toggle {
      TODA A LÓGICA JS — IDÊNTICA AO ORIGINAL
 ══════════════════════════════════════════ -->
 <script>
-let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null, SHEETS_API_KEY = null, SHEETS_SPREADSHEET_ID = null, SHEETS_TAB_NAME = null;
+let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null;
  
 async function carregarConfiguracoes() {
   try {
@@ -1570,9 +1572,6 @@ async function carregarConfiguracoes() {
     if (error || !data) throw new Error(error?.message || 'config/public não encontrado');
     CSV_URL                = data.csv_url              || null;
     GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id      || null;
-    SHEETS_API_KEY         = data.sheets_api_key        || null;
-    SHEETS_SPREADSHEET_ID  = data.sheets_spreadsheet_id || null;
-    SHEETS_TAB_NAME        = data.sheets_tab_name       || 'atual dashboard NASDAQ';
   } catch (err) {
     console.error('Erro configurações:', err);
     alert('❌ Erro ao carregar configurações. Verifique o Supabase.');
@@ -1709,15 +1708,21 @@ const Dashboard = {
  
   async carregarDados() {
     try {
-      if(SHEETS_API_KEY&&SHEETS_SPREADSHEET_ID){
-        const url=`https://youtube-upload-proxy.nasdaqpro7.workers.dev/sheets?spreadsheetId=${SHEETS_SPREADSHEET_ID}&range=${encodeURIComponent(SHEETS_TAB_NAME||'atual dashboard NASDAQ')}!A:I&apiKey=${SHEETS_API_KEY}`;
-        const resp=await fetch(url);
-        if(resp.ok){
-          const json=await resp.json();
-          if(json.success&&json.values){this.processarSheetsAPI(json.values);setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);return;}
-        } else {
-          console.warn('Falha ao carregar planilha principal:', resp.status);
+      if(window._supabase?.functions){
+        const { data, error } = await window._supabase.functions.invoke('dashboard-dados');
+        if(!error && data){
+          if(Array.isArray(data.values)){
+            this.processarSheetsAPI(data.values);
+            setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);
+            return;
+          }
+          if(Array.isArray(data.rows)){
+            this._processarRows(data.rows);
+            setTimeout(()=>{document.getElementById('loading').classList.add('hidden');},500);
+            return;
+          }
         }
+        if(error) console.warn('Falha na Edge Function dashboard-dados:', error.message || error);
       }
       if(!CSV_URL) {
         console.warn('CSV_URL não configurada no carregamento inicial.');
@@ -2103,11 +2108,6 @@ document.getElementById('tradePhotoModal')?.addEventListener('click',(e)=>{if(e.
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape')Dashboard.fecharModal();});
 </script>
 <script>
-const DASHBOARD_FALLBACK_CONFIG = {
-  sheets_spreadsheet_id: '1iawimQW3a9bWC4-pTJxvnu3ED62AcN-TjthXwpaIQ10',
-  sheets_tab_name: 'atual dashboard NASDAQ'
-};
-
 (async function repararCarregamentoDashboard() {
   try {
     const dash = (typeof Dashboard !== 'undefined' && Dashboard) ? Dashboard : window.Dashboard;
@@ -2128,16 +2128,10 @@ const DASHBOARD_FALLBACK_CONFIG = {
 
         CSV_URL = CSV_URL || configPublica.csv_url || null;
         GOOGLE_DRIVE_FOLDER_ID = GOOGLE_DRIVE_FOLDER_ID || configPublica.drive_folder_id || null;
-        SHEETS_API_KEY = SHEETS_API_KEY || configPublica.sheets_api_key || null;
-        SHEETS_SPREADSHEET_ID = SHEETS_SPREADSHEET_ID || configPublica.sheets_spreadsheet_id || null;
-        SHEETS_TAB_NAME = SHEETS_TAB_NAME || configPublica.sheets_tab_name || null;
       }
     }
 
-    SHEETS_SPREADSHEET_ID = SHEETS_SPREADSHEET_ID || DASHBOARD_FALLBACK_CONFIG.sheets_spreadsheet_id;
-    SHEETS_TAB_NAME = SHEETS_TAB_NAME || DASHBOARD_FALLBACK_CONFIG.sheets_tab_name;
-
-    if ((SHEETS_API_KEY && SHEETS_SPREADSHEET_ID) || CSV_URL) {
+    if (CSV_URL || window._supabase?.functions) {
       await dash.carregarDados();
       dash.atualizar();
       dash.atualizarPerformanceIndicator();
