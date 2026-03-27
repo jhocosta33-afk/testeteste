@@ -206,9 +206,7 @@ input::placeholder {
         <input type="password" id="confirmarSenha" placeholder="Digite a senha novamente" required>
       </div>
 
-      <button type="submit" class="btn" id="btnCadastro">
-        Criar Conta
-      </button>
+      <button type="submit" class="btn" id="btnCadastro">Criar Conta</button>
     </form>
 
     <div class="info-box">
@@ -222,97 +220,126 @@ input::placeholder {
   </div>
 </div>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 
 <script>
-const form = document.getElementById('cadastroForm');
-const alertBox = document.getElementById('alert');
-const btnCadastro = document.getElementById('btnCadastro');
+document.addEventListener('supabase-ready', inicializarCadastro);
+if (window._supabase) inicializarCadastro();
 
-function mostrarAlerta(mensagem, tipo) {
-  alertBox.textContent = mensagem;
-  alertBox.className = `alert ${tipo}`;
-  alertBox.style.display = 'block';
-  
-  if (tipo === 'success') {
-    setTimeout(() => {
-      window.location.href = 'login.html';
-    }, 2000);
-  }
-}
+function inicializarCadastro() {
+  const sb = window._supabase;
+  const form = document.getElementById('cadastroForm');
+  const alertBox = document.getElementById('alert');
+  const btnCadastro = document.getElementById('btnCadastro');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const nome = document.getElementById('nome').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const senha = document.getElementById('senha').value;
-  const confirmarSenha = document.getElementById('confirmarSenha').value;
+  if (!sb || !form || form.dataset.ready === '1') return;
+  form.dataset.ready = '1';
 
-  // Validações
-  if (senha !== confirmarSenha) {
-    mostrarAlerta('❌ As senhas não coincidem', 'error');
-    return;
-  }
+  function mostrarAlerta(mensagem, tipo) {
+    alertBox.textContent = mensagem;
+    alertBox.className = `alert ${tipo}`;
+    alertBox.style.display = 'block';
 
-  if (senha.length < 6) {
-    mostrarAlerta('❌ A senha deve ter no mínimo 6 caracteres', 'error');
-    return;
-  }
-
-  // Desabilita botão durante processo
-  btnCadastro.disabled = true;
-  btnCadastro.textContent = 'Criando conta...';
-
-  try {
-    // Cria usuário no Firebase Auth
-    const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
-    const user = userCredential.user;
-
-    // Salva dados adicionais no Firestore
-    await db.collection('users').doc(user.uid).set({
-      nome: nome,
-      email: email,
-      role: 'aluno',
-      aprovado: false,
-      criadoEm: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    // Atualiza perfil com nome
-    await user.updateProfile({
-      displayName: nome
-    });
-
-    mostrarAlerta('✅ Conta criada com sucesso! Aguarde aprovação do administrador.', 'success');
-
-  } catch (error) {
-    console.error('Erro no cadastro:', error);
-    
-    let mensagem = '❌ Erro ao criar conta. ';
-    
-    switch (error.code) {
-      case 'auth/email-already-in-use':
-        mensagem += 'Este e-mail já está cadastrado.';
-        break;
-      case 'auth/invalid-email':
-        mensagem += 'E-mail inválido.';
-        break;
-      case 'auth/weak-password':
-        mensagem += 'Senha muito fraca.';
-        break;
-      default:
-        mensagem += error.message;
+    if (tipo === 'success') {
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1800);
     }
-    
-    mostrarAlerta(mensagem, 'error');
-    btnCadastro.disabled = false;
-    btnCadastro.textContent = 'Criar Conta';
   }
-});
+
+  sb.auth.getSession().then(async ({ data: { session } }) => {
+    if (!session?.user) return;
+    try {
+      const { data: userData } = await sb.from('users').select('role, aprovado').eq('id', session.user.id).single();
+      if (userData?.role === 'admin') {
+        window.location.href = 'admin.html';
+        return;
+      }
+      if (userData?.aprovado === true) {
+        window.location.href = 'aluno.html';
+        return;
+      }
+    } catch (e) {}
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+    if (!nome) {
+      mostrarAlerta('❌ Informe seu nome completo.', 'error');
+      return;
+    }
+
+    if (senha !== confirmarSenha) {
+      mostrarAlerta('❌ As senhas não coincidem.', 'error');
+      return;
+    }
+
+    if (senha.length < 6) {
+      mostrarAlerta('❌ A senha deve ter no mínimo 6 caracteres.', 'error');
+      return;
+    }
+
+    btnCadastro.disabled = true;
+    btnCadastro.textContent = 'Criando conta...';
+
+    try {
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password: senha,
+        options: {
+          data: {
+            full_name: nome
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      const user = data.user;
+      if (!user?.id) throw new Error('Não foi possível criar o usuário.');
+
+      const { error: upsertError } = await sb.from('users').upsert({
+        id: user.id,
+        nome,
+        email,
+        role: 'aluno',
+        aprovado: false,
+        created_at: new Date().toISOString()
+      });
+
+      if (upsertError) throw upsertError;
+
+      await sb.auth.signOut();
+      mostrarAlerta('✅ Conta criada com sucesso! Aguarde aprovação do administrador.', 'success');
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+
+      let mensagem = '❌ Erro ao criar conta. ';
+      const msg = error?.message || '';
+
+      if (msg.includes('User already registered')) {
+        mensagem += 'Este e-mail já está cadastrado.';
+      } else if (msg.includes('Invalid email')) {
+        mensagem += 'E-mail inválido.';
+      } else if (msg.includes('Password should be at least')) {
+        mensagem += 'A senha é muito curta.';
+      } else {
+        mensagem += msg;
+      }
+
+      mostrarAlerta(mensagem, 'error');
+      btnCadastro.disabled = false;
+      btnCadastro.textContent = 'Criar Conta';
+    }
+  });
+}
 </script>
 
 </body>
