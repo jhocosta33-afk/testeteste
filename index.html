@@ -22,7 +22,7 @@
         window._supabaseUrl,
         window._supabaseAnonKey
       );
-      console.log(' o. Supabase inicializado');
+      console.log('✅ Supabase inicializado');
       document.dispatchEvent(new Event('supabase-ready'));
     } else {
       setTimeout(init, 50);
@@ -662,7 +662,7 @@ canvas { width: 100%!important; height: 100%!important; }
   backdrop-filter: blur(4px);
 }
 .day.clickable { cursor: pointer; }
-.day.clickable::after { content:' Y" '; position:absolute; top:4px; right:4px; font-size:10px; opacity:0; transition:opacity 0.2s; }
+.day.clickable::after { content:'📸'; position:absolute; top:4px; right:4px; font-size:10px; opacity:0; transition:opacity 0.2s; }
 .day.clickable:hover::after { opacity:0.7; }
 .day.positive { background: rgba(0,229,160,0.06); border-color: rgba(0,229,160,0.22); }
 .day.negative { background: rgba(255,77,106,0.06); border-color: rgba(255,77,106,0.22); }
@@ -1261,7 +1261,7 @@ body.light-theme .theme-toggle {
 <!-- Performance indicator -->
 <div class="performance-indicator" id="perfIndicator" style="display:none;">
   <div class="performance-dot neutral"></div>
-  <span id="perfText"> ?"</span>
+  <span id="perfText">—</span>
 </div>
  
 <div class="app-wrapper">
@@ -1423,24 +1423,24 @@ body.light-theme .theme-toggle {
           <div class="glass-card contratos-card">
             <div class="card-title">Calculadora de Contratos</div>
             <div class="contratos-control">
-              <button id="btnMenos" class="btn-control"> ^'</button>
+              <button id="btnMenos" class="btn-control">−</button>
               <div id="valorContratos" class="valor-contratos">0</div>
               <button id="btnMais" class="btn-control">+</button>
             </div>
             <div class="currency-row">
               <div class="currency-pill">
-                 Y"  <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
+                🔵 <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
               </div>
               <div class="currency-pill">
-                 YY  <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
+                🟠 <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
               </div>
             </div>
             <div class="currency-row">
               <div class="currency-pill">
-                 Y?  Y?  <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
+                BR <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
               </div>
               <div class="currency-pill">
-                 Y?  Y?  <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
+                BR <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
               </div>
             </div>
           </div>
@@ -1474,10 +1474,10 @@ body.light-theme .theme-toggle {
     <div id="contentMercado" class="tab-content">
       <div class="glass-card market-card">
         <div class="market-header">
-          <h3> Y". Calendário Econômico</h3>
+          <h3>&#128197; Calendário Econômico</h3>
           <div style="display:flex;align-items:center;gap:12px;">
-            <button class="calendar-refresh-btn" onclick="Dashboard.atualizarCalendario()"> Y"" Atualizar</button>
-            <a href="https://br.investing.com/economic-calendar/" target="_blank" class="market-link">Ver Completo  ?'</a>
+            <button class="calendar-refresh-btn" onclick="Dashboard.atualizarCalendario()">&#128260; Atualizar</button>
+            <a href="https://br.investing.com/economic-calendar/" target="_blank" class="market-link">Ver Completo &rarr;</a>
           </div>
         </div>
         <div id="tvCalendarContainer" style="min-height:700px;"></div>
@@ -1576,7 +1576,7 @@ async function carregarConfiguracoes() {
     GOOGLE_DRIVE_FOLDER_ID = data.drive_folder_id      || null;
   } catch (err) {
     console.error('Erro configurações:', err);
-    alert(' O Erro ao carregar configurações. Verifique o Supabase.');
+    alert('❌ Erro ao carregar configurações. Verifique o Supabase.');
   }
 }
  
@@ -1693,7 +1693,7 @@ const Dashboard = {
         const ultimo = new Date(ano2, mes2 + 1, 0);
         const nomeMesCal = nomesMeses[mesCalendario] || mesCalendario;
 
-        const headerCells = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'S b']
+        const headerCells = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
           .map(ds => `<div style="text-align:center;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:4px 0;">${ds}</div>`)
           .join('');
 
@@ -1746,7 +1746,7 @@ const Dashboard = {
           <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:8px;">${headerCells}</div>
           <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">${emptyCells}${dayCells}</div>`;
       } else {
-        calCells = `<div style="color:#64748b;text-align:center;padding:20px;font-size:14px;">Sem dados para o per odo selecionado</div>`;
+        calCells = `<div style="color:#64748b;text-align:center;padding:20px;font-size:14px;">Sem dados para o período selecionado</div>`;
       }
 
       const logoSrc = document.querySelector('.topbar-logo, .header-logo');
@@ -1969,7 +1969,7 @@ const Dashboard = {
     const totalNasdaq=t.pontosNasdaq*contratos*2, totalDow=t.pontosDow*contratos*0.5;
     // Período no header
     const wp=document.getElementById('welcomePeriod');
-    if(wp){const a=filtroAno.value,m=filtroMes.value;wp.textContent=m!=='ALL'?`${nomesMeses[m]||m} / ${a}`:`Ano ${a}  ?" todos os meses`;}
+    if(wp){const a=filtroAno.value,m=filtroMes.value;wp.textContent=m!=='ALL'?`${nomesMeses[m]||m} / ${a}`:`Ano ${a} — todos os meses`;}
     // KPIs
     document.getElementById("kDias").textContent=dias;
     document.getElementById("kTrades").textContent=t.trades;
@@ -2118,7 +2118,7 @@ const Dashboard = {
     const idxMesAtual=mesesDisponiveis.indexOf(filtroMes.value);
     const podeVoltar=idxMesAtual>0;
     const podeAvancar=idxMesAtual>-1&&idxMesAtual<mesesDisponiveis.length-1;
-    if(ct)ct.innerHTML=`<div class="calendar-month-nav"><button class="month-nav-btn" onclick="Dashboard.irMesAnterior()" ${podeVoltar?'':'disabled'}> ? </button><div class="card-title calendar-month-title" style="margin-bottom:0"> Y". ${nomeMes} ${ano}</div><button class="month-nav-btn" onclick="Dashboard.irMesProximo()" ${podeAvancar?'':'disabled'}> ? </button></div>`;
+    if(ct)ct.innerHTML=`<div class="calendar-month-nav"><button class="month-nav-btn" onclick="Dashboard.irMesAnterior()" ${podeVoltar?'':'disabled'}>‹</button><div class="card-title calendar-month-title" style="margin-bottom:0">📅 ${nomeMes} ${ano}</div><button class="month-nav-btn" onclick="Dashboard.irMesProximo()" ${podeAvancar?'':'disabled'}>›</button></div>`;
     for(let i=0;i<primeiro.getDay();i++){const e=document.createElement('div');e.className='day empty';grid.appendChild(e);}
     for(let d=1;d<=ultimo.getDate();d++){
       const data=new Date(ano,mes,d), r=dados.find(x=>x.data.toDateString()===data.toDateString());
@@ -2135,7 +2135,7 @@ const Dashboard = {
         if(gains>0) detalhes.push(`${gains} ${gains===1?'gain':'gains'}`);
         if(stops>0) detalhes.push(`${stops} ${stops===1?'stop':'stops'}`);
         if(zeros>0) detalhes.push(`${zeros} 0x0`);
-        infoExtra = detalhes.join('  ?  ');
+        infoExtra = detalhes.join(' • ');
         if(r.trades>0&&r.fotoId&&r.fotoId.toString().trim()!==''){dayDiv.classList.add('clickable');dayDiv.addEventListener('click',()=>{Dashboard.abrirModal(r);});}
       }
       let ptDisplay='';
@@ -2150,11 +2150,11 @@ const Dashboard = {
           ptDisplay=`<div class="day-points" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
         }
       }
-      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana}  ?  ${(r.ativos||['NASDAQ']).join('/')}`:' ?"'}</div>`;
+      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
       const infoHtml = r
         ? `<div class="day-info">${info}</div>${infoExtra?`<div class="day-info">${infoExtra}</div>`:''}`
         : '';
-      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana}  ?  ${(r.ativos||['NASDAQ']).join('/')}`:' ?"'}</div>`;
+      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
       grid.appendChild(dayDiv);
     }
   },
@@ -2164,7 +2164,7 @@ const Dashboard = {
     const modal=document.getElementById('tradePhotoModal'),mt=document.getElementById('modalTitle'),mig=document.getElementById('modalInfoGrid'),mpc=document.getElementById('modalPhotoContainer');
     if(!modal||!mt||!mig||!mpc)return;
     const data=new Date(dadosDia.data),dia=data.getDate(),mes=nomesMeses[dadosDia.mes],ano=dadosDia.ano;
-    mt.textContent=` Y". ${dia} de ${mes} de ${ano}`;
+    mt.textContent=`📅 ${dia} de ${mes} de ${ano}`;
     let infoHTML=`<div class="modal-info-item ${dadosDia.pontos>0?'positive':dadosDia.pontos<0?'negative':''}"><label>Pontos</label><div class="value">${dadosDia.pontos>0?'+':''}${dadosDia.pontos}</div></div><div class="modal-info-item"><label>Trades</label><div class="value">${dadosDia.trades}</div></div><div class="modal-info-item positive"><label>Gains</label><div class="value">${dadosDia.gain}</div></div><div class="modal-info-item negative"><label>Stops</label><div class="value">${dadosDia.stop}</div></div>`;
     if(dadosDia.zero>0)infoHTML+=`<div class="modal-info-item"><label>Breakeven</label><div class="value" style="color:var(--yellow)">${dadosDia.zero}</div></div>`;
     mig.innerHTML=infoHTML;
@@ -2192,8 +2192,8 @@ const Dashboard = {
   },
  
   inicializarZoomFoto(container,img){
-    const db=document.createElement('button');db.className='download-btn';db.innerHTML='<span> Y" </span><span>Baixar</span>';db.onclick=()=>this.baixarFoto();container.appendChild(db);
-    const controls=document.createElement('div');controls.className='zoom-controls';controls.innerHTML=`<button class="zoom-btn" id="zoomIn">+</button><button class="zoom-btn" id="zoomOut"> ^'</button><button class="zoom-btn" id="zoomReset"> Y </button>`;container.appendChild(controls);
+    const db=document.createElement('button');db.className='download-btn';db.innerHTML='<span>&#128229;</span><span>Baixar</span>';db.onclick=()=>this.baixarFoto();container.appendChild(db);
+    const controls=document.createElement('div');controls.className='zoom-controls';controls.innerHTML=`<button class="zoom-btn" id="zoomIn">+</button><button class="zoom-btn" id="zoomOut">−</button><button class="zoom-btn" id="zoomReset">⟲</button>`;container.appendChild(controls);
     const zi=document.createElement('div');zi.className='zoom-info';zi.textContent='100%';container.appendChild(zi);
     document.getElementById('zoomIn').addEventListener('click',()=>this.zoom(img,container,0.2));
     document.getElementById('zoomOut').addEventListener('click',()=>this.zoom(img,container,-0.2));
@@ -2210,18 +2210,18 @@ const Dashboard = {
   mostrarZoomInfo(c){const z=c.querySelector('.zoom-info');if(z){z.textContent=`${Math.round(this.zoomLevel*100)}%`;z.classList.add('show');setTimeout(()=>z.classList.remove('show'),1500);}},
  
   async baixarFoto(){
-    if(!this.tradeAtual){alert(' O Nenhum trade selecionado');return;}
+    if(!this.tradeAtual){alert('❌ Nenhum trade selecionado');return;}
     const btn=document.querySelector('.download-btn');if(btn){btn.classList.add('downloading');btn.innerHTML='<span>⏳</span><span>Gerando...</span>';}
     try{
       const data=new Date(this.tradeAtual.data),dia=data.getDate(),mes=nomesMeses[this.tradeAtual.mes],ano=this.tradeAtual.ano;
-      document.getElementById('captureIcon').textContent=' Y".';document.getElementById('captureTitle').textContent=`${dia} de ${mes} de ${ano}`;
+      document.getElementById('captureIcon').textContent='📅';document.getElementById('captureTitle').textContent=`${dia} de ${mes} de ${ano}`;
       document.getElementById('captureStats').innerHTML=`<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div><div class="capture-stat"><div class="capture-stat-label">TRADES</div><div class="capture-stat-value">${this.tradeAtual.trades}</div></div><div class="capture-stat"><div class="capture-stat-label">GAINS</div><div class="capture-stat-value" style="color:#00e5a0">${this.tradeAtual.gain}</div></div><div class="capture-stat"><div class="capture-stat-label">STOPS</div><div class="capture-stat-value" style="color:#ff4d6a">${this.tradeAtual.stop}</div></div><div class="capture-stat"><div class="capture-stat-label">BREAKEVEN</div><div class="capture-stat-value" style="color:#ffd166">${this.tradeAtual.zero}</div></div>`;
       const mi=document.querySelector('#modalPhotoContainer img');if(mi)document.getElementById('capturePhoto').innerHTML=`<img src="${mi.src}" crossorigin="anonymous">`;else throw new Error('Imagem não encontrada');
       await new Promise(resolve=>setTimeout(resolve,500));
       const canvas=await html2canvas(document.getElementById('captureCard'),{backgroundColor:null,scale:2,logging:false,useCORS:true,allowTaint:true});
       const link=document.createElement('a');link.download=`trade-${this.tradeAtual.dia.replace(/\//g,'-')}.png`;link.href=canvas.toDataURL('image/png');link.click();
-    }catch(e){console.error(e);alert(' O Erro ao gerar imagem.');}
-    finally{if(btn){btn.classList.remove('downloading');btn.innerHTML='<span> Y" </span><span>Baixar</span>';}}
+    }catch(e){console.error(e);alert('❌ Erro ao gerar imagem.');}
+    finally{if(btn){btn.classList.remove('downloading');btn.innerHTML='<span>&#128229;</span><span>Baixar</span>';}}
   },
  
   carregarFotoTrade(dataStr,container,fotoId){
@@ -2231,14 +2231,14 @@ const Dashboard = {
       const urls=[`https://drive.google.com/uc?export=view&id=${idLimpo}`,`https://drive.google.com/thumbnail?id=${idLimpo}&sz=w1000`,`https://lh3.googleusercontent.com/d/${idLimpo}`];
       let t=0;
       const tentarProximaURL=()=>{
-        if(t>=urls.length){container.innerHTML=`<div class="modal-photo-error"> O Não foi possível carregar a foto<br><small style="font-size:11px;opacity:0.7;margin-top:10px;display:block">ID: ${idLimpo}</small></div>`;return;}
+        if(t>=urls.length){container.innerHTML=`<div class="modal-photo-error">❌ Não foi possível carregar a foto<br><small style="font-size:11px;opacity:0.7;margin-top:10px;display:block">ID: ${idLimpo}</small></div>`;return;}
         const img=new Image();img.crossOrigin='anonymous';
         img.onload=()=>{container.innerHTML=`<img src="${urls[t]}" alt="Trade ${dataStr}" crossorigin="anonymous" id="zoomableImage">`;setTimeout(()=>{const ie=document.getElementById('zoomableImage');if(ie){Dashboard.resetZoom(ie,container);Dashboard.inicializarZoomFoto(container,ie);}},100);};
         img.onerror=()=>{t++;tentarProximaURL();};img.src=urls[t];
       };
       tentarProximaURL();
     }else{
-      container.innerHTML=`<div class="modal-photo-error"> Y"  Nenhuma foto configurada<br><small style="font-size:11px;opacity:0.8;margin-top:10px;display:block">Adicione o ID da foto na planilha</small></div>`;
+      container.innerHTML=`<div class="modal-photo-error">📷 Nenhuma foto configurada<br><small style="font-size:11px;opacity:0.8;margin-top:10px;display:block">Adicione o ID da foto na planilha</small></div>`;
     }
   }
 };
@@ -3618,8 +3618,8 @@ body.light-theme .month-nav-btn {
 (function ajustarCalculadoraContratos() {
   const pills = document.querySelectorAll('.contratos-card .currency-pill');
   const configs = [
-    { prefix: ' - ', label: 'NQ', color: 'var(--green)' },
-    { prefix: ' - ', label: 'DJ', color: 'var(--orange)' },
+    { prefix: '●', label: 'NQ', color: 'var(--green)' },
+    { prefix: '●', label: 'DJ', color: 'var(--orange)' },
     { prefix: 'BR', label: 'NQ', color: 'var(--text)' },
     { prefix: 'BR', label: 'DJ', color: 'var(--text)' }
   ];
