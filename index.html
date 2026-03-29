@@ -3058,6 +3058,361 @@ tbody tr:hover {
   .market-card { padding: 18px; }
 }
 </style>
+<style>
+/* Ultra Premium Layer */
+:root {
+  --ultra-panel-top: rgba(24, 32, 56, 0.88);
+  --ultra-panel-bottom: rgba(11, 17, 31, 0.92);
+  --ultra-stroke: rgba(255,255,255,0.10);
+  --ultra-stroke-strong: rgba(123, 174, 255, 0.34);
+  --ultra-highlight: rgba(255,255,255,0.08);
+  --ultra-blue-glow: rgba(59,130,246,0.24);
+  --ultra-cyan-glow: rgba(0,220,255,0.18);
+  --ultra-green-glow: rgba(0,229,160,0.18);
+  --ultra-red-glow: rgba(255,77,106,0.18);
+  --ultra-shadow:
+    0 28px 60px rgba(0,0,0,0.34),
+    0 10px 24px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+body {
+  background:
+    radial-gradient(36% 24% at 12% 10%, rgba(59,130,246,0.16) 0%, transparent 70%),
+    radial-gradient(28% 22% at 86% 12%, rgba(0,220,255,0.10) 0%, transparent 72%),
+    radial-gradient(42% 28% at 50% 100%, rgba(59,130,246,0.10) 0%, transparent 74%),
+    linear-gradient(180deg, #050914 0%, #0a1020 42%, #060a14 100%) !important;
+}
+
+.topbar,
+.filters-bar {
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+}
+
+.topbar {
+  background:
+    linear-gradient(180deg, rgba(15,21,38,0.92) 0%, rgba(10,15,28,0.88) 100%) !important;
+  box-shadow:
+    0 16px 36px rgba(0,0,0,0.24),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.topbar::after {
+  content: '';
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(123,174,255,0.22), transparent);
+  pointer-events: none;
+}
+
+.topbar-title {
+  font-size: 14px;
+  letter-spacing: 3.4px;
+  text-shadow: 0 0 18px rgba(0,220,255,0.34);
+}
+
+.topbar-logo {
+  max-height: 60px;
+  filter: drop-shadow(0 10px 22px rgba(59,130,246,0.22));
+}
+
+.filters-bar {
+  background:
+    linear-gradient(180deg, rgba(10,15,28,0.88) 0%, rgba(8,13,24,0.84) 100%) !important;
+}
+
+.glass-card,
+.welcome-card,
+.chart-card,
+.ring-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card,
+.market-card {
+  background:
+    linear-gradient(180deg, var(--ultra-panel-top) 0%, var(--ultra-panel-bottom) 100%) !important;
+  border: 1px solid var(--ultra-stroke) !important;
+  box-shadow: var(--ultra-shadow) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::after,
+.welcome-card::after,
+.chart-card::after,
+.ring-card::after,
+.contratos-card::after,
+.dist-card::after,
+.calendar-card::after,
+.table-card::after,
+.market-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 28%),
+    radial-gradient(circle at top right, rgba(123,174,255,0.08), transparent 22%);
+  pointer-events: none;
+}
+
+.glass-card:hover,
+.welcome-card:hover,
+.chart-card:hover,
+.ring-card:hover,
+.contratos-card:hover,
+.dist-card:hover,
+.calendar-card:hover,
+.table-card:hover,
+.market-card:hover {
+  transform: translateY(-6px) scale(1.004) !important;
+  border-color: var(--ultra-stroke-strong) !important;
+  box-shadow:
+    0 36px 68px rgba(0,0,0,0.38),
+    0 14px 30px rgba(0,0,0,0.18),
+    0 0 0 1px rgba(123,174,255,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+
+.card-title,
+.table-card > strong,
+.market-header h3,
+.ring-card .card-title,
+.chart-card .card-title,
+.dist-card .card-title,
+.calendar-card .card-title {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #f8fbff !important;
+  letter-spacing: -0.02em;
+}
+
+.card-title::before {
+  width: 22px;
+  height: 3px;
+  box-shadow: 0 0 14px rgba(0,220,255,0.24);
+}
+
+.welcome-text h2 {
+  font-size: clamp(2.4rem, 3.6vw, 4rem) !important;
+  font-weight: 800 !important;
+  line-height: .98;
+  letter-spacing: -1.8px;
+}
+
+.welcome-text p {
+  font-size: 15px !important;
+  color: rgba(203,213,225,0.68) !important;
+}
+
+.kpi-box {
+  min-height: 116px;
+  border-radius: 20px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 10px 22px rgba(0,0,0,0.14);
+}
+
+.kpi-box:hover {
+  transform: translateY(-5px) !important;
+  box-shadow:
+    0 20px 30px rgba(0,0,0,0.20),
+    0 0 0 1px rgba(123,174,255,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+
+.kpi-label {
+  font-size: 10px !important;
+  letter-spacing: 2.2px !important;
+  color: rgba(148,163,184,0.80) !important;
+}
+
+.kpi-value {
+  font-size: clamp(2.3rem, 3vw, 3.2rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -1.6px;
+}
+
+.kpi-value.green {
+  text-shadow: 0 0 18px var(--ultra-green-glow);
+}
+
+.kpi-value.red {
+  text-shadow: 0 0 18px var(--ultra-red-glow);
+}
+
+.kpi-value.orange,
+.kpi-value.blue {
+  text-shadow: 0 0 18px var(--ultra-blue-glow);
+}
+
+.kpi-sub {
+  font-size: 12px !important;
+  color: rgba(148,163,184,0.78) !important;
+}
+
+.ring-container {
+  width: 182px;
+  height: 182px;
+}
+
+.ring-pct {
+  font-size: 46px !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 20px rgba(0,220,255,0.16);
+}
+
+.ring-label {
+  font-size: 12px !important;
+  letter-spacing: 1.2px;
+}
+
+.ring-stat-row {
+  min-height: 52px;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)) !important;
+}
+
+.tab-btn,
+.portal-btn,
+.topbar-btn,
+.month-nav-btn,
+.theme-toggle,
+.btn-control,
+.calendar-refresh-btn,
+.back-to-months-btn {
+  will-change: transform;
+}
+
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+}
+
+.theme-toggle:hover,
+.month-nav-btn:hover,
+.btn-control:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+}
+
+.filter-select,
+.portal-btn,
+.topbar-btn {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.03),
+    0 8px 18px rgba(0,0,0,0.08);
+}
+
+.filter-select:hover,
+.filter-select:focus {
+  border-color: rgba(123,174,255,0.32) !important;
+  box-shadow:
+    0 0 0 4px rgba(59,130,246,0.10),
+    0 12px 26px rgba(0,0,0,0.10);
+}
+
+.chart-wrap {
+  border-radius: 18px;
+}
+
+.chart-card {
+  min-height: 380px;
+}
+
+.contratos-card .currency-pill,
+.ring-stat-row,
+.stat-pill {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.valor-contratos {
+  font-size: 34px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 12px 22px rgba(0,0,0,0.14);
+}
+
+.day,
+.month-card {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.day:hover:not(.empty),
+.month-card:hover {
+  box-shadow:
+    0 20px 30px rgba(0,0,0,0.20),
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+
+.day-number {
+  color: rgba(148,163,184,0.56);
+}
+
+.day-info {
+  color: rgba(226,232,240,0.78) !important;
+}
+
+.day-badge {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+thead {
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)) !important;
+}
+
+th {
+  letter-spacing: 2px !important;
+}
+
+tbody tr:hover {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.footer-row-label,
+.footer-bottom p {
+  color: rgba(203,213,225,0.72);
+}
+
+.fsocial-btn,
+.mesa-footer-card {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+}
+
+@media (max-width: 900px) {
+  .welcome-text h2 {
+    font-size: 2.2rem !important;
+  }
+
+  .kpi-value {
+    font-size: 2.5rem !important;
+  }
+
+  .chart-card {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .kpi-value {
+    font-size: 2.2rem !important;
+  }
+
+  .ring-pct {
+    font-size: 40px !important;
+  }
+}
+</style>
 <script>
 (function organizarLayoutDashboard() {
   const content = document.getElementById('contentDashboard');
