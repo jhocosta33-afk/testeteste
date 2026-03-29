@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard NASDAQ PRO</title>
+<title>Dashboard NASDAQ PRO | Fintech Premium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -12,7 +12,7 @@
 <!-- Supabase via unpkg -->
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-/* Supabase config embutido �?" não depende de arquivo externo */
+/* Supabase config embutido  ?" não depende de arquivo externo */
 (function(){
   function init() {
     if (window.supabase && window.supabase.createClient) {
@@ -34,9 +34,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
  
 <style>
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    VARIÁVEIS & RESET
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 :root {
   --glass-bg:       rgba(10, 18, 35, 0.72);
   --glass-bg-light: rgba(20, 35, 60, 0.60);
@@ -103,9 +103,9 @@ body::after {
   z-index: 0;
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    LOADING
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .loading-overlay {
   position: fixed; inset: 0;
   background: #030a1a;
@@ -134,9 +134,9 @@ body::after {
 }
 @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    PERFORMANCE INDICATOR
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .performance-indicator {
   position: fixed; top: 20px; right: 20px;
   background: var(--glass-bg);
@@ -155,9 +155,9 @@ body::after {
 .performance-dot.negative { background:var(--red); box-shadow:0 0 8px var(--red); }
 .performance-dot.neutral  { background:var(--yellow); box-shadow:0 0 8px var(--yellow); }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    WRAPPER PRINCIPAL
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .app-wrapper {
   position: relative;
   z-index: 1;
@@ -166,9 +166,9 @@ body::after {
   flex-direction: column;
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    TOP BAR
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .topbar {
   display: flex;
   align-items: center;
@@ -260,9 +260,9 @@ body::after {
 }
 .portal-btn:hover { background: linear-gradient(135deg, rgba(0,229,160,0.35), rgba(59,130,246,0.35)); box-shadow: 0 0 14px rgba(0,229,160,0.3); transform: translateY(-1px); }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    FILTROS BAR
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .filters-bar {
   display: flex;
   align-items: center;
@@ -316,9 +316,9 @@ body::after {
 .stat-pill-label { color: var(--text-muted); font-weight: 500; }
 .stat-pill-value { color: var(--text); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-   CONTE�sDO PRINCIPAL
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CONTE sDO PRINCIPAL
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .main-content {
   flex: 1;
   padding: 24px 32px 32px;
@@ -329,9 +329,9 @@ body::after {
 .tab-content.active { display: block; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    GLASS CARD BASE
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -372,9 +372,9 @@ body::after {
   box-shadow: 0 0 8px var(--glow-cyan);
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    LAYOUT GRID PRINCIPAL (inspirado na imagem)
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -387,9 +387,9 @@ body::after {
 /* Coluna direita */
 .col-right { display: flex; flex-direction: column; gap: 20px; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD BOAS VINDAS + KPIs PRINCIPAIS
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .welcome-card {
   padding: 24px 28px;
 }
@@ -468,18 +468,18 @@ body::after {
   margin-top: 5px; font-weight: 500;
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    KPIs SECUNDÁRIOS (segunda linha)
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .kpi-secondary-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD DE CONTRATOS
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .contratos-card {
   padding: 22px 24px;
 }
@@ -527,9 +527,9 @@ body::after {
   display: flex; align-items: center; gap: 5px;
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD GRÁFICO DE PERFORMANCE
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .chart-card {
   padding: 24px 28px;
   flex: 1;
@@ -537,9 +537,9 @@ body::after {
 .chart-wrap { position: relative; height: 220px; width: 100%; }
 canvas { width: 100%!important; height: 100%!important; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CARD ASSERTIVIDADE (ring circular)
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .ring-card {
   padding: 24px 28px;
   display: flex; flex-direction: column;
@@ -598,15 +598,15 @@ canvas { width: 100%!important; height: 100%!important; }
 .ring-stat-row span:first-child { color: var(--text-dim); font-weight: 500; }
 .ring-stat-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-   CARD DISTRIBUI�?�fO (donut)
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CARD DISTRIBUI ? fO (donut)
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .dist-card { padding: 24px 28px; }
 .dist-chart-wrap { position: relative; height: 180px; margin: 0 auto; width: 100%; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CALENDÁRIO DE TRADING
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .calendar-card { padding: 24px 28px; }
 .calendar-header-row {
   display: grid;
@@ -696,9 +696,9 @@ canvas { width: 100%!important; height: 100%!important; }
   margin-bottom: 20px;
 }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    TABELA
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .table-card { padding: 24px 28px; }
 .table-wrap { overflow-x: auto; border-radius: 10px; margin-top: 4px; }
 table { width:100%; min-width:900px; border-collapse:separate; border-spacing:0; }
@@ -725,9 +725,9 @@ tr.total td { border-bottom:none; padding:14px 14px; font-size:13px; color:var(-
 tbody tr { transition: all 0.2s; }
 tbody tr:hover { background: rgba(59,130,246,0.06); }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-   CALENDÁRIO ECON�"MICO
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+   CALENDÁRIO ECON "MICO
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .market-card { padding: 24px 28px; }
 .market-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--glass-border); }
 .market-header h3 { font-family:'Orbitron',monospace; font-size:11px; font-weight:600; color:var(--text-dim); letter-spacing:2.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
@@ -736,9 +736,9 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .calendar-refresh-btn { background:rgba(59,130,246,0.10); color:var(--accent2); border:1px solid var(--glass-border-bright); border-radius:8px; padding:7px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; white-space:nowrap; font-family:'Inter',sans-serif; }
 .calendar-refresh-btn:hover { background:rgba(59,130,246,0.25); color:#fff; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    MODAL
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .trade-photo-modal { position:fixed; inset:0; background:rgba(0,0,0,0.90); display:none; align-items:center; justify-content:center; z-index:10000; padding:20px; backdrop-filter:blur(16px); }
 .trade-photo-modal.active { display:flex; }
 .modal-content { background:rgba(10,18,40,0.95); border:1px solid var(--glass-border-bright); border-radius:var(--radius); max-width:650px; width:100%; max-height:85vh; overflow-y:auto; position:relative; box-shadow:0 24px 64px rgba(0,0,0,0.8),0 0 40px rgba(59,130,246,0.15); animation:slideInUp 0.35s cubic-bezier(0.4,0,0.2,1); backdrop-filter:blur(24px); }
@@ -769,9 +769,9 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .modal-photo-spinner { width:36px; height:36px; border:2px solid rgba(59,130,246,0.15); border-top-color:var(--accent2); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px; }
 .modal-photo-error { text-align:center; padding:40px 20px; color:var(--red); font-size:13px; font-weight:600; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    CAPTURE CARD (fora da tela, para download)
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .capture-card { position:fixed; top:-10000px; left:-10000px; background:linear-gradient(135deg,#030a1a 0%,#0a1628 100%); border:1px solid rgba(59,130,246,0.25); border-radius:16px; padding:24px; width:900px; }
 .capture-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid rgba(59,130,246,0.15); }
 .capture-header-icon { font-size:26px; }
@@ -785,9 +785,9 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .capture-footer { margin-top:16px; padding-top:16px; border-top:1px solid rgba(59,130,246,0.15); text-align:center; display:flex; align-items:center; justify-content:center; min-height:60px; }
 .capture-footer img { max-height:48px; max-width:280px; height:auto; width:auto; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    FOOTER
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 .site-footer { background:rgba(5,10,25,0.85); border-top:1px solid var(--glass-border); padding:24px 32px 18px; backdrop-filter:blur(20px); position:relative; z-index:1; }
 .footer-inner { max-width:1800px; margin:0 auto; }
 .footer-row { display:flex; align-items:center; gap:16px; padding:12px 0; border-bottom:1px solid var(--glass-border); }
@@ -811,17 +811,17 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .footer-bottom { border-top:1px solid var(--glass-border); margin-top:12px; padding-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 .footer-bottom p { font-size:11px; color:var(--text-muted); }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    SCROLLBAR
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:rgba(5,10,25,0.5); }
 ::-webkit-scrollbar-thumb { background:rgba(59,130,246,0.3); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:rgba(0,220,255,0.5); }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    LIGHT THEME (sobrescreve o necessário)
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 body.light-theme {
   background: linear-gradient(180deg, #e8f0ff 0%, #d0dff5 50%, #c8d8f0 100%);
 }
@@ -846,9 +846,9 @@ body.light-theme td { color: #3a5a7a; }
 body.light-theme .topbar-title { color: #1a4a8a; }
 body.light-theme .welcome-text h2 { color: #0f1e32; }
  
-/* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+/*  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
    RESPONSIVO
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� */
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  */
 @media(max-width:1200px) {
   .dashboard-grid { grid-template-columns: 1fr; }
   .col-right { flex-direction: row; flex-wrap: wrap; }
@@ -1300,10 +1300,10 @@ body.light-theme .theme-toggle {
     <select id="filtroSemana" class="filter-select"></select>
   </div>
  
-  <!-- CONTE�sDO PRINCIPAL -->
+  <!-- CONTE sDO PRINCIPAL -->
   <main class="main-content">
  
-    <!-- �"?�"? ABA DASHBOARD �"?�"? -->
+    <!--  "? "? ABA DASHBOARD  "? "? -->
     <div id="contentDashboard" class="tab-content active">
       <div class="dashboard-grid">
  
@@ -1470,7 +1470,7 @@ body.light-theme .theme-toggle {
       </div>
     </div><!-- /contentDashboard -->
  
-    <!-- �"?�"? ABA CALENDÁRIO ECON�"MICO �"?�"? -->
+    <!--  "? "? ABA CALENDÁRIO ECON "MICO  "? "? -->
     <div id="contentMercado" class="tab-content">
       <div class="glass-card market-card">
         <div class="market-header">
@@ -1551,9 +1551,9 @@ body.light-theme .theme-toggle {
   </div>
 </div>
  
-<!-- �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-     TODA A L�"GICA JS �?" ID�SNTICA AO ORIGINAL
-�.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� -->
+<!--  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 
+     TODA A L "GICA JS  ?" ID SNTICA AO ORIGINAL
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  -->
 <script>
 let CSV_URL = null, GOOGLE_DRIVE_FOLDER_ID = null;
  
@@ -2727,6 +2727,335 @@ body.light-theme .card-title {
   .day {
     min-height: 82px;
   }
+}
+</style>
+<style>
+/* Fintech Premium Refresh */
+:root {
+  --fin-bg-1: #060914;
+  --fin-bg-2: #0b1120;
+  --fin-panel: rgba(12, 18, 34, 0.84);
+  --fin-stroke: rgba(255,255,255,0.08);
+  --fin-stroke-strong: rgba(112,166,255,0.24);
+  --fin-shadow: 0 18px 40px rgba(0,0,0,0.28);
+  --fin-shadow-soft: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(59,130,246,0.10), transparent 24%),
+    radial-gradient(circle at 85% 15%, rgba(0,220,255,0.07), transparent 22%),
+    radial-gradient(circle at 50% 100%, rgba(59,130,246,0.08), transparent 26%),
+    linear-gradient(180deg, var(--fin-bg-1) 0%, var(--fin-bg-2) 100%);
+}
+
+body::before {
+  background-image: radial-gradient(circle, rgba(148,163,184,0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: .55;
+}
+
+.topbar {
+  padding: 18px 32px;
+  background: rgba(7,12,24,0.82);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+}
+
+.topbar-center {
+  padding: 6px;
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+}
+
+.tab-btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease;
+}
+
+.tab-btn:hover { transform: translateY(-1px); }
+
+.tab-btn.active {
+  background: linear-gradient(135deg, rgba(59,130,246,0.48), rgba(0,220,255,0.18));
+  box-shadow: 0 8px 18px rgba(59,130,246,0.18), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+.portal-btn,
+.topbar-btn,
+.calendar-refresh-btn,
+.back-to-months-btn {
+  min-height: 42px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+
+.portal-btn:hover,
+.topbar-btn:hover,
+.calendar-refresh-btn:hover,
+.back-to-months-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fin-shadow-soft);
+}
+
+.filters-bar {
+  gap: 16px;
+  padding: 16px 32px;
+  background: rgba(8,13,26,0.84);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+}
+
+.filter-label {
+  font-size: 11px;
+  color: rgba(148,163,184,0.9);
+}
+
+.filter-select {
+  min-width: 176px;
+  min-height: 42px;
+  padding: 10px 40px 10px 16px;
+  border-radius: 14px;
+  background-color: rgba(255,255,255,0.035);
+  border-color: rgba(255,255,255,0.08);
+  font-size: 13px;
+}
+
+.main-content { padding: 32px; }
+
+.dashboard-grid {
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.32fr) minmax(330px, 0.68fr);
+}
+
+.col-left, .col-right { gap: 24px; }
+
+.glass-card,
+.welcome-card,
+.chart-card,
+.ring-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card,
+.market-card {
+  background: linear-gradient(180deg, rgba(20,27,47,0.88) 0%, rgba(13,18,34,0.84) 100%);
+  border: 1px solid var(--fin-stroke);
+  box-shadow: var(--fin-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+.glass-card:hover,
+.welcome-card:hover,
+.chart-card:hover,
+.ring-card:hover,
+.contratos-card:hover,
+.dist-card:hover,
+.calendar-card:hover,
+.table-card:hover,
+.market-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--fin-stroke-strong);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.26);
+}
+
+.welcome-card,
+.chart-card,
+.ring-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card,
+.market-card {
+  padding: 28px;
+}
+
+.welcome-text h2 {
+  font-size: clamp(2rem, 3vw, 3.15rem);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.welcome-text p { color: rgba(203,213,225,0.72); }
+
+.kpi-row,
+.kpi-secondary-row { gap: 16px; }
+
+.kpi-box {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+
+.kpi-box:hover {
+  transform: translateY(-3px);
+  border-color: rgba(112,166,255,0.22);
+  box-shadow: 0 14px 24px rgba(0,0,0,0.16);
+}
+
+.kpi-label {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  color: rgba(148,163,184,0.78);
+}
+
+.kpi-value {
+  font-size: clamp(2rem, 2.6vw, 2.75rem);
+  font-weight: 800;
+}
+
+.kpi-sub {
+  margin-top: 8px;
+  color: rgba(148,163,184,0.78);
+}
+
+.card-title,
+.table-card > strong,
+.market-header h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.ring-pct { font-size: 40px; }
+
+.ring-stat-row {
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+}
+
+.valor-contratos {
+  min-width: 92px;
+  padding: 10px 24px;
+  border-radius: 14px;
+  font-size: 32px;
+  background: rgba(5,8,19,0.84);
+}
+
+.currency-pill,
+.stat-pill {
+  min-height: 34px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.day,
+.month-card { border-radius: 16px; }
+
+.day {
+  min-height: 88px;
+  padding: 8px 8px 24px;
+}
+
+.day-points { font-size: 24px; }
+
+.day-info {
+  font-size: 10px;
+  color: rgba(203,213,225,0.82);
+}
+
+.table-wrap { border-radius: 16px; }
+
+th {
+  padding: 16px 14px;
+  font-size: 11px;
+  color: rgba(148,163,184,0.88);
+}
+
+td {
+  padding: 16px 14px;
+  font-size: 13px;
+}
+
+tbody tr {
+  transition: background-color .22s ease, transform .22s ease;
+}
+
+tbody tr:hover {
+  background: rgba(59,130,246,0.06);
+  transform: translateY(-1px);
+}
+
+.site-footer {
+  background: rgba(7,12,24,0.88);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.footer-row,
+.footer-bottom {
+  border-color: rgba(255,255,255,0.06);
+}
+
+.footer-row-label { color: rgba(191,219,254,0.78); }
+
+.welcome-card,
+.chart-card,
+.ring-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card {
+  animation: fintechFade .45s ease both;
+}
+
+@keyframes fintechFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1180px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .topbar { padding: 16px 18px; }
+  .filters-bar { padding: 14px 18px; }
+  .main-content { padding: 20px 18px 28px; }
+  .welcome-card,
+  .chart-card,
+  .ring-card,
+  .contratos-card,
+  .dist-card,
+  .calendar-card,
+  .table-card,
+  .market-card { padding: 22px; }
+}
+
+@media (max-width: 640px) {
+  .topbar,
+  .filters-bar,
+  .main-content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .filter-select { min-width: 100%; }
+
+  .welcome-text h2 { font-size: 2rem; }
+
+  .welcome-card,
+  .chart-card,
+  .ring-card,
+  .contratos-card,
+  .dist-card,
+  .calendar-card,
+  .table-card,
+  .market-card { padding: 18px; }
 }
 </style>
 <script>
