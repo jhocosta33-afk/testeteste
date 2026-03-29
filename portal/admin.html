@@ -983,9 +983,9 @@ function temPermissao(perm) {
 function aplicarPermissoesUI() {
   // Mapa aba -> id do elemento -> permissão necessária
   const abas = [
-    { id: 'tabPosts',       secao: 'posts',       perm: () => temPermissao('posts')    },
-    { id: 'tabAprovacoes',  secao: 'aprovacoes',  perm: () => temPermissao('alunos')   },
-    { id: 'tabPlanilha',    secao: 'planilha',    perm: () => temPermissao('planilha') },
+    { id: 'tabPosts',       secao: 'posts',       perm: () => true },
+    { id: 'tabAprovacoes',  secao: 'aprovacoes',  perm: () => true },
+    { id: 'tabPlanilha',    secao: 'planilha',    perm: () => true },
     { id: 'tabAdmins',      secao: 'admins',      perm: () => window._isSuperAdmin     },
   ];
 
@@ -1010,6 +1010,7 @@ function aplicarPermissoesUI() {
     if (secEl) secEl.classList.add('active');
     if (primeira.secao === 'posts')      carregarPosts();
     else if (primeira.secao === 'aprovacoes') carregarUsuarios();
+    else if (primeira.secao === 'planilha')   carregarUsuarios();
     else if (primeira.secao === 'admins')     carregarAdmins();
   }
 
@@ -1211,8 +1212,9 @@ getSB().auth.getSession().then(async ({ data: { session } }) => {
 
     await carregarConfiguracoes();
     if (temPermissao('youtube')) await inicializarYouTubeAuth();
-    if (temPermissao('posts')) carregarPosts();
-    if (temPermissao('alunos')) carregarUsuarios();
+    carregarPosts();
+    carregarUsuarios();
+    if (window._isSuperAdmin) carregarAdmins();
   } catch (error) {
     console.error('Erro auth admin:', error);
     const postsEl = document.getElementById('posts-list');
@@ -1234,6 +1236,7 @@ function switchTab(tabName) {
   if (sec) sec.classList.add('active');
   if (tabName === 'posts') carregarPosts();
   else if (tabName === 'aprovacoes') carregarUsuarios();
+  else if (tabName === 'planilha') carregarUsuarios();
   else if (tabName === 'admins') carregarAdmins();
 }
 
@@ -1399,7 +1402,12 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
 function buildPostItemHTML(doc, isNovo) {
   const post = doc.data ? doc.data() : doc;
   const postId = doc.id || post.id;
-  const data = post.criado_em ? new Date(post.criado_em).toLocaleDateString('pt-BR') : 'Agora';
+  const criadoEm = post.criado_em || post.created_at || post.criadoEm || null;
+  const data = criadoEm ? new Date(criadoEm).toLocaleDateString('pt-BR') : 'Agora';
+  const autorUid = post.autorUid || post.autor_uid || post.autorId || null;
+  const titulo = post.titulo || 'Post sem título';
+  const texto = typeof post.texto === 'string' ? post.texto : '';
+  const categoria = post.categoria || 'Sem categoria';
 
   let midiaHTML = '';
   if (post.youtube_embed_url) {
@@ -1412,7 +1420,7 @@ function buildPostItemHTML(doc, isNovo) {
     midiaHTML = `<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;">ðŸ“„</div>`;
   }
 
-  const canEdit = window._isSuperAdmin || (temPermissao('posts') && post.autorUid === window._adminUid);
+  const canEdit = window._isSuperAdmin || (temPermissao('posts') && autorUid === window._adminUid);
   const actionBtns = canEdit
     ? `<button class="btn btn-sm" onclick="abrirEditarPost('${postId}')" style="background:rgba(99,102,241,0.15);color:var(--blue);border:1px solid rgba(99,102,241,0.3);">âœï¸ Editar</button>
        <button class="btn btn-sm btn-danger" onclick="deletarPost('${postId}')">ðŸ—‘ï¸ Excluir</button>`
@@ -1422,10 +1430,10 @@ function buildPostItemHTML(doc, isNovo) {
     ${midiaHTML}
     <div class="post-content">
       ${isNovo ? '<span style="display:inline-block;background:#10b981;color:#000;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">âœ¨ Novo</span>' : ''}
-      <div class="post-title">${post.titulo}</div>
-      ${(post.texto||'').trim() ? `<div class="post-desc" style="font-size:12px;color:var(--text-muted);line-height:1.5;margin:4px 0 6px;font-style:italic;"><span style="color:var(--blue);font-style:normal;font-weight:700;font-size:11px;">DESCRIÃ‡ÃƒO</span> ${(post.texto||'').substring(0,140)}${(post.texto||'').length>140?'â€¦':''}</div>` : ''}
+      <div class="post-title">${titulo}</div>
+      ${texto.trim() ? `<div class="post-desc" style="font-size:12px;color:var(--text-muted);line-height:1.5;margin:4px 0 6px;font-style:italic;"><span style="color:var(--blue);font-style:normal;font-weight:700;font-size:11px;">DESCRIÇÃO</span> ${texto.substring(0,140)}${texto.length>140?'…':''}</div>` : ''}
       <div class="post-meta" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        ðŸ“… ${data} â€¢ ðŸ“ ${post.categoria} â€¢ âœï¸ ${post.autor||'Admin'}
+        📅 ${data} • 📁 ${categoria} • ✍️ ${post.autor||'Admin'}
         ${post.youtube_embed_url ? '<span class="yt-badge">â–¶ YouTube</span>' : ''}
       </div>
       <div class="post-actions">
@@ -1456,12 +1464,43 @@ async function carregarPosts() {
   container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando posts...</p></div>';
 
   async function _renderPosts() {
-    const { data: postsData, error } = await getSB()
-      .from('posts').select('*').order('criado_em', { ascending: false }).limit(50);
-    if (error) { container.innerHTML = '<p style="color:var(--red);padding:20px;">âŒ Erro ao carregar posts.</p>'; return; }
-    if (!postsData?.length) { container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px;">Nenhum post ainda.</p>'; return; }
-    const snapshot = { docs: postsData.map(d => ({ id: d.id, data: () => d })), empty: false };
-    container.innerHTML = snapshot.docs.map(doc => buildPostItemHTML(doc, false)).join('');
+    try {
+      let postsData = null;
+      let error = null;
+
+      let resp = await getSB()
+        .from('posts')
+        .select('*')
+        .order('criado_em', { ascending: false })
+        .limit(50);
+
+      postsData = resp.data;
+      error = resp.error;
+
+      if (error) {
+        resp = await getSB()
+          .from('posts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(50);
+        postsData = resp.data;
+        error = resp.error;
+      }
+
+      if (error) {
+        container.innerHTML = '<p style="color:var(--red);padding:20px;">❌ Erro ao carregar posts: ' + error.message + '</p>';
+        return;
+      }
+      if (!postsData?.length) {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px;">Nenhum post ainda.</p>';
+        return;
+      }
+      const snapshot = { docs: postsData.map(d => ({ id: d.id, data: () => d })), empty: false };
+      container.innerHTML = snapshot.docs.map(doc => buildPostItemHTML(doc, false)).join('');
+    } catch (err) {
+      console.error('Erro em _renderPosts:', err);
+      container.innerHTML = '<p style="color:var(--red);padding:20px;">❌ Erro ao montar os posts: ' + (err.message || err) + '</p>';
+    }
   }
 
   await _renderPosts();
@@ -1487,34 +1526,48 @@ function toggleComentariosAdmin(postId) {
 }
 
 function iniciarListenerAdmin(postId) {
-  if (_adminListeners[postId]) return; // jÃ¡ ouvindo
+  if (_adminListeners[postId]) return; // já ouvindo
   const lista   = document.getElementById('lista-admin-' + postId);
   const countEl = document.getElementById('count-admin-' + postId);
   lista.innerHTML = '<p style="text-align:center;padding:16px;color:#64748b;font-size:13px;">Carregando...</p>';
 
-  const unsub = null; // realtime disabled, using polling
   async function _recarregarComentariosAdmin() {
-    const { data: _coments } = await getSB().from('comentarios').select('*').eq('post_id',postId).order('criado_em',{ascending:true});
-    const docs = _coments || [];
-    if (countEl) countEl.textContent = docs.length;
-    if (!docs.length) {
-      lista.innerHTML = '<p style="text-align:center;padding:16px;color:var(--text-muted);">Nenhum comentÃ¡rio ainda.</p>';
-      return;
-    }
-    let html = '';
-    docs.forEach(d => { html += renderComentarioAdmin(postId, d.id, d, false); });
-    lista.innerHTML = html;
-    docs.forEach(d => {
-      const el = document.getElementById('respAdminAv-' + d.id);
-      if (!el) return;
-      if (window._adminFotoUrl) el.innerHTML = '<img src="' + window._adminFotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
-      else el.textContent = (window._adminNome||'A').charAt(0).toUpperCase();
-    });
-  }, err => {
-      lista.innerHTML = '<p style="color:var(--red);padding:16px;">Erro: ' + err.message + '</p>';
-    });
+    try {
+      const { data: _coments, error } = await getSB()
+        .from('comentarios')
+        .select('*')
+        .eq('post_id', postId)
+        .order('criado_em', { ascending: true });
 
-  _adminListeners[postId] = unsub;
+      if (error) throw error;
+
+      const docs = _coments || [];
+      if (countEl) countEl.textContent = docs.length;
+
+      if (!docs.length) {
+        lista.innerHTML = '<p style="text-align:center;padding:16px;color:var(--text-muted);">Nenhum comentário ainda.</p>';
+        return;
+      }
+
+      let html = '';
+      docs.forEach(d => { html += renderComentarioAdmin(postId, d.id, d, false); });
+      lista.innerHTML = html;
+
+      docs.forEach(d => {
+        const el = document.getElementById('respAdminAv-' + d.id);
+        if (!el) return;
+        if (window._adminFotoUrl) el.innerHTML = '<img src="' + window._adminFotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+        else el.textContent = (window._adminNome || 'A').charAt(0).toUpperCase();
+      });
+    } catch (err) {
+      lista.innerHTML = '<p style="color:var(--red);padding:16px;">Erro: ' + err.message + '</p>';
+    }
+  }
+
+  _recarregarComentariosAdmin();
+
+  const intervalId = setInterval(_recarregarComentariosAdmin, 15000);
+  _adminListeners[postId] = () => clearInterval(intervalId);
 }
 
 function renderComentarioAdmin(postId, docId, co, isNovo) {
