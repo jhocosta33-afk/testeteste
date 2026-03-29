@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -1240,7 +1240,29 @@ function switchTab(tabName) {
   else if (tabName === 'admins') carregarAdmins();
 }
 
-function logout() { if (confirm('Deseja realmente sair?')) { getSB().auth.signOut(); window.location.href = 'login.html'; } }
+async function logout() {
+  if (!confirm('Deseja realmente sair?')) return;
+  try {
+    await getSB().auth.signOut({ scope: 'local' });
+  } catch (error) {
+    console.warn('Falha ao encerrar sessão local:', error);
+  }
+
+  try {
+    await getSB().auth.signOut({ scope: 'global' });
+  } catch (error) {
+    console.warn('Falha ao encerrar sessão global:', error);
+  }
+
+  try {
+    localStorage.removeItem('supabase.auth.token');
+    sessionStorage.removeItem('supabase.auth.token');
+  } catch (error) {
+    console.warn('Falha ao limpar storage de autenticação:', error);
+  }
+
+  window.location.replace('login.html');
+}
 
 function mostrarAlerta(id, mensagem, tipo) {
   const el = document.getElementById(id);
