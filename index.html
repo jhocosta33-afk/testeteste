@@ -5120,6 +5120,135 @@ body.light-theme .month-nav-btn {
   }
 }
 </style>
+<style>
+.topbar {
+  padding: 16px 32px !important;
+}
+
+.topbar-logo {
+  max-height: 52px !important;
+}
+
+.topbar-title {
+  font-size: 13px !important;
+  letter-spacing: 3px !important;
+}
+
+.topbar-center {
+  padding: 5px !important;
+  gap: 6px !important;
+}
+
+.tab-btn {
+  padding: 8px 20px !important;
+  font-size: 12px !important;
+}
+
+.topbar-btn {
+  padding: 9px 16px !important;
+  font-size: 12px !important;
+}
+
+.theme-toggle {
+  width: 40px !important;
+  height: 40px !important;
+  font-size: 18px !important;
+}
+
+.filters-bar {
+  padding: 12px 32px !important;
+  gap: 12px !important;
+}
+
+.filter-label {
+  font-size: 9px !important;
+}
+
+.filter-select {
+  padding: 8px 32px 8px 14px !important;
+  font-size: 12px !important;
+  min-width: 140px !important;
+}
+
+.welcome-card {
+  padding: 20px 22px !important;
+}
+
+.welcome-top {
+  gap: 14px !important;
+  margin-bottom: 18px !important;
+}
+
+.welcome-icon {
+  width: 44px !important;
+  height: 44px !important;
+  font-size: 20px !important;
+}
+
+.welcome-text h2 {
+  font-size: clamp(2rem, 3vw, 3.2rem) !important;
+  letter-spacing: -1.2px !important;
+}
+
+.welcome-text p {
+  font-size: 13px !important;
+}
+
+.kpi-row {
+  gap: 12px !important;
+}
+
+.dashboard-top-left .kpi-secondary-row,
+.kpi-secondary-row {
+  gap: 12px !important;
+}
+
+.kpi-box {
+  min-height: 98px !important;
+  padding: 14px 16px !important;
+}
+
+.kpi-value {
+  font-size: clamp(2rem, 2.5vw, 2.75rem) !important;
+}
+
+.ring-card {
+  padding: 20px 22px !important;
+}
+
+.ring-card .card-title {
+  font-size: 15px !important;
+}
+
+.ring-container {
+  width: 138px !important;
+  height: 138px !important;
+  margin: 4px auto 12px !important;
+}
+
+.ring-pct {
+  font-size: 30px !important;
+}
+
+.ring-label {
+  font-size: 9px !important;
+}
+
+.ring-stat-row {
+  min-height: 54px !important;
+  padding: 10px 14px !important;
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    padding: 16px 18px !important;
+  }
+
+  .filters-bar {
+    padding: 12px 18px !important;
+  }
+}
+</style>
 <script>
 (function ajustarCalculadoraContratos() {
   const pills = document.querySelectorAll('.contratos-card .currency-pill');
@@ -5529,6 +5658,83 @@ html.light-theme body .site-footer .footer-bottom p,
 body.light-theme .site-footer .mesa-footer-name,
 body.light-theme .site-footer .footer-bottom p {
   color: #4f6483 !important;
+}
+
+/* Ajuste fino: reduzir apenas o bloco Bem-vindo + Assertividade */
+.dashboard-top-left .welcome-card {
+  padding: 14px 16px !important;
+}
+
+.dashboard-top-left .welcome-top {
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+}
+
+.dashboard-top-left .welcome-icon {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 16px !important;
+}
+
+.dashboard-top-left .welcome-text h2 {
+  font-size: clamp(1.5rem, 2.1vw, 2.35rem) !important;
+  letter-spacing: -1px !important;
+}
+
+.dashboard-top-left .welcome-text p {
+  font-size: 11px !important;
+}
+
+.dashboard-top-left .kpi-row {
+  gap: 10px !important;
+}
+
+.dashboard-top-left .kpi-secondary-row {
+  gap: 10px !important;
+}
+
+.dashboard-top-left .kpi-box {
+  min-height: 82px !important;
+  padding: 10px 12px !important;
+}
+
+.dashboard-top-left .kpi-label {
+  font-size: 10px !important;
+}
+
+.dashboard-top-left .kpi-sub {
+  font-size: 11px !important;
+}
+
+.dashboard-top-left .kpi-value {
+  font-size: clamp(1.65rem, 2vw, 2.2rem) !important;
+}
+
+.dashboard-right-top .ring-card {
+  padding: 14px 16px !important;
+}
+
+.dashboard-right-top .ring-card .card-title {
+  font-size: 14px !important;
+}
+
+.dashboard-right-top .ring-container {
+  width: 118px !important;
+  height: 118px !important;
+  margin: 0 auto 8px !important;
+}
+
+.dashboard-right-top .ring-pct {
+  font-size: 24px !important;
+}
+
+.dashboard-right-top .ring-label {
+  font-size: 8px !important;
+}
+
+.dashboard-right-top .ring-stat-row {
+  min-height: 46px !important;
+  padding: 7px 11px !important;
 }
 </style>
 <script src="theme.js"></script>
