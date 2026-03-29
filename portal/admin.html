@@ -731,7 +731,6 @@ const YT_SCOPE    = 'https://www.googleapis.com/auth/youtube.force-ssl';
 const YT_REDIRECT = 'https://jhocosta33-afk.github.io/dashboard-nasdaq-pro/portal/admin.html';
 let SHEETS_SPREADSHEET_ID = null;
 const YT_WORKER   = 'https://youtube-upload-proxy.nasdaqpro7.workers.dev';
-const VISTA_KEY   = 'nasdaqpro_vista_preferencia';
 let   ytAccessToken = null;
 
 async function carregarConfiguracoes() {
@@ -1990,22 +1989,16 @@ document.getElementById('modalEditarPost')?.addEventListener('click', (e) => {
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let arquivosMultiplos = [];
 
-function inicializarVisualizacao() {
-  const vista = localStorage.getItem(VISTA_KEY) || 'admin';
-  aplicarVista(vista, false);
-}
-
 function alternarVisualizacao() {
   // Navega na mesma aba para o portal do aluno
-  localStorage.setItem(VISTA_KEY, 'aluno');
+  localStorage.setItem('portal-view-mode', 'aluno');
   window.location.href = 'aluno.html?from=admin';
 }
 
 function inicializarVisualizacao() {
-  // Garante que ao abrir o painel admin a preferÃªncia volta para admin
-  localStorage.setItem(VISTA_KEY, 'admin');
+  // Garante que ao abrir o painel admin a preferÃªncia volte para admin
+  localStorage.setItem('portal-view-mode', 'admin');
 }
-
 
 document.getElementById('formTradeData').addEventListener('submit', async (e) => {
   e.preventDefault();
