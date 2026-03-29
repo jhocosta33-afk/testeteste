@@ -3413,6 +3413,417 @@ tbody tr:hover {
   }
 }
 </style>
+<style>
+/* SaaS Product Finish */
+:root {
+  --saas-line: rgba(255,255,255,0.06);
+  --saas-line-strong: rgba(123,174,255,0.18);
+  --saas-panel: rgba(9, 14, 26, 0.72);
+  --saas-hover-glow: 0 0 0 1px rgba(123,174,255,0.12), 0 20px 40px rgba(0,0,0,0.24);
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  letter-spacing: -0.01em;
+}
+
+.app-wrapper {
+  position: relative;
+}
+
+.app-wrapper::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(180deg, rgba(7,12,24,0.38), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
+.topbar-left,
+.topbar-right,
+.filters-bar,
+.calendar-title-row,
+.market-header {
+  position: relative;
+}
+
+.topbar-left::after,
+.topbar-right::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 28px;
+  transform: translateY(-50%);
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.12), transparent);
+  opacity: .65;
+}
+
+.topbar-left::after {
+  right: -14px;
+}
+
+.topbar-right::before {
+  left: -14px;
+}
+
+.filters-bar::after {
+  content: '';
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--saas-line-strong), transparent);
+  opacity: .7;
+}
+
+.main-content > * + * {
+  margin-top: 4px;
+}
+
+.dashboard-grid > *,
+.col-left > *,
+.col-right > *,
+.table-card,
+.calendar-card,
+.market-card {
+  position: relative;
+}
+
+.welcome-card::before,
+.chart-card::before,
+.ring-card::before,
+.contratos-card::before,
+.dist-card::before,
+.calendar-card::before,
+.table-card::before,
+.market-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+  pointer-events: none;
+}
+
+.welcome-card,
+.chart-card,
+.ring-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card,
+.market-card,
+.kpi-box,
+.month-card,
+.day,
+.topbar-btn,
+.portal-btn,
+.tab-btn,
+.theme-toggle,
+.filter-select,
+.btn-control,
+.calendar-refresh-btn,
+.back-to-months-btn {
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background-color .28s ease,
+    color .24s ease,
+    opacity .24s ease;
+}
+
+.welcome-card:hover,
+.chart-card:hover,
+.ring-card:hover,
+.contratos-card:hover,
+.dist-card:hover,
+.calendar-card:hover,
+.table-card:hover,
+.market-card:hover,
+.kpi-box:hover,
+.month-card:hover,
+.day:hover:not(.empty) {
+  box-shadow: var(--saas-hover-glow) !important;
+}
+
+.topbar-btn:active,
+.portal-btn:active,
+.tab-btn:active,
+.theme-toggle:active,
+.filter-select:active,
+.btn-control:active,
+.calendar-refresh-btn:active,
+.back-to-months-btn:active {
+  transform: translateY(1px) scale(.985) !important;
+}
+
+.topbar-btn:focus-visible,
+.portal-btn:focus-visible,
+.tab-btn:focus-visible,
+.theme-toggle:focus-visible,
+.filter-select:focus-visible,
+.btn-control:focus-visible,
+.calendar-refresh-btn:focus-visible,
+.back-to-months-btn:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(59,130,246,0.16),
+    0 0 0 1px rgba(123,174,255,0.36) !important;
+}
+
+.welcome-text h2,
+.card-title,
+.table-card > strong,
+.market-header h3 {
+  text-rendering: geometricPrecision;
+}
+
+.kpi-value,
+.ring-pct,
+.valor-contratos,
+.month-points,
+.day-points {
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-value {
+  line-height: .94;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.kpi-box {
+  isolation: isolate;
+}
+
+.kpi-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 18% 16%, rgba(255,255,255,0.08), transparent 28%);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.kpi-label,
+.kpi-sub,
+.ring-label,
+.ring-stat-row span:first-child,
+.month-info,
+.day-number,
+.day-info,
+.stat-pill-label,
+.filter-label {
+  color: rgba(173, 190, 214, 0.72) !important;
+}
+
+.kpi-value.green,
+.stat-pill-value.green,
+.currency-value.positive {
+  filter: saturate(1.08);
+}
+
+.kpi-value.green,
+.ring-stat-row .positive,
+.day.positive .day-points,
+.month-card.positive .month-points {
+  text-shadow: 0 0 22px rgba(0,229,160,0.18);
+}
+
+.kpi-value.red,
+.day.negative .day-points,
+.month-card.negative .month-points {
+  text-shadow: 0 0 22px rgba(255,77,106,0.16);
+}
+
+.chart-card .chart-wrap,
+.dist-card .dist-chart-wrap {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  border-radius: 18px;
+}
+
+.ring-card {
+  background:
+    radial-gradient(circle at top center, rgba(0,220,255,0.06), transparent 28%),
+    linear-gradient(180deg, var(--ultra-panel-top) 0%, var(--ultra-panel-bottom) 100%) !important;
+}
+
+.contratos-card {
+  background:
+    radial-gradient(circle at 15% 18%, rgba(59,130,246,0.05), transparent 24%),
+    linear-gradient(180deg, var(--ultra-panel-top) 0%, var(--ultra-panel-bottom) 100%) !important;
+}
+
+.dist-card {
+  background:
+    radial-gradient(circle at 82% 12%, rgba(255,209,102,0.05), transparent 24%),
+    linear-gradient(180deg, var(--ultra-panel-top) 0%, var(--ultra-panel-bottom) 100%) !important;
+}
+
+.calendar-card {
+  background:
+    radial-gradient(circle at top center, rgba(59,130,246,0.05), transparent 22%),
+    linear-gradient(180deg, var(--ultra-panel-top) 0%, var(--ultra-panel-bottom) 100%) !important;
+}
+
+.table-wrap,
+.calendar-grid,
+.dist-chart-wrap,
+.chart-wrap {
+  position: relative;
+}
+
+.table-wrap::before,
+.calendar-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.calendar-title-row {
+  padding-bottom: 4px;
+}
+
+.month-nav-btn,
+.back-to-months-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.day {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+    rgba(13,18,34,0.82) !important;
+}
+
+.day.positive {
+  background:
+    linear-gradient(180deg, rgba(0,229,160,0.08), rgba(0,229,160,0.03)),
+    rgba(13,18,34,0.82) !important;
+}
+
+.day.negative {
+  background:
+    linear-gradient(180deg, rgba(255,77,106,0.08), rgba(255,77,106,0.03)),
+    rgba(13,18,34,0.82) !important;
+}
+
+.loading-overlay {
+  background:
+    radial-gradient(circle at center, rgba(59,130,246,0.08), transparent 22%),
+    linear-gradient(180deg, #050914 0%, #060b16 100%) !important;
+}
+
+.loading-text {
+  color: rgba(226,232,240,0.82);
+  letter-spacing: 3.2px;
+}
+
+.spinner {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 0 28px rgba(0,220,255,0.10);
+}
+
+.modal-photo-loading,
+.modal-photo-error,
+.loading {
+  border-radius: 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed rgba(255,255,255,0.08);
+}
+
+.performance-indicator {
+  box-shadow:
+    0 16px 36px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(123,174,255,0.34), rgba(59,130,246,0.18));
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(123,174,255,0.48), rgba(59,130,246,0.26));
+  background-clip: padding-box;
+}
+
+.welcome-card,
+.kpi-box,
+.ring-card,
+.chart-card,
+.contratos-card,
+.dist-card,
+.calendar-card,
+.table-card {
+  animation: saasEnter .55s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.kpi-box:nth-child(1) { animation-delay: .04s; }
+.kpi-box:nth-child(2) { animation-delay: .07s; }
+.kpi-box:nth-child(3) { animation-delay: .10s; }
+.kpi-box:nth-child(4) { animation-delay: .13s; }
+.kpi-box:nth-child(5) { animation-delay: .16s; }
+.kpi-box:nth-child(6) { animation-delay: .19s; }
+
+@keyframes saasEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar-left::after,
+  .topbar-right::before,
+  .filters-bar::after {
+    display: none;
+  }
+}
+</style>
 <script>
 (function organizarLayoutDashboard() {
   const content = document.getElementById('contentDashboard');
