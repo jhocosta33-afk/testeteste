@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -1907,12 +1907,28 @@ document.getElementById('formFotoTrade').addEventListener('submit', async (e) =>
   const btn = document.getElementById('btnFotoTrade');
   btn.disabled = true; btn.textContent = 'Enviando...';
   try {
+    const dia = parseInt(document.getElementById('diaDoTrade').value, 10);
+    const mes = parseInt(document.getElementById('mesDoTrade').value, 10);
+    const ano = parseInt(document.getElementById('anoDoTrade').value, 10);
+    const dataTrade = montarDataTrade(dia, mes, ano);
     document.getElementById('uploadPreviewTrade').style.display = 'none';
     document.getElementById('uploadProgressTrade').style.display = 'block';
     const base64 = await fileToBase64(tradeFile);
     const response = await fetch(`${YT_WORKER}/apps-script`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ appsScriptUrl: APPS_SCRIPT_URL, params: { dia: document.getElementById('diaDoTrade').value, mes: document.getElementById('mesDoTrade').value, ano: document.getElementById('anoDoTrade').value, imagem: base64 } })
+      body: JSON.stringify({
+        appsScriptUrl: APPS_SCRIPT_URL,
+        params: {
+          dia,
+          mes,
+          ano,
+          diaTexto: pad2(dia),
+          mesTexto: pad2(mes),
+          data: dataTrade,
+          nomeArquivo: tradeFile.name,
+          imagem: base64
+        }
+      })
     });
     const resultado = await response.json();
     if (resultado.success) {
@@ -1935,6 +1951,12 @@ function calcularSemanaMes(dia) {
   if (dia <= 21) return 'SEMANA 3'; if (dia <= 28) return 'SEMANA 4';
   return 'SEMANA 5';
 }
+function pad2(valor) {
+  return String(valor).padStart(2, '0');
+}
+function montarDataTrade(dia, mes, ano) {
+  return `${pad2(dia)}/${pad2(mes)}/${ano}`;
+}
 document.getElementById('diaData').addEventListener('input', e => {
   const dia = parseInt(e.target.value);
   document.getElementById('semana').value = (dia >= 1 && dia <= 31) ? calcularSemanaMes(dia) : '';
@@ -1956,9 +1978,28 @@ function toggleAtivo(ativo) {
   fields.style.pointerEvents = checked ? 'auto' : 'none';
 }
 async function salvarAtivo(dia, mes, ano, semana, alvo, pontos, trades, gains, stops, breakeven) {
+  const dataTrade = montarDataTrade(dia, mes, ano);
   const response = await fetch(`${YT_WORKER}/apps-script`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ appsScriptUrl: APPS_SCRIPT_URL, params: { acao:'salvarTrade', dia, mes, ano, semana, alvo, pontos, trades, gains, stops, breakeven } })
+    body: JSON.stringify({
+      appsScriptUrl: APPS_SCRIPT_URL,
+      params: {
+        acao: 'salvarTrade',
+        dia,
+        mes,
+        ano,
+        diaTexto: pad2(dia),
+        mesTexto: pad2(mes),
+        data: dataTrade,
+        semana,
+        alvo,
+        pontos,
+        trades,
+        gains,
+        stops,
+        breakeven
+      }
+    })
   });
   return await response.json();
 }

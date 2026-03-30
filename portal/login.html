@@ -447,6 +447,15 @@ function inicializar() {
 
   sb.auth.getSession().then(async ({ data: { session } }) => {
     if (session) {
+      const origem = window.location.hash.includes('access_token') ? 'google' : 'login';
+      await avaliarSessao(session, origem);
+      if (origem === 'google' && window.location.hash) {
+        history.replaceState(null, '', window.location.pathname);
+      }
+      document.body.style.opacity = '1';
+      document.body.style.pointerEvents = 'auto';
+      return;
+
       const user = session.user;
       try {
         const { data: userData } = await sb.from('users').select('role, aprovado').eq('id', user.id).single();
@@ -471,6 +480,58 @@ function inicializar() {
     alertBox.style.display = 'block';
   }
 
+  async function avaliarSessao(session, origem) {
+    const user = session?.user;
+    if (!user) return false;
+
+    try {
+      let { data: userData, error } = await sb.from('users').select('role, aprovado').eq('id', user.id).single();
+      if (error && error.code !== 'PGRST116') throw error;
+
+      if (!userData) {
+        const { error: upsertError } = await sb.from('users').upsert({
+          id: user.id,
+          nome: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Aluno',
+          email: user.email,
+          role: 'aluno',
+          aprovado: false,
+          created_at: new Date().toISOString()
+        });
+        if (upsertError) throw upsertError;
+        userData = { role: 'aluno', aprovado: false };
+      }
+
+      if (userData.role === 'admin') {
+        window.location.href = 'admin.html';
+        return true;
+      }
+
+      if (userData.aprovado === true) {
+        window.location.href = 'aluno.html';
+        return true;
+      }
+
+      if (origem === 'google') {
+        window.location.href = 'cadastro.html?google=1';
+        return true;
+      }
+
+      mostrarAlerta(
+        origem === 'google'
+          ? '⏳ Login com Google concluído. Sua conta ainda está aguardando aprovação do administrador.'
+          : '⏳ Sua conta ainda está aguardando aprovação do administrador.',
+        'warning'
+      );
+      await sb.auth.signOut();
+      return true;
+    } catch (err) {
+      console.error('Erro ao verificar usuário:', err);
+      mostrarAlerta('❌ Não foi possível validar sua conta agora. Tente novamente.', 'error');
+      try { await sb.auth.signOut(); } catch (_) {}
+      return true;
+    }
+  }
+
   // ── Login com email + senha ──
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -481,6 +542,11 @@ function inicializar() {
     try {
       const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
       if (error) throw error;
+
+      await avaliarSessao(data.session, 'login');
+      btnLogin.disabled = false;
+      btnLogin.textContent = 'Entrar';
+      return;
 
       const user = data.user;
       // Garante row em users (cria se não existir via upsert)
@@ -530,6 +596,7 @@ function inicializar() {
   const btnGoogle = document.getElementById('btnGoogle');
   if (btnGoogle) {
     btnGoogle.addEventListener('click', async () => {
+      mostrarAlerta('🔄 Redirecionando para o Google...', 'warning');
       const { error } = await sb.auth.signInWithOAuth({
         provider: 'google',
         options: { redirectTo: window.location.origin + window.location.pathname }
