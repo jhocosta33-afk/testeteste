@@ -93,7 +93,7 @@ h1 { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(
 .btn-logout { background: var(--red); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s; }
 .btn-logout:hover { opacity: 0.8; }
 .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
-.tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); overflow-x: auto; visibility: visible !important; opacity: 1 !important; }
 .tab { padding: 12px 20px; border: none; background: none; color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; white-space: nowrap; }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 .tab:hover { color: var(--text); }
@@ -1485,32 +1485,53 @@ async function carregarPosts() {
   if (window._postsChannel) { getSB().removeChannel(window._postsChannel); window._postsChannel = null; }
   container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando posts...</p></div>';
 
+  function _mostrarFalhaPosts(mensagem) {
+    container.innerHTML = `
+      <div style="padding:20px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.24);border-radius:12px;">
+        <p style="color:var(--red);font-weight:700;margin-bottom:10px;">❌ ${mensagem}</p>
+        <button class="btn btn-secondary btn-sm" onclick="carregarPosts()">Tentar novamente</button>
+      </div>`;
+  }
+
+  async function _consultaComTimeout(consulta, tempoMs) {
+    return await Promise.race([
+      consulta,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('O carregamento dos posts demorou demais.')), tempoMs))
+    ]);
+  }
+
   async function _renderPosts() {
     try {
       let postsData = null;
       let error = null;
 
-      let resp = await getSB()
-        .from('posts')
-        .select('*')
-        .order('criado_em', { ascending: false })
-        .limit(50);
+      let resp = await _consultaComTimeout(
+        getSB()
+          .from('posts')
+          .select('*')
+          .order('criado_em', { ascending: false })
+          .limit(50),
+        9000
+      );
 
       postsData = resp.data;
       error = resp.error;
 
       if (error) {
-        resp = await getSB()
-          .from('posts')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(50);
+        resp = await _consultaComTimeout(
+          getSB()
+            .from('posts')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(50),
+          9000
+        );
         postsData = resp.data;
         error = resp.error;
       }
 
       if (error) {
-        container.innerHTML = '<p style="color:var(--red);padding:20px;">❌ Erro ao carregar posts: ' + error.message + '</p>';
+        _mostrarFalhaPosts('Erro ao carregar posts: ' + error.message);
         return;
       }
       if (!postsData?.length) {
@@ -1521,7 +1542,7 @@ async function carregarPosts() {
       container.innerHTML = snapshot.docs.map(doc => buildPostItemHTML(doc, false)).join('');
     } catch (err) {
       console.error('Erro em _renderPosts:', err);
-      container.innerHTML = '<p style="color:var(--red);padding:20px;">❌ Erro ao montar os posts: ' + (err.message || err) + '</p>';
+      _mostrarFalhaPosts(err.message || 'Erro ao montar os posts.');
     }
   }
 
@@ -1911,6 +1932,8 @@ document.getElementById('formFotoTrade').addEventListener('submit', async (e) =>
     const mes = parseInt(document.getElementById('mesDoTrade').value, 10);
     const ano = parseInt(document.getElementById('anoDoTrade').value, 10);
     const dataTrade = montarDataTrade(dia, mes, ano);
+    const dataTradeChave = montarDataTradeChave(dia, mes, ano);
+    const dataTradeIsoSeguro = montarDataTradeIsoSeguro(dia, mes, ano);
     document.getElementById('uploadPreviewTrade').style.display = 'none';
     document.getElementById('uploadProgressTrade').style.display = 'block';
     const base64 = await fileToBase64(tradeFile);
@@ -1919,12 +1942,16 @@ document.getElementById('formFotoTrade').addEventListener('submit', async (e) =>
       body: JSON.stringify({
         appsScriptUrl: APPS_SCRIPT_URL,
         params: {
-          dia,
-          mes,
-          ano,
+          dia: pad2(dia),
+          mes: pad2(mes),
+          ano: String(ano),
           diaTexto: pad2(dia),
           mesTexto: pad2(mes),
           data: dataTrade,
+          dataTexto: dataTrade,
+          dataChave: dataTradeChave,
+          dataIsoLocal: dataTradeIsoSeguro,
+          timezone: 'America/Sao_Paulo',
           nomeArquivo: tradeFile.name,
           imagem: base64
         }
@@ -1957,6 +1984,12 @@ function pad2(valor) {
 function montarDataTrade(dia, mes, ano) {
   return `${pad2(dia)}/${pad2(mes)}/${ano}`;
 }
+function montarDataTradeChave(dia, mes, ano) {
+  return `${ano}-${pad2(mes)}-${pad2(dia)}`;
+}
+function montarDataTradeIsoSeguro(dia, mes, ano) {
+  return `${ano}-${pad2(mes)}-${pad2(dia)}T12:00:00-03:00`;
+}
 document.getElementById('diaData').addEventListener('input', e => {
   const dia = parseInt(e.target.value);
   document.getElementById('semana').value = (dia >= 1 && dia <= 31) ? calcularSemanaMes(dia) : '';
@@ -1979,18 +2012,24 @@ function toggleAtivo(ativo) {
 }
 async function salvarAtivo(dia, mes, ano, semana, alvo, pontos, trades, gains, stops, breakeven) {
   const dataTrade = montarDataTrade(dia, mes, ano);
+  const dataTradeChave = montarDataTradeChave(dia, mes, ano);
+  const dataTradeIsoSeguro = montarDataTradeIsoSeguro(dia, mes, ano);
   const response = await fetch(`${YT_WORKER}/apps-script`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       appsScriptUrl: APPS_SCRIPT_URL,
       params: {
         acao: 'salvarTrade',
-        dia,
-        mes,
-        ano,
+        dia: pad2(dia),
+        mes: pad2(mes),
+        ano: String(ano),
         diaTexto: pad2(dia),
         mesTexto: pad2(mes),
         data: dataTrade,
+        dataTexto: dataTrade,
+        dataChave: dataTradeChave,
+        dataIsoLocal: dataTradeIsoSeguro,
+        timezone: 'America/Sao_Paulo',
         semana,
         alvo,
         pontos,
