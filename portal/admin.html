@@ -5,7 +5,7 @@
 <title>Admin | Dashboard NASDAQ PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* �.��.� TEMA COMPARTILHADO NasdaqPro �.��.� */
+/* .. TEMA COMPARTILHADO NasdaqPro .. */
 :root {
   --bg: #050711;
   --card: #0f1420;
@@ -181,14 +181,14 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
 <header>
   <div class="header-left">
-    <span class="logo">??</span>
+    <span class="logo">PA</span>
     <h1>Painel Admin</h1>
   </div>
   <div class="user-info">
-    <a href="../" style="display:inline-block;background:rgba(255,255,255,0.1);color:var(--text);border:1px solid var(--border);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;margin-right:12px;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">?? Dashboard</a>
-    <button id="btnConectarYT" onclick="autenticarYouTube()" style="display:none;background:#ff0000;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">?? Conectar YouTube</button>
-    <button id="btnVisualizacao" onclick="alternarVisualizacao()" title="Alternar visualiza��o" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);color:var(--blue);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;margin-right:8px;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">?? Ver como Aluno</button>
-    <button class="theme-toggle-btn" onclick="NasTheme.toggle()" title="Alternar tema"><span id="themeIcon">??</span></button>
+    <a href="../" style="display:inline-block;background:rgba(255,255,255,0.1);color:var(--text);border:1px solid var(--border);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;margin-right:12px;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Dashboard</a>
+    <button id="btnConectarYT" onclick="autenticarYouTube()" style="display:none;background:#ff0000;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Conectar YouTube</button>
+    <button id="btnVisualizacao" onclick="alternarVisualizacao()" title="Alternar visualizacao" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);color:var(--blue);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;margin-right:8px;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">Ver como Aluno</button>
+    <button class="theme-toggle-btn" onclick="NasTheme.toggle()" title="Alternar tema"><span id="themeIcon">Tema</span></button>
     <div id="adminAvatarHeader" onclick="abrirPerfilAdmin()" title="Editar perfil" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;cursor:pointer;overflow:hidden;border:2px solid transparent;transition:all .2s;flex-shrink:0;">
       <span id="adminAvatarLetra">A</span>
     </div>
@@ -199,35 +199,35 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
 <div class="container">
   <div class="tabs" id="tabsBar">
-    <button class="tab active" id="tabPosts" onclick="switchTab('posts')">?? Posts</button>
-    <button class="tab" id="tabAprovacoes" onclick="switchTab('aprovacoes')">? Aprovar Alunos</button>
-    <button class="tab" id="tabPlanilha" onclick="switchTab('planilha')">?? Planilha & Fotos</button>
-    <button class="tab tab-superadmin" id="tabAdmins" onclick="switchTab('admins')" style="display:none;">?? Administradores</button>
+    <button class="tab active" id="tabPosts" onclick="switchTab('posts')">Posts</button>
+    <button class="tab" id="tabAprovacoes" onclick="switchTab('aprovacoes')">Aprovar Alunos</button>
+    <button class="tab" id="tabPlanilha" onclick="switchTab('planilha')">Planilha & Fotos</button>
+    <button class="tab tab-superadmin" id="tabAdmins" onclick="switchTab('admins')" style="display:none;">Administradores</button>
   </div>
 
   <!-- POSTS -->
   <div id="posts-section" class="section active">
     <div class="card">
-      <h2>? Criar Novo Post</h2>
+      <h2>Criar Novo Post</h2>
       <div id="alert-post" class="alert"></div>
       <form id="formPost">
         <div class="form-group">
-          <label>T�tulo</label>
-          <input type="text" id="postTitulo" placeholder="Ex: An�lise semanal do NASDAQ" required>
+          <label>Titulo</label>
+          <input type="text" id="postTitulo" placeholder="Ex: Analise semanal do NASDAQ" required>
         </div>
         <div class="form-group">
-          <label>Descri��o (opcional)</label>
-          <textarea id="postTexto" placeholder="Escreva uma descri��o para o post..."></textarea>
+          <label>Descricao (opcional)</label>
+          <textarea id="postTexto" placeholder="Escreva uma descricao para o post..."></textarea>
         </div>
         <div class="form-group">
           <label>Categoria</label>
           <select id="postCategoria">
-            <option value="sala-ao-vivo">?? Sala ao Vivo</option>
-            <option value="materiais">?? Materiais</option>
-            <option value="analise">?? An�lise</option>
-            <option value="tutorial">?? Tutorial</option>
-            <option value="noticia">?? Not�cia</option>
-            <option value="link">?? Link �til</option>
+            <option value="sala-ao-vivo">Sala ao Vivo</option>
+            <option value="materiais">Materiais</option>
+            <option value="analise">Analise</option>
+            <option value="tutorial">Tutorial</option>
+            <option value="noticia">Noticia</option>
+            <option value="link">Link Util</option>
           </select>
         </div>
         <div class="form-group">
@@ -235,16 +235,16 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
           <input type="url" id="postLink" placeholder="https://exemplo.com">
         </div>
         <div class="form-group">
-          <label>Arquivo/M�dia (opcional)</label>
+          <label>Arquivo/Midia (opcional)</label>
           <div class="upload-area" id="uploadAreaUniversal">
             <input type="file" id="postArquivo" accept="*" style="display:none">
             <div id="uploadPlaceholderUniversal">
-              <span style="font-size:64px">??</span>
-              <p><strong>Arraste arquivos aqui</strong> (m�ltiplos permitidos)<br>ou clique para selecionar</p>
+              <span style="font-size:64px">+</span>
+              <p><strong>Arraste arquivos aqui</strong> (multiplos permitidos)<br>ou clique para selecionar</p>
             </div>
             <div id="uploadPreviewUniversal" style="display:none;">
               <div id="previewContent"></div>
-              <button type="button" class="btn-remove-image" onclick="removerArquivoUniversal()">? Remover</button>
+              <button type="button" class="btn-remove-image" onclick="removerArquivoUniversal()">Remover</button>
             </div>
             <div id="uploadProgressUniversal" style="display:none;">
               <div class="spinner"></div>
@@ -264,14 +264,14 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     </div>
 
     <div class="card">
-      <h2>?? Posts Publicados</h2>
+      <h2> Posts Publicados</h2>
       <div id="posts-list" class="posts-list">
         <div class="loading"><div class="spinner"></div><p>Carregando posts...</p></div>
       </div>
     </div>
   </div>
 
-  <!-- APROVA��ES -->
+  <!-- Aprovacoes -->
   <div id="aprovacoes-section" class="section">
 
     <!-- Stats bar -->
@@ -296,7 +296,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       <!-- Pendentes (coluna esquerda) -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-          <h2 style="margin:0;">?? Pendentes</h2>
+          <h2 style="margin:0;"> Pendentes</h2>
           <span id="badge-pendentes" style="background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.3);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;">0 aguardando</span>
         </div>
         <div id="alert-aprovacao" class="alert"></div>
@@ -309,11 +309,11 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
           <h2 style="margin:0;">? Aprovados</h2>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <span id="badge-aprovados" style="background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.2);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;">0 alunos</span>
-            <button onclick="exportarAlunos()" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.2);color:var(--blue);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">?? CSV</button>
+            <button onclick="exportarAlunos()" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.2);color:var(--blue);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'"> CSV</button>
           </div>
         </div>
         <div style="margin-bottom:16px;">
-          <input type="text" id="buscaAlunos" placeholder="?? Buscar por nome ou e-mail..." oninput="filtrarAlunos(this.value)"
+          <input type="text" id="buscaAlunos" placeholder=" Buscar por nome ou e-mail..." oninput="filtrarAlunos(this.value)"
             style="width:100%;padding:10px 16px;background:rgba(99,102,241,0.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;transition:all .2s;outline:none;"
             onfocus="this.style.borderColor='var(--blue)';this.style.background='rgba(99,102,241,0.1)'"
             onblur="this.style.borderColor='var(--border)';this.style.background='rgba(99,102,241,0.06)'">
@@ -328,16 +328,16 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   <!-- PLANILHA & FOTOS -->
   <div id="planilha-section" class="section">
     <div class="card">
-      <h2>?? Registrar Trade do Dia</h2>
-      <p style="color:var(--text-muted);margin-bottom:16px;">Preencha os dados e a planilha ser� atualizada automaticamente.</p>
+      <h2> Registrar Trade do Dia</h2>
+      <p style="color:var(--text-muted);margin-bottom:16px;">Preencha os dados e a planilha ser atualizada automaticamente.</p>
       <div id="alert-trade-data" class="alert"></div>
       <form id="formTradeData">
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
           <div class="form-group"><label>Dia</label><input type="number" id="diaData" min="1" max="31" required placeholder="12"></div>
           <div class="form-group">
-            <label>M�s</label>
+            <label>Ms</label>
             <select id="mesData" required>
-              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Mar�o</option>
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Maro</option>
               <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
               <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
               <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
@@ -348,7 +348,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
         <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:16px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-            <span style="font-size:18px;">??</span>
+            <span style="font-size:18px;"></span>
             <strong style="font-size:15px;color:#60a5fa;">NASDAQ</strong>
             <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
               <input type="checkbox" id="nasOp" checked onchange="toggleAtivo('nas')"> Operado hoje
@@ -364,7 +364,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
         <div style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:16px;margin-bottom:16px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-            <span style="font-size:18px;">??</span>
+            <span style="font-size:18px;"></span>
             <strong style="font-size:15px;color:#fb923c;">DOW JONES</strong>
             <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
               <input type="checkbox" id="dowOp" onchange="toggleAtivo('dow')"> Operado hoje
@@ -378,24 +378,24 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <div class="form-group"><label>0x0</label><input type="number" id="dowBreak" min="0" placeholder="Ex: 0"></div>
           </div>
         </div>
-        <button type="submit" class="btn" id="btnTradeData" style="margin-top:4px;width:100%;padding:14px;font-size:15px;">?? Salvar na Planilha</button>
+        <button type="submit" class="btn" id="btnTradeData" style="margin-top:4px;width:100%;padding:14px;font-size:15px;"> Salvar na Planilha</button>
       </form>
       <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border);">
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">?? Ver/editar a planilha completa:</p>
-        <a href="#" id="btnAbrirPlanilha" onclick="abrirPlanilhaDinamica(event)" target="_blank" class="btn btn-secondary" style="display:inline-block;padding:8px 16px;text-decoration:none;font-size:13px;">?? Abrir no Google Sheets</a>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;"> Ver/editar a planilha completa:</p>
+        <a href="#" id="btnAbrirPlanilha" onclick="abrirPlanilhaDinamica(event)" target="_blank" class="btn btn-secondary" style="display:inline-block;padding:8px 16px;text-decoration:none;font-size:13px;"> Abrir no Google Sheets</a>
       </div>
     </div>
 
     <div class="card">
-      <h2>?? Fotos dos Trades</h2>
+      <h2> Fotos dos Trades</h2>
       <div id="alert-foto-trade" class="alert"></div>
       <form id="formFotoTrade">
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
           <div class="form-group"><label>Dia</label><input type="number" id="diaDoTrade" min="1" max="31" required placeholder="12"></div>
           <div class="form-group">
-            <label>M�s</label>
+            <label>Ms</label>
             <select id="mesDoTrade" required>
-              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Mar�o</option>
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Maro</option>
               <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
               <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
               <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
@@ -408,9 +408,9 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
           <div class="upload-area" id="uploadAreaTrade" style="cursor:pointer;">
             <input type="file" id="fileInputTrade" accept="image/*" style="display:none">
             <div id="uploadPlaceholderTrade">
-              <span style="font-size:48px">??</span>
+              <span style="font-size:48px"></span>
               <p><strong>Arraste a foto do trade aqui</strong><br>ou clique para selecionar</p>
-              <small style="color:var(--text-muted)">JPG, PNG at� 10MB</small>
+              <small style="color:var(--text-muted)">JPG, PNG at 10MB</small>
             </div>
             <div id="uploadPreviewTrade" style="display:none">
               <img id="previewImgTrade" src="" alt="Preview" style="max-width:100%;max-height:300px;border-radius:8px;margin-bottom:12px;">
@@ -428,7 +428,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-  <!-- ADMINISTRADORES (s� superadmin v�) -->
+  <!-- ADMINISTRADORES (s superadmin v) -->
   <div id="admins-section" class="section">
 
     <!-- Stats -->
@@ -443,7 +443,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       </div>
       <div class="card" style="padding:16px 20px;text-align:center;">
         <div style="font-size:28px;font-weight:900;color:#f97316;" id="stat-admins-pendentes">-</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Alunos aprovados (eleg�veis)</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Alunos aprovados (elegveis)</div>
       </div>
     </div>
 
@@ -452,7 +452,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       <!-- Col esquerda: Promover aluno a admin -->
       <div class="card">
         <h2 style="margin-bottom:4px;">? Promover Aluno a Admin</h2>
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Selecione um aluno aprovado e defina suas permiss�es.</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Selecione um aluno aprovado e defina suas permissaoes.</p>
         <div id="alert-admins" class="alert"></div>
 
         <div class="form-group">
@@ -463,13 +463,13 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
 
         <div style="margin-bottom:16px;">
-          <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:10px;">?? Permiss�es</label>
-          <div style="display:flex;flex-direction:column;gap:8px;" id="permissoesCheckboxes">
+          <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:10px;"> permissaoes</label>
+          <div style="display:flex;flex-direction:column;gap:8px;" id="permissaoesCheckboxes">
 
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_posts" value="posts" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">?? Publica��es</div>
+                <div style="font-size:13px;font-weight:700;"> Publicacoes</div>
                 <div style="font-size:11px;color:var(--text-muted);">Criar e excluir posts</div>
               </div>
             </label>
@@ -477,15 +477,15 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_comentarios" value="comentarios" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">?? Coment�rios</div>
-                <div style="font-size:11px;color:var(--text-muted);">Ver, responder e excluir coment�rios</div>
+                <div style="font-size:13px;font-weight:700;"> Comentarios</div>
+                <div style="font-size:11px;color:var(--text-muted);">Ver, responder e excluir Comentarios</div>
               </div>
             </label>
 
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_alunos" value="alunos" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">?? Aprovar Alunos</div>
+                <div style="font-size:13px;font-weight:700;"> Aprovar Alunos</div>
                 <div style="font-size:11px;color:var(--text-muted);">Aprovar, rejeitar e revogar alunos</div>
               </div>
             </label>
@@ -493,7 +493,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <label class="perm-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
               <input type="checkbox" id="perm_planilha" value="planilha" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
-                <div style="font-size:13px;font-weight:700;">?? Planilha & Fotos</div>
+                <div style="font-size:13px;font-weight:700;"> Planilha & Fotos</div>
                 <div style="font-size:11px;color:var(--text-muted);">Registrar trades e enviar fotos</div>
               </div>
             </label>
@@ -502,7 +502,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
               <input type="checkbox" id="perm_youtube" value="youtube" style="width:16px;height:16px;accent-color:var(--blue);">
               <div>
                 <div style="font-size:13px;font-weight:700;">? YouTube</div>
-                <div style="font-size:11px;color:var(--text-muted);">Fazer upload de v�deos diretamente no YouTube (OAuth). Sem isso, ainda pode postar links de v�deos externos.</div>
+                <div style="font-size:11px;color:var(--text-muted);">Fazer upload de Videos diretamente no YouTube (OAuth). Sem isso, ainda pode postar links de Videos externos.</div>
               </div>
             </label>
 
@@ -510,14 +510,14 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
 
         <button onclick="promoverAdmin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">
-          ?? Promover a Administrador
+           Promover a Administrador
         </button>
       </div>
 
       <!-- Col direita: Lista de admins -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-          <h2 style="margin:0;">?? Administradores Ativos</h2>
+          <h2 style="margin:0;"> Administradores Ativos</h2>
           <span id="badge-admins" style="background:rgba(99,102,241,0.12);color:var(--blue);border:1px solid rgba(99,102,241,0.2);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;">0 admins</span>
         </div>
         <div id="lista-admins"><div class="loading"><div class="spinner"></div><p>Carregando...</p></div></div>
@@ -525,16 +525,16 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 
     </div>
 
-    <!-- Modal editar permiss�es -->
-    <div id="modalEditarPermissoes" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;">
+    <!-- Modal editar permissaoes -->
+    <div id="modalEditarpermissaoes" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;">
       <div style="background:var(--card-bg,#0f172a);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:440px;position:relative;margin:16px;">
-        <button onclick="fecharModalPermissoes()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;">�</button>
-        <h3 style="font-size:17px;font-weight:800;margin-bottom:6px;">?? Editar Permiss�es</h3>
+        <button onclick="fecharModalpermissaoes()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;"></button>
+        <h3 style="font-size:17px;font-weight:800;margin-bottom:6px;"> Editar permissaoes</h3>
         <p id="editPermNome" style="font-size:13px;color:var(--text-muted);margin-bottom:18px;"></p>
         <div style="display:flex;flex-direction:column;gap:8px;" id="editPermCheckboxes"></div>
         <div style="display:flex;gap:10px;margin-top:20px;">
-          <button onclick="salvarPermissoes()" style="flex:1;padding:11px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">?? Salvar</button>
-          <button onclick="rebaixarAdmin()" style="padding:11px 16px;background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">?? Remover Admin</button>
+          <button onclick="salvarpermissaoes()" style="flex:1;padding:11px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;"> Salvar</button>
+          <button onclick="rebaixarAdmin()" style="padding:11px 16px;background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"> Remover Admin</button>
         </div>
       </div>
     </div>
@@ -544,28 +544,28 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   <!-- MODAL EDITAR POST -->
   <div id="modalEditarPost" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1500;align-items:center;justify-content:center;padding:16px;">
     <div style="background:var(--card-bg,#0f172a);border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;position:relative;">
-      <button onclick="fecharEditarPost()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;line-height:1;">�</button>
-      <h3 style="font-size:18px;font-weight:800;margin-bottom:20px;">?? Editar Publica��o</h3>
+      <button onclick="fecharEditarPost()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;line-height:1;"></button>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:20px;"> Editar Publicao</h3>
       <div id="alert-edit-post" class="alert"></div>
       <input type="hidden" id="editPostId">
       <div class="form-group">
-        <label>T�tulo</label>
-        <input type="text" id="editPostTitulo" placeholder="T�tulo do post" required style="width:100%;">
+        <label>Titulo</label>
+        <input type="text" id="editPostTitulo" placeholder="Titulo do post" required style="width:100%;">
       </div>
       <div class="form-group">
-        <label>Descri��o (opcional)</label>
-        <textarea id="editPostTexto" placeholder="Descri��o do post..." style="width:100%;min-height:80px;"></textarea>
+        <label>Descricao (opcional)</label>
+        <textarea id="editPostTexto" placeholder="Descricao do post..." style="width:100%;min-height:80px;"></textarea>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="form-group">
           <label>Categoria</label>
           <select id="editPostCategoria" style="width:100%;">
-            <option value="sala-ao-vivo">?? Sala ao Vivo</option>
-            <option value="materiais">?? Materiais</option>
-            <option value="analise">?? An�lise</option>
-            <option value="tutorial">?? Tutorial</option>
-            <option value="noticia">?? Not�cia</option>
-            <option value="link">?? Link �til</option>
+            <option value="sala-ao-vivo"> Sala ao Vivo</option>
+            <option value="materiais"> Materiais</option>
+            <option value="analise"> Analise</option>
+            <option value="tutorial"> Tutorial</option>
+            <option value="noticia"> Noticia</option>
+            <option value="link"> Link til</option>
           </select>
         </div>
         <div class="form-group">
@@ -574,7 +574,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
         </div>
       </div>
       <div style="display:flex;gap:10px;margin-top:8px;">
-        <button onclick="salvarEdicaoPost()" style="flex:1;padding:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">?? Salvar Altera��es</button>
+        <button onclick="salvarEdicaoPost()" style="flex:1;padding:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'"> Salvar Alteraes</button>
         <button onclick="fecharEditarPost()" style="padding:12px 20px;background:rgba(100,116,139,0.12);color:var(--text-muted);border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;">Cancelar</button>
       </div>
     </div>
@@ -583,8 +583,8 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 <!-- MODAL PERFIL ADMIN -->
 <div id="modalPerfilAdmin" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;">
   <div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;width:100%;max-width:420px;position:relative;">
-    <button onclick="fecharPerfilAdmin()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">�</button>
-    <h3 style="font-size:18px;font-weight:800;margin-bottom:24px;">?? Meu Perfil</h3>
+    <button onclick="fecharPerfilAdmin()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;"></button>
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:24px;"> Meu Perfil</h3>
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:24px;">
       <div id="adminAvatarBig" onclick="document.getElementById('inputFotoAdmin').click()" title="Clique para trocar foto" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;overflow:hidden;cursor:pointer;border:3px solid rgba(255,255,255,.1);transition:all .2s;">
         <span id="adminAvatarBigLetra">A</span>
@@ -598,15 +598,15 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <div style="margin-bottom:16px;"><label style="display:block;font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;text-transform:uppercase;">E-mail</label>
       <input type="text" id="inputEmailAdmin" disabled style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;color:#64748b;font-size:14px;font-family:inherit;cursor:not-allowed;">
     </div>
-    <button onclick="salvarPerfilAdmin()" style="width:100%;background:#6366f1;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;">?? Salvar</button>
+    <button onclick="salvarPerfilAdmin()" style="width:100%;background:#6366f1;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;"> Salvar</button>
     <p id="msgPerfilAdmin" style="text-align:center;margin-top:12px;font-size:13px;color:#22c55e;display:none;"></p>
   </div>
 </div>
 
-<!-- MODAL INFO USU�RIO -->
+<!-- MODAL INFO Usuario -->
 <div id="modalInfoUser" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;">
   <div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;width:100%;max-width:380px;position:relative;text-align:center;">
-    <button onclick="document.getElementById('modalInfoUser').style.display='none';" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">�</button>
+    <button onclick="document.getElementById('modalInfoUser').style.display='none';" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;"></button>
     <div id="infoUserAvatar" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;margin:0 auto 16px;overflow:hidden;"></div>
     <h3 id="infoUserNome" style="font-size:20px;font-weight:800;margin-bottom:6px;"></h3>
     <p id="infoUserEmail" style="font-size:14px;color:#94a3b8;margin-bottom:16px;"></p>
@@ -621,7 +621,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
   function aplicar(t){
     if(t==='light'){document.documentElement.classList.add('light-theme');if(document.body)document.body.classList.add('light-theme');}
     else{document.documentElement.classList.remove('light-theme');if(document.body)document.body.classList.remove('light-theme');}
-    var ic=document.getElementById('themeIcon');if(ic)ic.textContent=t==='dark'?'??':'??';
+    var ic=document.getElementById('themeIcon');if(ic)ic.textContent=t==='dark'?'':'';
   }
   function get(){return localStorage.getItem(KEY)||'dark';}
   aplicar(get());
@@ -630,7 +630,7 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
       var n=get()==='dark'?'light':'dark';
       localStorage.setItem(KEY,n);aplicar(n);
       var ic=document.getElementById('themeIcon');
-      if(ic){ic.style.transform='rotate(360deg) scale(0)';setTimeout(function(){ic.textContent=n==='dark'?'??':'??';ic.style.transform='none';},150);}
+      if(ic){ic.style.transform='rotate(360deg) scale(0)';setTimeout(function(){ic.textContent=n==='dark'?'':'';ic.style.transform='none';},150);}
     },
     getTema:get
   };
@@ -644,9 +644,9 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 // Alias Supabase -> sb (usado em todo o script)
 function getSB() { return window._supabase; }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-// PERFIL ADMIN �?" definidas PRIMEIRO para hoisting seguro
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
+// PERFIL ADMIN ?" definidas PRIMEIRO para hoisting seguro
+// ..............................................
 function atualizarAvatarAdmin() {
   const letra = (window._adminNome||'A').charAt(0).toUpperCase();
   ['adminAvatarLetra','adminAvatarBigLetra'].forEach(function(id) {
@@ -674,7 +674,7 @@ function fecharPerfilAdmin() { document.getElementById('modalPerfilAdmin').style
 
 function previsualizarFotoAdmin(input) {
   var file = input.files[0]; if (!file) return;
-  if (file.size > 500*1024) { alert('Foto muito grande. Use at� 500KB.'); return; }
+  if (file.size > 500*1024) { alert('Foto muito grande. Use at 500KB.'); return; }
   var reader = new FileReader();
   reader.onload = function(e) {
     window._adminFotoTemp = e.target.result;
@@ -704,7 +704,7 @@ async function salvarPerfilAdmin() {
 }
 
 async function verInfoUsuario(autorId, nomeExibido) {
-  if (!autorId) { alert('ID do usu�rio n�o dispon�vel.'); return; }
+  if (!autorId) { alert('ID do Usuario no disponvel.'); return; }
   try {
     const { data: _res2 } = await getSB().from('users').select('nome,email,created_at,foto_url').eq('id', autorId).single();
     var data = _res2 || {};
@@ -712,18 +712,18 @@ async function verInfoUsuario(autorId, nomeExibido) {
     var email = data.email || autorId;
     var criado = data.created_at ? new Date(data.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '-';
     document.getElementById('infoUserNome').textContent = nome;
-    document.getElementById('infoUserEmail').textContent = '?? ' + email;
+    document.getElementById('infoUserEmail').textContent = ' ' + email;
     document.getElementById('infoUserCadastro').textContent = 'Cadastrado em: ' + criado;
     var avatarEl = document.getElementById('infoUserAvatar');
     if (data.foto_url) avatarEl.innerHTML = '<img src="' + data.foto_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
     else avatarEl.textContent = nome.charAt(0).toUpperCase();
     document.getElementById('modalInfoUser').style.display = 'flex';
-  } catch(e) { alert('Erro ao buscar dados do usu�rio.'); }
+  } catch(e) { alert('Erro ao buscar dados do Usuario.'); }
 }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-// CONFIGURA��O carregada do Supabase
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
+// CONFIGURAO carregada do Supabase
+// ..............................................
 let APPS_SCRIPT_URL  = null;
 let YT_CLIENT_ID     = null;
 let YT_CLIENT_SECRET = null;
@@ -739,19 +739,19 @@ async function carregarConfiguracoes() {
       getSB().from('config').select('data').eq('id','oauth').single(),
       getSB().from('config').select('data').eq('id','public').single()
     ]);
-    if (docOauth.error || !docOauth.data) throw new Error('Documento config/oauth n�o encontrado');
+    if (docOauth.error || !docOauth.data) throw new Error('Documento config/oauth no encontrado');
     const data = docOauth.data.data;
     APPS_SCRIPT_URL  = data.apps_script_url;
     YT_CLIENT_ID     = data.client_id;
     YT_CLIENT_SECRET = data.client_secret;
-    // config/public - spreadsheet ID para o bot�o abrir planilha
+    // config/public - spreadsheet ID para o boto abrir planilha
     if (!docPublic.error && docPublic.data) {
       const pub = docPublic.data.data;
       SHEETS_SPREADSHEET_ID = pub.sheets_spreadsheet_id || null;
     }
   } catch (err) {
-    console.error('Erro ao carregar configura��es:', err);
-    alert('? Erro ao carregar configura��es do sistema.');
+    console.error('Erro ao carregar configuraes:', err);
+    alert('? Erro ao carregar configuraes do sistema.');
   }
 }
 
@@ -776,7 +776,7 @@ async function inicializarYouTubeAuth() {
   try {
     const { data: _ytCfg } = await getSB().from('config').select('data').eq('id','youtube').single();
     if (_ytCfg?.data?.refresh_token) await renovarAccessToken(_ytCfg.data.refresh_token);
-  } catch (err) { console.log('Token YouTube n�o configurado ainda.'); }
+  } catch (err) { console.log('Token YouTube no configurado ainda.'); }
   atualizarBotaoYouTube();
 }
 
@@ -794,7 +794,7 @@ async function renovarAccessToken(refreshToken) {
 
 async function autenticarYouTube() {
   if (!YT_CLIENT_ID) await carregarConfiguracoes();
-  if (!YT_CLIENT_ID) { alert('? Erro ao carregar configura��es. Tente recarregar a p�gina.'); return; }
+  if (!YT_CLIENT_ID) { alert('? Erro ao carregar configuraes. Tente recarregar a pgina.'); return; }
   const verifier = Array.from(crypto.getRandomValues(new Uint8Array(32))).map(b => b.toString(16).padStart(2,'0')).join('');
   localStorage.setItem('yt_verifier', verifier);
   const encoder = new TextEncoder();
@@ -819,7 +819,7 @@ async function trocarCodePorToken(code) {
   if (btn) { btn.textContent = '? Conectando YouTube...'; btn.disabled = true; }
 
   if (!verifier) {
-    console.warn('[YT] PKCE verifier n�o encontrado no localStorage');
+    console.warn('[YT] PKCE verifier no encontrado no localStorage');
   }
   if (verifier) localStorage.removeItem('yt_verifier');
 
@@ -851,12 +851,12 @@ async function trocarCodePorToken(code) {
         });
         console.log('[YT] ? refresh_token salvo no Supabase');
       } else {
-        console.warn('[YT] ?? Sem refresh_token - access_token v�lido por 1h');
+        console.warn('[YT]  Sem refresh_token - access_token vlido por 1h');
       }
       atualizarBotaoYouTube();
       alert('? YouTube conectado com sucesso!');
     } else {
-      const errMsg = data.error || data.google_detail || 'Resposta inv�lida';
+      const errMsg = data.error || data.google_detail || 'Resposta invlida';
       console.error('[YT] ? Erro:', errMsg, data);
       alert('? Falha ao conectar YouTube:\n' + errMsg + '\n\nAbra o Console (F12) para mais detalhes.');
     }
@@ -873,15 +873,15 @@ async function uploadYouTubeDireto(file, titulo, descricao) {
     const { data: _ytDoc } = await getSB().from('config').select('data').eq('id','youtube').single();
     if (_ytDoc?.data?.refresh_token) {
       const ok = await renovarAccessToken(_ytDoc.data.refresh_token);
-      if (!ok) throw new Error('N�o foi poss�vel renovar o token. Clique em "Reconectar YouTube".');
-    } else { throw new Error('YouTube n�o conectado. Clique em "Conectar YouTube" primeiro.'); }
+      if (!ok) throw new Error('No foi possvel renovar o token. Clique em "Reconectar YouTube".');
+    } else { throw new Error('YouTube no conectado. Clique em "Conectar YouTube" primeiro.'); }
   }
   const progressBar  = document.getElementById('uploadProgressBar');
   const progressPct  = document.getElementById('uploadProgressPercent');
   const progressText = document.getElementById('uploadProgressTextUniversal');
-  progressText.textContent = '?? Iniciando upload no YouTube...';
+  progressText.textContent = ' Iniciando upload no YouTube...';
   const metadata = {
-    snippet: { title: titulo || 'V�deo', description: descricao || '', categoryId: '27' },
+    snippet: { title: titulo || 'Video', description: descricao || '', categoryId: '27' },
     status:  { privacyStatus: 'unlisted', selfDeclaredMadeForKids: false }
   };
   const initResp = await fetch(`${YT_WORKER}/init-upload`, {
@@ -899,7 +899,7 @@ async function uploadYouTubeDireto(file, titulo, descricao) {
     const pct = Math.round((end / file.size) * 95);
     progressBar.style.width = pct + '%';
     progressPct.textContent = pct + '%';
-    progressText.textContent = `?? Enviando... ${(end/(1024*1024)).toFixed(0)}MB de ${(file.size/(1024*1024)).toFixed(0)}MB`;
+    progressText.textContent = ` Enviando... ${(end/(1024*1024)).toFixed(0)}MB de ${(file.size/(1024*1024)).toFixed(0)}MB`;
     const chunkResp = await fetch(`${YT_WORKER}/upload-chunk`, {
       method: 'POST',
       headers: { 'Content-Type': file.type || 'video/mp4', 'X-Upload-Url': uploadUrl, 'X-Content-Range': `bytes ${offset}-${end-1}/${file.size}`, 'X-Content-Type': file.type || 'video/mp4' },
@@ -909,20 +909,20 @@ async function uploadYouTubeDireto(file, titulo, descricao) {
     if (!chunkData.success) throw new Error(chunkData.error || 'Erro no envio do chunk');
     if (chunkData.done) {
       progressBar.style.width = '100%'; progressPct.textContent = '100%';
-      progressText.textContent = '? V�deo publicado no YouTube!';
+      progressText.textContent = '? Video publicado no YouTube!';
       return { videoId: chunkData.videoId, embedURL: chunkData.embedURL, watchURL: chunkData.watchURL };
     }
     offset = chunkData.range ? parseInt(chunkData.range.split('-')[1]) + 1 : end;
   }
-  throw new Error('Upload n�o completou corretamente');
+  throw new Error('Upload no completou corretamente');
 }
 
 function atualizarBotaoYouTube() {
   const btn = document.getElementById('btnConectarYT');
   if (!btn) return;
 
-  // Bot�o de conex�o s� vis�vel para o superadmin
-  // Admins comuns usam o token salvo pelo superadmin sem precisar ver o bot�o
+  // Boto de conexo s visvel para o superadmin
+  // Admins comuns usam o token salvo pelo superadmin sem precisar ver o boto
   if (!window._isSuperAdmin) {
     btn.style.display = 'none';
     return;
@@ -936,7 +936,7 @@ function atualizarBotaoYouTube() {
     btn.onclick = desconectarYouTube;
     btn.title = 'Clique para desconectar e reconectar';
   } else {
-    btn.textContent = '?? Conectar YouTube';
+    btn.textContent = ' Conectar YouTube';
     btn.style.background = '#ff0000';
     btn.style.color = '#fff';
     btn.onclick = autenticarYouTube;
@@ -945,7 +945,7 @@ function atualizarBotaoYouTube() {
 }
 
 async function desconectarYouTube() {
-  if (!confirm('Desconectar o YouTube? Voc� precisar� reconectar para enviar v�deos.')) return;
+  if (!confirm('Desconectar o YouTube? Voc precisar reconectar para enviar Videos.')) return;
   ytAccessToken = null;
   try {
     await getSB().from('config').delete().eq('id','youtube');
@@ -954,34 +954,34 @@ async function desconectarYouTube() {
   alert('YouTube desconectado. Clique em "Conectar YouTube" para reconectar.');
 }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-// SISTEMA DE PERMISS�.ES �?" SUPERADMIN
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
+// SISTEMA DE PERMISS.ES ?" SUPERADMIN
+// ..............................................
 
 // Permissões disponíveis com labels
-const TODAS_PERMISSOES = [
-  { id: 'posts',       icon: '??', label: 'Publica��es',      desc: 'Criar e excluir posts' },
-  { id: 'comentarios', icon: '??', label: 'Coment�rios',      desc: 'Ver, responder e excluir coment�rios' },
-  { id: 'alunos',      icon: '??', label: 'Aprovar Alunos',   desc: 'Aprovar, rejeitar e revogar alunos' },
-  { id: 'planilha',    icon: '??', label: 'Planilha & Fotos', desc: 'Registrar trades e enviar fotos' },
-  { id: 'youtube',     icon: '?',  label: 'YouTube',          desc: 'Postar v�deos diretamente no YouTube via integra��o OAuth' },
+const TODAS_permissaoES = [
+  { id: 'posts',       icon: '', label: 'Publicacoes',      desc: 'Criar e excluir posts' },
+  { id: 'comentarios', icon: '', label: 'Comentarios',      desc: 'Ver, responder e excluir Comentarios' },
+  { id: 'alunos',      icon: '', label: 'Aprovar Alunos',   desc: 'Aprovar, rejeitar e revogar alunos' },
+  { id: 'planilha',    icon: '', label: 'Planilha & Fotos', desc: 'Registrar trades e enviar fotos' },
+  { id: 'youtube',     icon: '?',  label: 'YouTube',          desc: 'Postar Videos diretamente no YouTube via integrao OAuth' },
 ];
 
 // UID do superadmin (preenchido no login)
 window._isSuperAdmin = false;
-// Permiss�es do admin logado
-window._adminPerms = null; // null = superadmin (acesso total), [] ou array = admin com restri��es
+// permissaoes do admin logado
+window._adminPerms = null; // null = superadmin (acesso total), [] ou array = admin com restries
 
-// Verifica se o admin logado tem uma permiss�o espec�fica
+// Verifica se o admin logado tem uma permissao especfica
 function temPermissao(perm) {
   if (window._isSuperAdmin) return true;
   if (!window._adminPerms) return true;
   return Array.isArray(window._adminPerms) && window._adminPerms.includes(perm);
 }
 
-// Aplica visibilidade das abas e elementos baseado nas permiss�es
-function aplicarPermissoesUI() {
-  // Mapa aba -> id do elemento -> permiss�o necess�ria
+// Aplica visibilidade das abas e elementos baseado nas permissaoes
+function aplicarpermissaoesUI() {
+  // Mapa aba -> id do elemento -> permissao necessria
   const abas = [
     { id: 'tabPosts',       secao: 'posts',       perm: () => true },
     { id: 'tabAprovacoes',  secao: 'aprovacoes',  perm: () => true },
@@ -1031,7 +1031,7 @@ async function carregarAdmins() {
     document.getElementById('stat-admins-ativos').textContent = admins.length;
     document.getElementById('badge-admins').textContent = admins.length + ' admin' + (admins.length !== 1 ? 's' : '');
 
-    // Conta alunos aprovados eleg�veis (n�o s�o admins)
+    // Conta alunos aprovados elegveis (no so admins)
     const { data: _usersAprov } = await getSB().from('users').select('id,nome,email,role').eq('aprovado',true).neq('role','admin');
     let elegiveis = 0;
     const selectEl = document.getElementById('selectAlunoAdmin');
@@ -1067,22 +1067,22 @@ function renderAdminCard(a) {
   const av = avatarHtml(a.nome || a.email || '?', a.foto_url || null, 42);
   const nome = a.nome || '-';
   const email = a.email || '-';
-  const isSuperA = !a.permissoes; // null/undefined = superadmin (acesso total)
-  const perms = a.permissoes || [];
+  const isSuperA = !a.permissaoes; // null/undefined = superadmin (acesso total)
+  const perms = a.permissaoes || [];
 
-  // Tags de permiss�es
+  // Tags de permissaoes
   const permTags = isSuperA
     ? '<span class="superadmin-badge">? Super Admin</span>'
-    : TODAS_PERMISSOES.map(p => {
+    : TODAS_permissaoES.map(p => {
         const has = perms.includes(p.id);
         return `<span class="perm-tag${has ? '' : ' perm-off'}" title="${p.desc}">${p.icon} ${p.label}</span>`;
       }).join('');
 
   const editBtn = (window._isSuperAdmin && a.id !== window._adminUid)
-    ? `<button onclick="abrirModalPermissoes('${a.id}','${(a.nome||a.email||'').replace(/'/g,"\\'")}',${JSON.stringify(a.permissoes||null).replace(/"/g,"'")})"
+    ? `<button onclick="abrirModalpermissaoes('${a.id}','${(a.nome||a.email||'').replace(/'/g,"\\'")}',${JSON.stringify(a.permissaoes||null).replace(/"/g,"'")})"
          style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:var(--blue);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .2s;"
-         onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'">?? Editar</button>`
-    : (a.id === window._adminUid ? '<span style="font-size:11px;color:var(--text-muted);flex-shrink:0;">?? Voc�</span>' : '');
+         onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'"> Editar</button>`
+    : (a.id === window._adminUid ? '<span style="font-size:11px;color:var(--text-muted);flex-shrink:0;"> Voc</span>' : '');
 
   return `
     <div class="admin-card">
@@ -1102,38 +1102,38 @@ async function promoverAdmin() {
   const uid = select.value;
   if (!uid) { mostrarAlerta('alert-admins', '? Selecione um aluno primeiro.', 'error'); return; }
 
-  const perms = TODAS_PERMISSOES
+  const perms = TODAS_permissaoES
     .filter(p => document.getElementById('perm_' + p.id)?.checked)
     .map(p => p.id);
 
   if (perms.length === 0) {
-    mostrarAlerta('alert-admins', '? Selecione ao menos uma permiss�o.', 'error'); return;
+    mostrarAlerta('alert-admins', '? Selecione ao menos uma permissao.', 'error'); return;
   }
 
   const nomeAluno = select.options[select.selectedIndex]?.dataset.nome || uid;
-  if (!confirm('Promover ' + nomeAluno + ' a administrador com ' + perms.length + ' permiss�o(�es)?')) return;
+  if (!confirm('Promover ' + nomeAluno + ' a administrador com ' + perms.length + ' permissao(es)?')) return;
 
   try {
-    await getSB().from('users').update({ role:'admin', permissoes:perms, promoted_by:window._adminUid, promoted_at:new Date().toISOString() }).eq('id',uid);
-    mostrarAlerta('alert-admins', '? ' + nomeAluno + ' � agora administrador!', 'success');
+    await getSB().from('users').update({ role:'admin', permissaoes:perms, promoted_by:window._adminUid, promoted_at:new Date().toISOString() }).eq('id',uid);
+    mostrarAlerta('alert-admins', '? ' + nomeAluno + '  agora administrador!', 'success');
     // Reset form
     select.value = '';
-    TODAS_PERMISSOES.forEach(p => { const el = document.getElementById('perm_' + p.id); if (el) el.checked = false; });
+    TODAS_permissaoES.forEach(p => { const el = document.getElementById('perm_' + p.id); if (el) el.checked = false; });
     carregarAdmins();
   } catch (err) {
     mostrarAlerta('alert-admins', '? Erro: ' + err.message, 'error');
   }
 }
 
-// Modal editar permiss�es
+// Modal editar permissaoes
 let _editingAdminId = null;
 
-function abrirModalPermissoes(uid, nome, permsAtual) {
+function abrirModalpermissaoes(uid, nome, permsAtual) {
   _editingAdminId = uid;
-  document.getElementById('editPermNome').textContent = '?? ' + nome;
+  document.getElementById('editPermNome').textContent = ' ' + nome;
 
   const container = document.getElementById('editPermCheckboxes');
-  container.innerHTML = TODAS_PERMISSOES.map(p => {
+  container.innerHTML = TODAS_permissaoES.map(p => {
     const has = permsAtual === null ? true : (Array.isArray(permsAtual) && permsAtual.includes(p.id));
     return `
       <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(99,102,241,0.04);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;"
@@ -1146,44 +1146,44 @@ function abrirModalPermissoes(uid, nome, permsAtual) {
       </label>`;
   }).join('');
 
-  const modal = document.getElementById('modalEditarPermissoes');
+  const modal = document.getElementById('modalEditarpermissaoes');
   modal.style.display = 'flex';
 }
 
-function fecharModalPermissoes() {
-  document.getElementById('modalEditarPermissoes').style.display = 'none';
+function fecharModalpermissaoes() {
+  document.getElementById('modalEditarpermissaoes').style.display = 'none';
   _editingAdminId = null;
 }
 
-async function salvarPermissoes() {
+async function salvarpermissaoes() {
   if (!_editingAdminId) return;
-  const novasPerms = TODAS_PERMISSOES
+  const novasPerms = TODAS_permissaoES
     .filter(p => document.getElementById('edit_perm_' + p.id)?.checked)
     .map(p => p.id);
-  if (novasPerms.length === 0) { alert('? Selecione ao menos uma permiss�o.'); return; }
+  if (novasPerms.length === 0) { alert('? Selecione ao menos uma permissao.'); return; }
   try {
-    await getSB().from('users').update({ permissoes:novasPerms, promoted_by:window._adminUid, promoted_at:new Date().toISOString() }).eq('id',_editingAdminId);
-    fecharModalPermissoes();
-    mostrarAlerta('alert-admins', '? Permiss�es atualizadas!', 'success');
+    await getSB().from('users').update({ permissaoes:novasPerms, promoted_by:window._adminUid, promoted_at:new Date().toISOString() }).eq('id',_editingAdminId);
+    fecharModalpermissaoes();
+    mostrarAlerta('alert-admins', '? permissaoes atualizadas!', 'success');
     carregarAdmins();
   } catch (err) { alert('? Erro: ' + err.message); }
 }
 
 async function rebaixarAdmin() {
   if (!_editingAdminId) return;
-  if (!confirm('Remover este administrador? Ele voltar� a ser aluno.')) return;
+  if (!confirm('Remover este administrador? Ele voltar a ser aluno.')) return;
   try {
-    await getSB().from('users').update({ role:'aluno', permissoes:null, promoted_by:null, promoted_at:null }).eq('id',_editingAdminId);
-    fecharModalPermissoes();
+    await getSB().from('users').update({ role:'aluno', permissaoes:null, promoted_by:null, promoted_at:null }).eq('id',_editingAdminId);
+    fecharModalpermissaoes();
     mostrarAlerta('alert-admins', '? Admin removido, voltou a ser aluno.', 'success');
     carregarAdmins();
   } catch (err) { alert('? Erro: ' + err.message); }
 }
 
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-// AUTENTICA�?�fO
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
+// AUTENTICA?fO
+// ..............................................
 getSB().auth.getSession().then(async ({ data: { session } }) => {
   const user = session?.user;
   if (!user) { window.location.href = 'login.html'; return; }
@@ -1201,13 +1201,13 @@ getSB().auth.getSession().then(async ({ data: { session } }) => {
     window._adminFotoUrl = adminData.foto_url || user.user_metadata?.avatar_url || null;
 
     // Permissões: null/undefined = superadmin (acesso total); array = admin com restrições
-    const perms = adminData.permissoes;
+    const perms = adminData.permissaoes;
     window._isSuperAdmin = !perms || !Array.isArray(perms);
     window._adminPerms = window._isSuperAdmin ? null : perms;
 
     document.getElementById('adminName').textContent = window._adminNome;
     atualizarAvatarAdmin();
-    aplicarPermissoesUI();
+    aplicarpermissaoesUI();
     inicializarVisualizacao();
 
     await carregarConfiguracoes();
@@ -1218,13 +1218,13 @@ getSB().auth.getSession().then(async ({ data: { session } }) => {
   } catch (error) {
     console.error('Erro auth admin:', error);
     const postsEl = document.getElementById('posts-list');
-    if (postsEl) postsEl.innerHTML = '<div style="padding:20px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;"><p style="color:#ef4444;font-weight:700;">�O Erro de inicialização</p><p style="color:#94a3b8;font-size:13px;margin-top:8px;">' + error.message + '</p></div>';
+    if (postsEl) postsEl.innerHTML = '<div style="padding:20px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;"><p style="color:#ef4444;font-weight:700;">O Erro de inicialização</p><p style="color:#94a3b8;font-size:13px;margin-top:8px;">' + error.message + '</p></div>';
   }
 });
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // AUXILIARES
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 function switchTab(tabName) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(tab => {
@@ -1245,20 +1245,20 @@ async function logout() {
   try {
     await getSB().auth.signOut({ scope: 'local' });
   } catch (error) {
-    console.warn('Falha ao encerrar sess�o local:', error);
+    console.warn('Falha ao encerrar sesso local:', error);
   }
 
   try {
     await getSB().auth.signOut({ scope: 'global' });
   } catch (error) {
-    console.warn('Falha ao encerrar sess�o global:', error);
+    console.warn('Falha ao encerrar sesso global:', error);
   }
 
   try {
     localStorage.removeItem('supabase.auth.token');
     sessionStorage.removeItem('supabase.auth.token');
   } catch (error) {
-    console.warn('Falha ao limpar storage de autentica��o:', error);
+    console.warn('Falha ao limpar storage de autenticacao:', error);
   }
 
   window.location.replace('login.html');
@@ -1275,9 +1275,9 @@ function tempoRelativo(ts) {
   const date = ts instanceof Date ? ts : (ts.toDate ? ts.toDate() : new Date(ts));
   const diff = Math.floor((Date.now() - date.getTime()) / 1000);
   if (diff < 60) return 'agora mesmo';
-  if (diff < 3600) return `h� ${Math.floor(diff/60)} min`;
-  if (diff < 86400) return `h� ${Math.floor(diff/3600)}h`;
-  if (diff < 604800) return `h� ${Math.floor(diff/86400)} dia${Math.floor(diff/86400)>1?'s':''}`;
+  if (diff < 3600) return `h ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `h ${Math.floor(diff/3600)}h`;
+  if (diff < 604800) return `h ${Math.floor(diff/86400)} dia${Math.floor(diff/86400)>1?'s':''}`;
   return date.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
 }
 
@@ -1289,9 +1289,9 @@ function avatarHtml(nome, fotoUrl, size) {
   return '<div style="' + style + '">' + inner + '</div>';
 }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // UPLOAD UNIVERSAL
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 let arquivoUniversal = null;
 let tipoArquivo = null;
 
@@ -1309,7 +1309,7 @@ uploadAreaUniversal.addEventListener('drop', e => { if (e.dataTransfer.files[0])
 fileInputUniversal.addEventListener('change', e => { if (e.target.files[0]) handleArquivoUniversal(e.target.files[0]); });
 
 function handleArquivoUniversal(file) {
-  if (file.size > 500 * 1024 * 1024) { alert('�O Arquivo muito grande. Máximo 500MB'); return; }
+  if (file.size > 500 * 1024 * 1024) { alert('O Arquivo muito grande. Máximo 500MB'); return; }
   arquivoUniversal = file;
   tipoArquivo = file.type.startsWith('image/') ? 'imagem' : file.type.startsWith('video/') ? 'video' : 'pdf';
   uploadPlaceholderUniversal.style.display = 'none';
@@ -1318,12 +1318,12 @@ function handleArquivoUniversal(file) {
   const sizeMB = (file.size / (1024*1024)).toFixed(2);
   if (tipoArquivo === 'imagem') {
     const reader = new FileReader();
-    reader.onload = e => { previewContent.innerHTML = `<img src="${e.target.result}" style="max-width:100%;max-height:300px;border-radius:8px;margin-bottom:12px;"><p style="font-size:13px;color:var(--text-muted);">�Y"� ${file.name} (${sizeMB} MB)</p>`; };
+    reader.onload = e => { previewContent.innerHTML = `<img src="${e.target.result}" style="max-width:100%;max-height:300px;border-radius:8px;margin-bottom:12px;"><p style="font-size:13px;color:var(--text-muted);">Y" ${file.name} (${sizeMB} MB)</p>`; };
     reader.readAsDataURL(file);
   } else if (tipoArquivo === 'video') {
-    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,0,0,0.05);border:1px solid rgba(255,0,0,0.2);border-radius:8px;margin-bottom:12px;"><span style="font-size:48px;">�YZ�</span><p style="font-size:16px;font-weight:700;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p><span class="yt-badge" style="margin-top:8px;display:inline-flex;">�-� Será publicado no YouTube como não listado</span></div>`;
+    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,0,0,0.05);border:1px solid rgba(255,0,0,0.2);border-radius:8px;margin-bottom:12px;"><span style="font-size:48px;">YZ</span><p style="font-size:16px;font-weight:700;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p><span class="yt-badge" style="margin-top:8px;display:inline-flex;">- Será publicado no YouTube como não listado</span></div>`;
   } else {
-    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,255,255,0.05);border-radius:8px;margin-bottom:12px;"><span style="font-size:64px;">�Y""</span><p style="font-size:16px;font-weight:600;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p></div>`;
+    previewContent.innerHTML = `<div style="padding:24px;background:rgba(255,255,255,0.05);border-radius:8px;margin-bottom:12px;"><span style="font-size:64px;">Y""</span><p style="font-size:16px;font-weight:600;margin:12px 0;">${file.name}</p><p style="font-size:13px;color:var(--text-muted);">${sizeMB} MB</p></div>`;
   }
 }
 
@@ -1344,12 +1344,12 @@ async function fileToBase64(file) {
   });
 }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // PUBLICAR POST
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 document.getElementById('formPost').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!temPermissao('posts')) { alert('�O Sem permissão para criar posts.'); return; }
+  if (!temPermissao('posts')) { alert('O Sem permissão para criar posts.'); return; }
   const btnPost = document.getElementById('btnPost');
   btnPost.disabled = true; btnPost.textContent = 'Publicando...';
   try {
@@ -1369,7 +1369,7 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
           youtubeEmbedURL = resultado.embedURL; youtubeVideoId = resultado.videoId;
           finalMidiaURL = resultado.watchURL; midiaTipo = 'youtube';
         } else {
-          document.getElementById('uploadProgressTextUniversal').textContent = `�Y"� Enviando ${sizeMB}MB para Google Drive...`;
+          document.getElementById('uploadProgressTextUniversal').textContent = `Y" Enviando ${sizeMB}MB para Google Drive...`;
           let progress = 0;
           progressInterval = setInterval(() => { progress += Math.random() * 8; if (progress > 85) progress = 85; progressBar.style.width = progress + '%'; progressPercent.textContent = Math.round(progress) + '%'; }, 300);
           const base64 = await fileToBase64(arquivoUniversal);
@@ -1393,7 +1393,7 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
       uploadProgressUniversal.style.display = 'none'; uploadPreviewUniversal.style.display = 'block';
     }
     const titulo = document.getElementById('postTitulo').value.trim();
-    if (!titulo) { alert('�O Preencha o título do post'); throw new Error('Título obrigatório'); }
+    if (!titulo) { alert('O Preencha o título do post'); throw new Error('Título obrigatório'); }
     const { data: _newPost, error: _postErr } = await getSB().from('posts').insert({
       titulo, texto: document.getElementById('postTexto').value.trim(),
       categoria: document.getElementById('postCategoria').value,
@@ -1404,29 +1404,29 @@ document.getElementById('formPost').addEventListener('submit', async (e) => {
       autor_id: window._adminUid
     }).select().single();
     if (_postErr) throw _postErr;
-    mostrarAlerta('alert-post', '�o. Post publicado com sucesso!', 'success');
+    mostrarAlerta('alert-post', 'o. Post publicado com sucesso!', 'success');
     document.getElementById('formPost').reset();
     removerArquivoUniversal();
     carregarPosts();
   } catch (error) {
     console.error('Erro ao publicar:', error);
-    mostrarAlerta('alert-post', '�O Erro: ' + error.message, 'error');
+    mostrarAlerta('alert-post', 'O Erro: ' + error.message, 'error');
     uploadProgressUniversal.style.display = 'none';
     if (arquivoUniversal) uploadPreviewUniversal.style.display = 'block';
   }
   btnPost.disabled = false; btnPost.textContent = 'Publicar Post';
 });
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // CARREGAR POSTS
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 function buildPostItemHTML(doc, isNovo) {
   const post = doc.data ? doc.data() : doc;
   const postId = doc.id || post.id;
   const criadoEm = post.criado_em || post.created_at || post.criadoEm || null;
   const data = criadoEm ? new Date(criadoEm).toLocaleDateString('pt-BR') : 'Agora';
   const autorUid = post.autor_id || post.autorUid || post.autor_uid || post.autorId || null;
-  const titulo = post.titulo || 'Post sem t�tulo';
+  const titulo = post.titulo || 'Post sem Titulo';
   const texto = typeof post.texto === 'string' ? post.texto : '';
   const categoria = post.categoria || 'Sem categoria';
 
@@ -1438,7 +1438,7 @@ function buildPostItemHTML(doc, isNovo) {
   } else if (post.midia_url && post.midia_tipo === 'imagem') {
     midiaHTML = `<img src="${post.midia_url}" class="post-image" alt="${post.titulo}" onerror="this.style.display='none'">`;
   } else if (post.midia_url && post.midia_tipo === 'pdf') {
-    midiaHTML = `<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;">�Y""</div>`;
+    midiaHTML = `<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;">Y""</div>`;
   }
 
   const canEdit = window._isSuperAdmin || (temPermissao('posts') && autorUid === window._adminUid);
@@ -1450,16 +1450,16 @@ function buildPostItemHTML(doc, isNovo) {
   return `<div class="post-item${isNovo ? ' post-item--novo' : ''}" id="post-item-${postId}" style="${isNovo ? 'animation:slideInPost .4s cubic-bezier(0.34,1.56,0.64,1);' : ''}">
     ${midiaHTML}
     <div class="post-content">
-      ${isNovo ? '<span style="display:inline-block;background:#10b981;color:#000;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">�o� Novo</span>' : ''}
+      ${isNovo ? '<span style="display:inline-block;background:#10b981;color:#000;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">o Novo</span>' : ''}
       <div class="post-title">${titulo}</div>
-      ${texto.trim() ? `<div class="post-desc" style="font-size:12px;color:var(--text-muted);line-height:1.5;margin:4px 0 6px;font-style:italic;"><span style="color:var(--blue);font-style:normal;font-weight:700;font-size:11px;">DESCRI��O</span> ${texto.substring(0,140)}${texto.length>140?'.':''}</div>` : ''}
+      ${texto.trim() ? `<div class="post-desc" style="font-size:12px;color:var(--text-muted);line-height:1.5;margin:4px 0 6px;font-style:italic;"><span style="color:var(--blue);font-style:normal;font-weight:700;font-size:11px;">Descricao</span> ${texto.substring(0,140)}${texto.length>140?'.':''}</div>` : ''}
       <div class="post-meta" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        ?? ${data} . ?? ${categoria} . ?? ${post.autor || post.autor_nome || post.autor_name || 'Admin'}
-        ${post.youtube_embed_url ? '<span class="yt-badge">�-� YouTube</span>' : ''}
+         ${data} .  ${categoria} .  ${post.autor || post.autor_nome || post.autor_name || 'Admin'}
+        ${post.youtube_embed_url ? '<span class="yt-badge">- YouTube</span>' : ''}
       </div>
       <div class="post-actions">
         <button class="btn btn-sm" onclick="toggleComentariosAdmin('${postId}')" style="background:var(--blue);color:#fff;">
-          Coment�rios (<span id="count-admin-${postId}">...</span>)
+          Comentarios (<span id="count-admin-${postId}">...</span>)
         </button>
         ${actionBtns}
       </div>
@@ -1468,7 +1468,7 @@ function buildPostItemHTML(doc, isNovo) {
         <div style="margin-top:16px;display:flex;gap:10px;align-items:flex-start;">
           <div id="adminAvatarComent-${postId}" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden;margin-top:2px;"></div>
           <div style="flex:1;">
-            <textarea id="texto-admin-${postId}" placeholder="Coment�rio como admin..." style="width:100%;min-height:80px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;"></textarea>
+            <textarea id="texto-admin-${postId}" placeholder="Comentrio como admin..." style="width:100%;min-height:80px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;"></textarea>
             <button class="btn btn-sm" onclick="enviarComentarioAdmin('${postId}')" style="margin-top:8px;">Enviar</button>
           </div>
         </div>
@@ -1568,7 +1568,7 @@ function toggleComentariosAdmin(postId) {
 }
 
 function iniciarListenerAdmin(postId) {
-  if (_adminListeners[postId]) return; // j� ouvindo
+  if (_adminListeners[postId]) return; // j ouvindo
   const lista   = document.getElementById('lista-admin-' + postId);
   const countEl = document.getElementById('count-admin-' + postId);
   lista.innerHTML = '<p style="text-align:center;padding:16px;color:#64748b;font-size:13px;">Carregando...</p>';
@@ -1587,7 +1587,7 @@ function iniciarListenerAdmin(postId) {
       if (countEl) countEl.textContent = docs.length;
 
       if (!docs.length) {
-        lista.innerHTML = '<p style="text-align:center;padding:16px;color:var(--text-muted);">Nenhum coment�rio ainda.</p>';
+        lista.innerHTML = '<p style="text-align:center;padding:16px;color:var(--text-muted);">Nenhum comentrio ainda.</p>';
         return;
       }
 
@@ -1631,7 +1631,7 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
             <strong style="font-size:12px;color:#a5b4fc;">${r.autor||'?'}</strong>
             <div style="display:flex;gap:6px;align-items:center;">
               <span style="font-size:11px;color:#475569;">${rTempo}</span>
-              ${(window._isSuperAdmin || temPermissao('comentarios') || r.autor_id === window._adminUid) ? `<button onclick="deletarRespostaAdmin('${postId}','${docId}',${idx},'${r.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:12px;">�Y-'️</button>` : ''}
+              ${(window._isSuperAdmin || temPermissao('comentarios') || r.autor_id === window._adminUid) ? `<button onclick="deletarRespostaAdmin('${postId}','${docId}',${idx},'${r.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:12px;">Y-'️</button>` : ''}
             </div>
           </div>
           <p style="margin:0;font-size:13px;color:var(--text);line-height:1.5;">${r.texto}</p>
@@ -1650,7 +1650,7 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
         <strong style="color:var(--accent);font-size:13px;">${nomeAutor}</strong>
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:11px;color:var(--text-muted);" title="${dateCriado ? dateCriado.toLocaleString('pt-BR') : ''}">${tempo}</span>
-          ${(window._isSuperAdmin || temPermissao('comentarios') || co.autor_id === window._adminUid) ? `<button onclick="deletarComentarioAdmin('${postId}','${docId}','${co.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;" title="Deletar comentário">�Y-'️</button>` : ''}
+          ${(window._isSuperAdmin || temPermissao('comentarios') || co.autor_id === window._adminUid) ? `<button onclick="deletarComentarioAdmin('${postId}','${docId}','${co.autor_id||''}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;" title="Deletar comentário">Y-'️</button>` : ''}
         </div>
       </div>
       <p style="margin:0 0 8px;font-size:14px;line-height:1.6;">${co.texto}${co.editado_em ? '<span style="font-size:11px;color:#64748b;margin-left:6px;font-style:italic;">(editado)</span>' : ''}</p>
@@ -1699,13 +1699,13 @@ async function enviarRespostaAdmin(postId, comentarioId) {
     document.getElementById('form-resposta-admin-' + comentarioId).style.display = 'none';
     // onSnapshot atualiza automaticamente
   } catch (err) { alert('Erro ao enviar resposta: ' + err.message); }
-  finally { textarea.disabled = false; if (btn) { btn.disabled = false; btn.textContent = '�?� Responder'; } }
+  finally { textarea.disabled = false; if (btn) { btn.disabled = false; btn.textContent = '? Responder'; } }
 }
 
 async function deletarRespostaAdmin(postId, comentarioId, idx, autorId) {
   const ehPropria = autorId && autorId === window._adminUid;
   if (!window._isSuperAdmin && !temPermissao('comentarios') && !ehPropria) {
-    alert('�O Sem permissão para excluir respostas de outros.'); return;
+    alert('O Sem permissão para excluir respostas de outros.'); return;
   }
   if (!confirm('Deletar esta resposta?')) return;
   try {
@@ -1734,7 +1734,7 @@ async function enviarComentarioAdmin(postId) {
       criado_em: new Date().toISOString()
     });
     textarea.value = '';
-    // onSnapshot atualiza automaticamente �?" sem recarregar
+    // onSnapshot atualiza automaticamente ?" sem recarregar
   } catch (err) { alert('Erro ao enviar comentário: ' + err.message); }
   finally { textarea.disabled = false; if (btn) { btn.disabled = false; btn.textContent = 'Enviar'; } }
 }
@@ -1743,7 +1743,7 @@ async function deletarComentarioAdmin(postId, comentarioId, autorId) {
   // Pode deletar se: superadmin OU tem permissão 'comentarios' OU é o próprio autor
   const ehProprioComentario = autorId && autorId === window._adminUid;
   if (!window._isSuperAdmin && !temPermissao('comentarios') && !ehProprioComentario) {
-    alert('�O Sem permissão para excluir comentários de outros.'); return;
+    alert('O Sem permissão para excluir comentários de outros.'); return;
   }
   if (!confirm('Deletar este comentário?')) return;
   try {
@@ -1753,9 +1753,9 @@ async function deletarComentarioAdmin(postId, comentarioId, autorId) {
 }
 
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // USUÁRIOS
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // Armazena todos os alunos para filtragem local
 let _todosAlunos = [];
 
@@ -1785,7 +1785,7 @@ async function carregarUsuarios() {
     // Pendentes
     if (pendentes.length === 0) {
       document.getElementById('usuarios-pendentes').innerHTML =
-        '<div style="text-align:center;padding:24px;color:var(--text-muted);"><span style="font-size:40px;display:block;margin-bottom:8px;">??</span>Nenhum aluno pendente</div>';
+        '<div style="text-align:center;padding:24px;color:var(--text-muted);"><span style="font-size:40px;display:block;margin-bottom:8px;"></span>Nenhum aluno pendente</div>';
     } else {
       document.getElementById('usuarios-pendentes').innerHTML = `
         <div style="display:flex;flex-direction:column;gap:10px;">
@@ -1798,7 +1798,7 @@ async function carregarUsuarios() {
     renderAprovados(busca);
 
   } catch (error) {
-    console.error('Erro usu�rios:', error);
+    console.error('Erro Usuarios:', error);
     document.getElementById('usuarios-pendentes').innerHTML = '<p style="color:var(--red);padding:16px;">? Erro: ' + error.message + '</p>';
   }
 }
@@ -1828,7 +1828,7 @@ function renderAlunoCard(u, aprovado) {
         ${!aprovado
           ? `<button onclick="aprovarUsuario('${u.id}')" style="background:#10b981;color:#000;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">? Aprovar</button>
              <button onclick="rejeitarUsuario('${u.id}')" style="background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.12)'">? Rejeitar</button>`
-          : `<button onclick="revogarAprovacao('${u.id}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">?? Revogar</button>`
+          : `<button onclick="revogarAprovacao('${u.id}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"> Revogar</button>`
         }
       </div>
     </div>`;
@@ -1843,7 +1843,7 @@ function renderAprovados(busca) {
   const container = document.getElementById('usuarios-aprovados');
   if (filtrados.length === 0) {
     container.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-muted);">${
-      busca ? '?? Nenhum aluno encontrado para <strong>"' + busca + '"</strong>' : '?? Nenhum aluno aprovado ainda'
+      busca ? ' Nenhum aluno encontrado para <strong>"' + busca + '"</strong>' : ' Nenhum aluno aprovado ainda'
     }</div>`;
     return;
   }
@@ -1871,26 +1871,26 @@ function exportarAlunos() {
   link.click();
 }
 async function aprovarUsuario(uid) {
-  if (!temPermissao('alunos')) { alert('�O Sem permissão.'); return; }
-  try { await getSB().from('users').update({ aprovado:true }).eq('id',uid); mostrarAlerta('alert-aprovacao','�o. Aprovado!','success'); carregarUsuarios(); }
-  catch (err) { mostrarAlerta('alert-aprovacao','�O Erro ao aprovar','error'); }
+  if (!temPermissao('alunos')) { alert('O Sem permissão.'); return; }
+  try { await getSB().from('users').update({ aprovado:true }).eq('id',uid); mostrarAlerta('alert-aprovacao','o. Aprovado!','success'); carregarUsuarios(); }
+  catch (err) { mostrarAlerta('alert-aprovacao','O Erro ao aprovar','error'); }
 }
 async function rejeitarUsuario(uid) {
-  if (!temPermissao('alunos')) { alert('�O Sem permissão.'); return; }
+  if (!temPermissao('alunos')) { alert('O Sem permissão.'); return; }
   if (!confirm('Rejeitar e excluir este usuário?')) return;
-  try { await getSB().from('users').delete().eq('id',uid); mostrarAlerta('alert-aprovacao','�o. Rejeitado','success'); carregarUsuarios(); }
-  catch (err) { mostrarAlerta('alert-aprovacao','�O Erro','error'); }
+  try { await getSB().from('users').delete().eq('id',uid); mostrarAlerta('alert-aprovacao','o. Rejeitado','success'); carregarUsuarios(); }
+  catch (err) { mostrarAlerta('alert-aprovacao','O Erro','error'); }
 }
 async function revogarAprovacao(uid) {
-  if (!temPermissao('alunos')) { alert('�O Sem permissão.'); return; }
+  if (!temPermissao('alunos')) { alert('O Sem permissão.'); return; }
   if (!confirm('Revogar aprovação?')) return;
-  try { await getSB().from('users').update({ aprovado:false }).eq('id',uid); mostrarAlerta('alert-aprovacao','�o. Revogado','success'); carregarUsuarios(); }
-  catch (err) { mostrarAlerta('alert-aprovacao','�O Erro','error'); }
+  try { await getSB().from('users').update({ aprovado:false }).eq('id',uid); mostrarAlerta('alert-aprovacao','o. Revogado','success'); carregarUsuarios(); }
+  catch (err) { mostrarAlerta('alert-aprovacao','O Erro','error'); }
 }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // FOTOS DE TRADES
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 let tradeFile = null;
 const uploadAreaTrade = document.getElementById('uploadAreaTrade');
 const fileInputTrade  = document.getElementById('fileInputTrade');
@@ -1902,8 +1902,8 @@ uploadAreaTrade.addEventListener('click', () => fileInputTrade.click());
 fileInputTrade.addEventListener('change', e => { if (e.target.files[0]) processarArquivoTrade(e.target.files[0]); });
 
 function processarArquivoTrade(file) {
-  if (!file.type.startsWith('image/')) { alert('�O Apenas imagens'); return; }
-  if (file.size > 10*1024*1024) { alert('�O Máximo 10MB'); return; }
+  if (!file.type.startsWith('image/')) { alert('O Apenas imagens'); return; }
+  if (file.size > 10*1024*1024) { alert('O Máximo 10MB'); return; }
   tradeFile = file;
   const reader = new FileReader();
   reader.onload = e => {
@@ -1922,7 +1922,7 @@ function removerImagemTrade() {
 
 document.getElementById('formFotoTrade').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!temPermissao('planilha')) { alert('? Sem permiss�o para enviar fotos.'); return; }
+  if (!temPermissao('planilha')) { alert('? Sem permissao para enviar fotos.'); return; }
   if (!tradeFile) { mostrarAlerta('alert-foto-trade','? Selecione uma foto','error'); return; }
   const btn = document.getElementById('btnFotoTrade');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -1959,9 +1959,9 @@ document.getElementById('formFotoTrade').addEventListener('submit', async (e) =>
   btn.disabled = false; btn.textContent = 'Salvar Foto do Trade';
 });
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // DADOS DO TRADE
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 function calcularSemanaMes(dia) {
   if (dia <= 7) return 'SEMANA 1'; if (dia <= 14) return 'SEMANA 2';
   if (dia <= 21) return 'SEMANA 3'; if (dia <= 28) return 'SEMANA 4';
@@ -2022,7 +2022,7 @@ async function salvarAtivo(dia, mes, ano, semana, alvo, pontos, trades, gains, s
   return await response.json();
 }
 async function deletarPost(postId) {
-  if (!temPermissao('posts')) { alert('�O Sem permissão para excluir posts.'); return; }
+  if (!temPermissao('posts')) { alert('O Sem permissão para excluir posts.'); return; }
   if (!confirm('Excluir este post permanentemente? Esta ação não pode ser desfeita.')) return;
   try {
     // Busca o post para verificar se tem vídeo no YouTube
@@ -2061,15 +2061,15 @@ async function deletarPost(postId) {
         }
       } catch (ytErr) {
         console.warn('[YT] Erro ao deletar vídeo do YouTube:', ytErr.message);
-        // Não bloqueia �?" post já foi apagado do Firestore
+        // Não bloqueia ?" post já foi apagado do Firestore
       }
     }
-  } catch (err) { alert('�O Erro ao excluir: ' + err.message); }
+  } catch (err) { alert('O Erro ao excluir: ' + err.message); }
 }
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 // EDITAR POST
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
 let _editPostCache = {};
 
 function abrirEditarPost(postId) {
@@ -2083,7 +2083,7 @@ function abrirEditarPost(postId) {
     document.getElementById('editPostLink').value = p.link || '';
     const modal = document.getElementById('modalEditarPost');
     modal.style.display = 'flex';
-  }).catch(err => alert('�O Erro: ' + err.message));
+  }).catch(err => alert('O Erro: ' + err.message));
 }
 
 function fecharEditarPost() {
@@ -2095,7 +2095,7 @@ async function salvarEdicaoPost() {
   const postId = document.getElementById('editPostId').value;
   if (!postId) return;
   const titulo = document.getElementById('editPostTitulo').value.trim();
-  if (!titulo) { mostrarAlerta('alert-edit-post', '�O Título obrigatório.', 'error'); return; }
+  if (!titulo) { mostrarAlerta('alert-edit-post', 'O Título obrigatório.', 'error'); return; }
 
   try {
     await getSB().from('posts').update({
@@ -2106,10 +2106,10 @@ async function salvarEdicaoPost() {
       editado_em: new Date().toISOString(),
       editado_por: window._adminNome || 'Admin'
     }).eq('id', postId);;
-    mostrarAlerta('alert-edit-post', '�o. Post atualizado!', 'success');
+    mostrarAlerta('alert-edit-post', 'o. Post atualizado!', 'success');
     setTimeout(() => fecharEditarPost(), 1200);
   } catch (err) {
-    mostrarAlerta('alert-edit-post', '�O Erro: ' + err.message, 'error');
+    mostrarAlerta('alert-edit-post', 'O Erro: ' + err.message, 'error');
   }
 }
 
@@ -2118,9 +2118,9 @@ document.getElementById('modalEditarPost')?.addEventListener('click', (e) => {
   if (e.target.id === 'modalEditarPost') fecharEditarPost();
 });
 
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
-// M�sLTIPLOS ARQUIVOS �?" preview list
-// �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
+// ..............................................
+// MsLTIPLOS ARQUIVOS ?" preview list
+// ..............................................
 let arquivosMultiplos = [];
 
 function alternarVisualizacao() {
@@ -2136,7 +2136,7 @@ function inicializarVisualizacao() {
 
 document.getElementById('formTradeData').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!temPermissao('planilha')) { alert('? Sem permiss�o para registrar trades.'); return; }
+  if (!temPermissao('planilha')) { alert('? Sem permissao para registrar trades.'); return; }
   const btn = document.getElementById('btnTradeData');
   btn.disabled = true; btn.textContent = 'Salvando...';
   try {
@@ -2146,7 +2146,7 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
     const semana = document.getElementById('semana').value || calcularSemanaMes(dia);
     const nasOp = document.getElementById('nasOp').checked;
     const dowOp = document.getElementById('dowOp').checked;
-    if (!nasOp && !dowOp) { mostrarAlerta('alert-trade-data','? Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent='?? Salvar na Planilha'; return; }
+    if (!nasOp && !dowOp) { mostrarAlerta('alert-trade-data','? Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent=' Salvar na Planilha'; return; }
     const erros = [], linhas = [];
     if (nasOp) {
       const r = await salvarAtivo(dia, mes, ano, semana, 'NASDAQ', document.getElementById('nasPontos').value||0, document.getElementById('nasTrades').value||0, document.getElementById('nasGains').value||0, document.getElementById('nasStops').value||0, document.getElementById('nasBreak').value||0);
@@ -2160,7 +2160,7 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
     mostrarAlerta('alert-trade-data', `? Salvo! (${linhas.join(', ')})`, 'success');
     ['nasPontos','nasTrades','nasGains','nasStops','nasBreak','dowPontos','dowTrades','dowGains','dowStops','dowBreak'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
   } catch (error) { mostrarAlerta('alert-trade-data', '? Erro: ' + error.message, 'error'); }
-  btn.disabled = false; btn.textContent = '?? Salvar na Planilha';
+  btn.disabled = false; btn.textContent = ' Salvar na Planilha';
 });
 </script>
 </body>
