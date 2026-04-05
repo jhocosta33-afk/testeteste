@@ -1443,9 +1443,9 @@ function buildPostItemHTML(doc, isNovo) {
 
   const canEdit = window._isSuperAdmin || (temPermissao('posts') && autorUid === window._adminUid);
   const actionBtns = canEdit
-    ? `<button class="btn btn-sm" onclick="abrirEditarPost('${postId}')" style="background:rgba(99,102,241,0.15);color:var(--blue);border:1px solid rgba(99,102,241,0.3);">âœï¸ Editar</button>
-       <button class="btn btn-sm btn-danger" onclick="deletarPost('${postId}')">ðŸ—‘ï¸ Excluir</button>`
-    : `<span style="font-size:11px;color:var(--text-muted);padding:4px 8px;">ðŸ”’ Post de outro admin</span>`;
+    ? `<button class="btn btn-sm" onclick="abrirEditarPost('${postId}')" style="background:rgba(99,102,241,0.15);color:var(--blue);border:1px solid rgba(99,102,241,0.3);">Editar</button>
+       <button class="btn btn-sm btn-danger" onclick="deletarPost('${postId}')">Excluir</button>`
+    : `<span style="font-size:11px;color:var(--text-muted);padding:4px 8px;">Post de outro admin</span>`;
 
   return `<div class="post-item${isNovo ? ' post-item--novo' : ''}" id="post-item-${postId}" style="${isNovo ? 'animation:slideInPost .4s cubic-bezier(0.34,1.56,0.64,1);' : ''}">
     ${midiaHTML}
@@ -1459,7 +1459,7 @@ function buildPostItemHTML(doc, isNovo) {
       </div>
       <div class="post-actions">
         <button class="btn btn-sm" onclick="toggleComentariosAdmin('${postId}')" style="background:var(--blue);color:#fff;">
-          ðŸ’¬ ComentÃ¡rios (<span id="count-admin-${postId}">â€¦</span>)
+          Comentários (<span id="count-admin-${postId}">...</span>)
         </button>
         ${actionBtns}
       </div>
@@ -1468,7 +1468,7 @@ function buildPostItemHTML(doc, isNovo) {
         <div style="margin-top:16px;display:flex;gap:10px;align-items:flex-start;">
           <div id="adminAvatarComent-${postId}" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden;margin-top:2px;"></div>
           <div style="flex:1;">
-            <textarea id="texto-admin-${postId}" placeholder="ComentÃ¡rio como admin..." style="width:100%;min-height:80px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;"></textarea>
+            <textarea id="texto-admin-${postId}" placeholder="Comentário como admin..." style="width:100%;min-height:80px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:inherit;font-size:14px;resize:vertical;"></textarea>
             <button class="btn btn-sm" onclick="enviarComentarioAdmin('${postId}')" style="margin-top:8px;">Enviar</button>
           </div>
         </div>
@@ -1661,13 +1661,13 @@ function renderComentarioAdmin(postId, docId, co, isNovo) {
           <div style="flex:1;">
             <textarea id="texto-resposta-admin-${docId}" placeholder="Responder como admin..." style="width:100%;min-height:60px;background:rgba(255,255,255,0.05);border:1px solid rgba(99,102,241,0.4);border-radius:8px;padding:10px;color:var(--text);font-family:inherit;font-size:13px;resize:vertical;"></textarea>
             <div style="display:flex;gap:8px;margin-top:6px;">
-              <button class="btn btn-sm" onclick="enviarRespostaAdmin('${postId}','${docId}')" style="background:#6366f1;color:#fff;">â†© Responder</button>
+              <button class="btn btn-sm" onclick="enviarRespostaAdmin('${postId}','${docId}')" style="background:#6366f1;color:#fff;">Responder</button>
               <button class="btn btn-sm" onclick="document.getElementById('form-resposta-admin-${docId}').style.display='none'" style="background:rgba(255,255,255,0.1);color:var(--text);">Cancelar</button>
             </div>
           </div>
         </div>
       </div>
-      <button onclick="mostrarFormRespostaAdmin('${docId}')" style="background:none;border:none;color:#6366f1;cursor:pointer;font-size:12px;font-weight:600;padding:4px 0;margin-top:4px;">â†© Responder</button>
+      <button onclick="mostrarFormRespostaAdmin('${docId}')" style="background:none;border:none;color:#6366f1;cursor:pointer;font-size:12px;font-weight:600;padding:4px 0;margin-top:4px;">Responder</button>
     </div>
   </div>`;
 }
