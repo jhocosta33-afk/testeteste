@@ -710,7 +710,7 @@ async function verInfoUsuario(autorId, nomeExibido) {
     var data = _res2 || {};
     var nome = data.nome || nomeExibido || 'Desconhecido';
     var email = data.email || autorId;
-    var criado = data.created_at new Date(data.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '-';
+    var criado = data.created_at ? new Date(data.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '-';
     document.getElementById('infoUserNome').textContent = nome;
     document.getElementById('infoUserEmail').textContent = ' ' + email;
     document.getElementById('infoUserCadastro').textContent = 'Cadastrado em: ' + criado;
@@ -1272,7 +1272,7 @@ function mostrarAlerta(id, mensagem, tipo) {
 
 function tempoRelativo(ts) {
   if (!ts) return '';
-  const date = ts instanceof Date ts : (ts.toDate ts.toDate() : new Date(ts));
+  const date = ts instanceof Date ? ts : (ts.toDate ? ts.toDate() : new Date(ts));
   const diff = Math.floor((Date.now() - date.getTime()) / 1000);
   if (diff < 60) return 'agora mesmo';
   if (diff < 3600) return `h ${Math.floor(diff/60)} min`;
@@ -1997,8 +1997,8 @@ window.addEventListener('DOMContentLoaded', () => {
 function toggleAtivo(ativo) {
   const checked = document.getElementById(ativo+'Op').checked;
   const fields = document.getElementById(ativo+'Fields');
-  fields.style.opacity = checked '1' : '0.4';
-  fields.style.pointerEvents = checked 'auto' : 'none';
+  fields.style.opacity = checked ? '1' : '0.4';
+  fields.style.pointerEvents = checked ? 'auto' : 'none';
 }
 async function salvarAtivo(dia, mes, ano, semana, alvo, pontos, trades, gains, stops, breakeven) {
   const response = await fetch(`${YT_WORKER}/apps-script`, {
