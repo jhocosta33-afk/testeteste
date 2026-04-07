@@ -275,7 +275,7 @@ body::after {
 }
 .filter-label {
   font-family: 'Orbitron', monospace;
-  font-size: 9px; font-weight: 600;
+  font-size: 7px; font-weight: 600;
   letter-spacing: 2px; color: var(--text-muted);
   text-transform: uppercase;
 }
@@ -670,9 +670,13 @@ canvas { width: 100%!important; height: 100%!important; }
 .day.positive:hover { box-shadow: 0 6px 20px rgba(0,229,160,0.2); }
 .day.negative:hover { box-shadow: 0 6px 20px rgba(255,77,106,0.2); }
 .day.other-month { opacity: 0.5; filter: saturate(0.85); }
-.day-number { font-size: 10px; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-.day-points { display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; font-family:'JetBrains Mono',monospace; margin-top:2px; margin-bottom:2px; }
-.day-info { font-size:9px; color:var(--text-dim); text-align:center; line-height:1.4; font-weight:600; }
+.day-number { font-size: 10px; color: #ffffff; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.day-points { display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:900; font-family:'JetBrains Mono',monospace; margin-top:2px; margin-bottom:2px; text-shadow: 0 0 10px rgba(255,255,255,0.08); }
+.day-info { font-size:9px; color:#ffffff; text-align:center; line-height:1.4; font-weight:600; opacity:0.9; }
+.day-points.zero { color: #ffffff; opacity: 0.9; }
+.day.other-month .day-number,
+.day.other-month .day-points,
+.day.other-month .day-info { opacity: 0.45; }
 .day-badge { position:absolute; bottom:3px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.92); border:1px solid var(--glass-border-bright); border-radius:5px; padding:3px 7px; font-size:9px; white-space:nowrap; opacity:0; transition:opacity 0.2s; font-weight:700; font-family:'JetBrains Mono',monospace; z-index:100; pointer-events:none; }
 .day:hover .day-badge { opacity:1; }
 .empty { background:transparent; border:none; cursor:default; }
@@ -2169,7 +2173,8 @@ const Dashboard = {
           ptDisplay = `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin:4px 0 3px"><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
         } else {
           const pc2 = pts<0?'var(--red)':pts>0?'var(--green)':'var(--text-muted)';
-          ptDisplay = `<div class="day-points" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
+          const zeroClass = pts===0 ? ' zero' : '';
+          ptDisplay = `<div class="day-points${zeroClass}" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
         }
       }
       const infoHtml = r
