@@ -1963,10 +1963,16 @@ document.getElementById('formFotoTrade').addEventListener('submit', async (e) =>
 // ..............................................
 // DADOS DO TRADE
 // ..............................................
-function calcularSemanaMes(dia) {
-  if (dia <= 7) return 'SEMANA 1'; if (dia <= 14) return 'SEMANA 2';
-  if (dia <= 21) return 'SEMANA 3'; if (dia <= 28) return 'SEMANA 4';
-  return 'SEMANA 5';
+function calcularSemanaMes(dia, mes, ano) {
+  if (!dia) return '';
+  // Usa a grade do calendario (Dom-Sab) para definir a semana do mes.
+  const m = Number(mes);
+  const a = Number(ano);
+  if (!m || !a) return '';
+  const primeiro = new Date(a, m - 1, 1);
+  const offset = primeiro.getDay(); // 0=Dom ... 6=Sab
+  const semana = Math.floor((dia + offset - 1) / 7) + 1;
+  return 'SEMANA ' + semana;
 }
 function pad2(valor) {
   return String(valor).padStart(2, '0');
@@ -1982,14 +1988,14 @@ function montarDataTradeIsoSeguro(dia, mes, ano) {
 }
 document.getElementById('diaData').addEventListener('input', e => {
   const dia = parseInt(e.target.value);
-  document.getElementById('semana').value = (dia >= 1 && dia <= 31) ? calcularSemanaMes(dia) : '';
+  document.getElementById('semana').value = (dia >= 1 && dia <= 31) ? calcularSemanaMes(dia, mes, ano) : '';
 });
 window.addEventListener('DOMContentLoaded', () => {
   const hoje = new Date();
   document.getElementById('diaData').value = hoje.getDate();
   document.getElementById('mesData').value = hoje.getMonth() + 1;
   document.getElementById('anoData').value = hoje.getFullYear();
-  document.getElementById('semana').value = calcularSemanaMes(hoje.getDate());
+  document.getElementById('semana').value = calcularSemanaMes(hoje.getDate(), hoje.getMonth() + 1, hoje.getFullYear());
   document.getElementById('diaDoTrade').value = hoje.getDate();
   document.getElementById('mesDoTrade').value = hoje.getMonth() + 1;
   document.getElementById('anoDoTrade').value = hoje.getFullYear();
@@ -2144,7 +2150,7 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
     const dia = parseInt(document.getElementById('diaData').value);
     const mes = parseInt(document.getElementById('mesData').value);
     const ano = parseInt(document.getElementById('anoData').value);
-    const semana = document.getElementById('semana').value || calcularSemanaMes(dia);
+    const semana = document.getElementById('semana').value || calcularSemanaMes(dia, mes, ano);
     const nasOp = document.getElementById('nasOp').checked;
     const dowOp = document.getElementById('dowOp').checked;
     if (!nasOp && !dowOp) { mostrarAlerta('alert-trade-data','Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent='Salvar na Planilha'; return; }

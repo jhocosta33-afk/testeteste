@@ -2172,7 +2172,7 @@ const Dashboard = {
           const pN = r.pontosNasdaq || 0, pD = r.pontosDow || 0;
           ptDisplay = `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin:4px 0 3px"><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
         } else {
-          const pc2 = pts<0?'var(--red)':pts>0?'var(--green)':'var(--text-muted)';
+          const pc2 = pts<0?'var(--red)':pts>0?'var(--green)':'#ffffff';
           const zeroClass = pts===0 ? ' zero' : '';
           ptDisplay = `<div class="day-points${zeroClass}" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
         }
