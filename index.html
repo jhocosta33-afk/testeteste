@@ -669,6 +669,7 @@ canvas { width: 100%!important; height: 100%!important; }
 .day:hover:not(.empty) { transform: translateY(-3px) scale(1.02); z-index: 10; border-color: var(--glass-border-bright); box-shadow: 0 6px 20px rgba(59,130,246,0.2); }
 .day.positive:hover { box-shadow: 0 6px 20px rgba(0,229,160,0.2); }
 .day.negative:hover { box-shadow: 0 6px 20px rgba(255,77,106,0.2); }
+.day.other-month { opacity: 0.5; filter: saturate(0.85); }
 .day-number { font-size: 10px; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
 .day-points { display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; font-family:'JetBrains Mono',monospace; margin-top:2px; margin-bottom:2px; }
 .day-info { font-size:9px; color:var(--text-dim); text-align:center; line-height:1.4; font-weight:600; }
@@ -2127,43 +2128,68 @@ const Dashboard = {
     const podeVoltar=idxMesAtual>0;
     const podeAvancar=idxMesAtual>-1&&idxMesAtual<mesesDisponiveis.length-1;
     if(ct)ct.innerHTML=`<div class="calendar-month-nav"><button class="month-nav-btn" onclick="Dashboard.irMesAnterior()" ${podeVoltar?'':'disabled'}>‹</button><div class="card-title calendar-month-title" style="margin-bottom:0">📅 ${nomeMes} ${ano}</div><button class="month-nav-btn" onclick="Dashboard.irMesProximo()" ${podeAvancar?'':'disabled'}>›</button></div>`;
-    for(let i=0;i<primeiro.getDay();i++){const e=document.createElement('div');e.className='day empty';grid.appendChild(e);}
-    for(let d=1;d<=ultimo.getDate();d++){
-      const data=new Date(ano,mes,d), r=dados.find(x=>x.data.toDateString()===data.toDateString());
-      const dayDiv=document.createElement('div'); dayDiv.className='day';
-      let pts="",info="",infoExtra="";
-      if(r){
-        pts=r.pontos; if(pts>0)dayDiv.classList.add('positive'); if(pts<0)dayDiv.classList.add('negative');
+    const dadosAll = this.dados || [];
+    const getRegistro = (dateObj) => dadosAll.find(x => {
+      const xd = x.data instanceof Date ? x.data : new Date(x.data);
+      return xd.toDateString() === dateObj.toDateString();
+    });
+
+    const montarDia = (dateObj, isOther) => {
+      const r = getRegistro(dateObj);
+      const dayNum = dateObj.getDate();
+      const dayDiv = document.createElement('div');
+      dayDiv.className = 'day';
+      if (isOther) dayDiv.classList.add('other-month');
+      let pts = "", info = "", infoExtra = "";
+      if (r) {
+        pts = r.pontos;
+        if (pts > 0) dayDiv.classList.add('positive');
+        if (pts < 0) dayDiv.classList.add('negative');
         const trades = Number(r.trades||0);
         const gains = Number(r.gain||0);
         const stops = Number(r.stop||0);
         const zeros = Number(r.zero||0);
         info = `${trades} ${trades===1?'trade':'trades'}`;
         const detalhes = [];
-        if(gains>0) detalhes.push(`${gains} ${gains===1?'gain':'gains'}`);
-        if(stops>0) detalhes.push(`${stops} ${stops===1?'stop':'stops'}`);
-        if(zeros>0) detalhes.push(`${zeros} 0x0`);
+        if (gains > 0) detalhes.push(`${gains} ${gains===1?'gain':'gains'}`);
+        if (stops > 0) detalhes.push(`${stops} ${stops===1?'stop':'stops'}`);
+        if (zeros > 0) detalhes.push(`${zeros} 0x0`);
         infoExtra = detalhes.join(' • ');
-        if(r.trades>0&&r.fotoId&&r.fotoId.toString().trim()!==''){dayDiv.classList.add('clickable');dayDiv.addEventListener('click',()=>{Dashboard.abrirModal(r);});}
-      }
-      let ptDisplay='';
-      if(r&&r.trades>0){
-        const hasNasdaq=(r.pontosNasdaq||0)!==0||(r.ativos&&r.ativos.some(a=>!a.includes('DOW')));
-        const hasDow=(r.pontosDow||0)!==0||(r.ativos&&r.ativos.some(a=>a.includes('DOW')));
-        if(hasNasdaq&&hasDow){
-          const pN=r.pontosNasdaq||0, pD=r.pontosDow||0;
-          ptDisplay=`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin:4px 0 3px"><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
-        }else{
-          const pc2=pts<0?'var(--red)':pts>0?'var(--green)':'var(--text-muted)';
-          ptDisplay=`<div class="day-points" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
+        if (r.trades > 0 && r.fotoId && r.fotoId.toString().trim() !== '') {
+          dayDiv.classList.add('clickable');
+          dayDiv.addEventListener('click', () => { Dashboard.abrirModal(r); });
         }
       }
-      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}<div class="day-info">${info}</div><div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
+      let ptDisplay = '';
+      if (r && r.trades > 0) {
+        const hasNasdaq = (r.pontosNasdaq||0)!==0 || (r.ativos && r.ativos.some(a=>!a.includes('DOW')));
+        const hasDow = (r.pontosDow||0)!==0 || (r.ativos && r.ativos.some(a=>a.includes('DOW')));
+        if (hasNasdaq && hasDow) {
+          const pN = r.pontosNasdaq || 0, pD = r.pontosDow || 0;
+          ptDisplay = `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin:4px 0 3px"><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
+        } else {
+          const pc2 = pts<0?'var(--red)':pts>0?'var(--green)':'var(--text-muted)';
+          ptDisplay = `<div class="day-points" style="color:${pc2}">${pts>0?`+${pts}`:pts===0?'0':pts}</div>`;
+        }
+      }
       const infoHtml = r
         ? `<div class="day-info">${info}</div>${infoExtra?`<div class="day-info">${infoExtra}</div>`:''}`
         : '';
-      dayDiv.innerHTML=`<div class="day-number">${d}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
+      dayDiv.innerHTML = `<div class="day-number">${dayNum}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
       grid.appendChild(dayDiv);
+    };
+
+    const diasAntes = primeiro.getDay();
+    if (diasAntes > 0) {
+      const ultimoPrev = new Date(ano, mes, 0).getDate();
+      for (let i = diasAntes - 1; i >= 0; i--) {
+        const dayNum = ultimoPrev - i;
+        montarDia(new Date(ano, mes - 1, dayNum), true);
+      }
+    }
+
+    for (let d = 1; d <= ultimo.getDate(); d++) {
+      montarDia(new Date(ano, mes, d), false);
     }
   },
  
