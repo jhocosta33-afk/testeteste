@@ -1694,7 +1694,9 @@ const Dashboard = {
             ? (new Date().getMonth() + 1).toString().padStart(2, '0')
             : [...new Set(todosDados.filter(x => x.ano === anoAtual).map(x => x.mes))].sort().pop() || '01');
 
-      const dadosMes = d.filter(x => x.mes === mesCalendario);
+      const mesKey = String(Number(mesCalendario)).padStart(2, '0');
+      const dadosMes = d.filter(x => Number(x.mes) === Number(mesCalendario));
+      const dadosMesFull = todosDados.filter(x => x.ano === anoAtual && Number(x.mes) === Number(mesCalendario));
       let calCells = '';
 
       if (dadosMes.length > 0) {
@@ -1704,7 +1706,7 @@ const Dashboard = {
         const mes2 = baseDate.getMonth();
         const primeiro = new Date(ano2, mes2, 1);
         const ultimo = new Date(ano2, mes2 + 1, 0);
-        const nomeMesCal = nomesMeses[mesCalendario] || mesCalendario;
+        const nomeMesCal = nomesMeses[mesKey] || mesKey;
 
         const headerCells = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
           .map(ds => `<div style="text-align:center;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:4px 0;">${ds}</div>`)
@@ -1718,7 +1720,7 @@ const Dashboard = {
         let dayCells = '';
         for (let dd = 1; dd <= ultimo.getDate(); dd++) {
           const data2 = new Date(ano2, mes2, dd);
-          const r = dadosMes.find(x => {
+          const r = dadosMesFull.find(x => {
             const dx = x.data instanceof Date ? x.data : new Date(x.data);
             return dx.toDateString() === data2.toDateString();
           });
