@@ -1747,7 +1747,7 @@ const Dashboard = {
               const cor = pts > 0 ? '#22c55e' : pts < 0 ? '#ef4444' : '#94a3b8';
               ptHtml = `<div style="font-size:19px;font-weight:900;color:${cor};font-family:'JetBrains Mono',monospace;">${pts > 0 ? '+' : ''}${pts}</div>`;
             }
-            ptHtml += `<div style="font-size:9px;color:#64748b;font-weight:600;">${r.trades}T ${r.gain}G ${r.stop}S</div>`;
+            ptHtml += `<div style="font-size:9px;color:#64748b;font-weight:600;">${r.trades} trades • ${r.gain} gains • ${r.stop} stops • ${r.zero} 0x0</div>`;
           }
 
           dayCells += `<div style="background:${bg};border:1px solid ${bc};border-radius:8px;min-height:68px;padding:5px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;">
