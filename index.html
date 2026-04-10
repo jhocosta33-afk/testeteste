@@ -1956,8 +1956,21 @@ const Dashboard = {
     this.inicializarSemanas();
   },
  
+  calcularSemanaData(dataObj) {
+    const dt = dataObj instanceof Date ? dataObj : new Date(dataObj);
+    const primeiro = new Date(dt.getFullYear(), dt.getMonth(), 1);
+    const offset = primeiro.getDay(); // 0=Dom..6=Sab
+    const semana = Math.floor((dt.getDate() + offset - 1) / 7) + 1;
+    return `SEMANA ${semana}`;
+  },
+
   inicializarSemanas() {
-    const semanas=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value)).map(d=>d.semana))].sort((a,b)=>a-b);
+    const semanasNums = [...new Set(
+      this.dados
+        .filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value))
+        .map(d=>Number((this.calcularSemanaData(d.data).match(/\d+/)||['0'])[0]))
+    )].sort((a,b)=>a-b);
+    const semanas = semanasNums.map(n => `SEMANA ${n}`);
     filtroSemana.innerHTML='<option value="ALL">Todas as semanas</option>'+semanas.map(s=>`<option value="${s}">${s}</option>`).join("");
     filtroSemana.value="ALL";
     filtroSemana.onchange=()=>{this.primeiraCarga=false;this.atualizar();};
@@ -1974,7 +1987,14 @@ const Dashboard = {
     },500);
   },
  
-  obterDadosFiltrados(){return this.dados.filter(d=>d.ano===filtroAno.value&&(filtroMes.value==="ALL"||d.mes===filtroMes.value)&&(filtroSemana.value==="ALL"||d.semana===filtroSemana.value));},
+obterDadosFiltrados(){
+  return this.dados.filter(d=>{
+    const okAno = d.ano===filtroAno.value;
+    const okMes = (filtroMes.value==="ALL"||d.mes===filtroMes.value);
+    const okSemana = (filtroSemana.value==="ALL"||this.calcularSemanaData(d.data)===filtroSemana.value);
+    return okAno && okMes && okSemana;
+  });
+},
   atualizar(){const d=this.obterDadosFiltrados();this.renderizarKPIs(d);this.renderizarTabela(d);this.renderizarGraficos(d);this.renderizarCalendario(d);this.atualizarSidebarStats(d);this.atualizarPerformanceIndicator(d);},
  
   renderizarKPIs(dados) {
@@ -2182,7 +2202,8 @@ const Dashboard = {
       const infoHtml = r
         ? `<div class="day-info">${info}</div>${infoExtra?`<div class="day-info">${infoExtra}</div>`:''}`
         : '';
-      dayDiv.innerHTML = `<div class="day-number">${dayNum}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${r.semana} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
+      const semanaBadge = r ? this.calcularSemanaData(r.data) : '—';
+      dayDiv.innerHTML = `<div class="day-number">${dayNum}</div>${ptDisplay}${infoHtml}<div class="day-badge">${r?`${semanaBadge} • ${(r.ativos||['NASDAQ']).join('/')}`:'—'}</div>`;
       grid.appendChild(dayDiv);
     };
 
