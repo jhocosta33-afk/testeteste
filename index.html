@@ -526,6 +526,56 @@ body::after {
   color: var(--text-dim);
   display: flex; align-items: center; gap: 5px;
 }
+.contracts-assets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+  width: 100%;
+}
+.contract-asset-card {
+  background: rgba(17,25,44,0.84);
+  border: 1px solid rgba(86,116,173,0.22);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.contract-asset-head {
+  border-radius: 14px;
+  border: 1px solid currentColor;
+  background: rgba(255,255,255,0.03);
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', monospace;
+}
+.contract-asset-head.nasdaq { color: var(--green); }
+.contract-asset-head.dow { color: var(--orange); }
+.contract-asset-head.sp { color: var(--accent2); }
+.contract-asset-card .currency-pill {
+  justify-content: space-between;
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+}
+.contract-asset-card .currency-pill .currency-prefix {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+.contract-asset-card .currency-pill .currency-value {
+  font-size: 15px;
+  font-weight: 800;
+  min-width: 0;
+  text-align: right;
+}
  
 /* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
    CARD GRÁFICO DE PERFORMANCE
@@ -1437,26 +1487,39 @@ body.light-theme .theme-toggle {
               <div id="valorContratos" class="valor-contratos">0</div>
               <button id="btnMais" class="btn-control">+</button>
             </div>
-            <div class="currency-row" id="currencyRowUsd">
-              <div class="currency-pill" data-asset="nasdaq">
-                🔵 <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
+            <div class="contracts-assets-grid" id="contractsAssetsGrid">
+              <div class="contract-asset-card" data-asset="nasdaq">
+                <div class="contract-asset-head nasdaq">NASDAQ</div>
+                <div class="currency-pill">
+                  <span class="currency-prefix">USD</span>
+                  <span id="kDolarNasdaq" class="currency-value" style="color:var(--green)">$0.00</span>
+                </div>
+                <div class="currency-pill">
+                  <span class="currency-prefix">BRL</span>
+                  <span id="valorBRLNasdaq" class="currency-value" style="color:var(--text)">R$ 0,00</span>
+                </div>
               </div>
-              <div class="currency-pill" data-asset="dow">
-                🟠 <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
+              <div class="contract-asset-card" data-asset="dow">
+                <div class="contract-asset-head dow">DOW JONES</div>
+                <div class="currency-pill">
+                  <span class="currency-prefix">USD</span>
+                  <span id="kDolarDow" class="currency-value" style="color:var(--orange)">$0.00</span>
+                </div>
+                <div class="currency-pill">
+                  <span class="currency-prefix">BRL</span>
+                  <span id="valorBRLDow" class="currency-value" style="color:var(--text)">R$ 0,00</span>
+                </div>
               </div>
-              <div class="currency-pill" data-asset="sp">
-                🔷 <span id="kDolarSp" style="color:var(--accent2)">$0.00</span>
-              </div>
-            </div>
-            <div class="currency-row" id="currencyRowBrl">
-              <div class="currency-pill" data-asset="nasdaq">
-                BR <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
-              </div>
-              <div class="currency-pill" data-asset="dow">
-                BR <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
-              </div>
-              <div class="currency-pill" data-asset="sp">
-                BR <span id="valorBRLSp" style="color:var(--text)">R$ 0,00</span>
+              <div class="contract-asset-card" data-asset="sp">
+                <div class="contract-asset-head sp">S&amp;P 500</div>
+                <div class="currency-pill">
+                  <span class="currency-prefix">USD</span>
+                  <span id="kDolarSp" class="currency-value" style="color:var(--accent2)">$0.00</span>
+                </div>
+                <div class="currency-pill">
+                  <span class="currency-prefix">BRL</span>
+                  <span id="valorBRLSp" class="currency-value" style="color:var(--text)">R$ 0,00</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2043,16 +2106,15 @@ obterDadosFiltrados(){
     if(boxDow) boxDow.style.display = mostrarDow ? '' : 'none';
     if(boxSp) boxSp.style.display = mostrarSp ? '' : 'none';
     const ativosVisiveis = { nasdaq: mostrarNasdaq, dow: mostrarDow, sp: mostrarSp };
-    document.querySelectorAll('.contratos-card .currency-pill[data-asset]').forEach((pill) => {
-      const asset = pill.getAttribute('data-asset');
-      pill.style.display = ativosVisiveis[asset] ? '' : 'none';
+    const contractsGrid = document.getElementById('contractsAssetsGrid');
+    document.querySelectorAll('.contract-asset-card[data-asset]').forEach((card) => {
+      const asset = card.getAttribute('data-asset');
+      card.style.display = ativosVisiveis[asset] ? '' : 'none';
     });
-    ['currencyRowUsd', 'currencyRowBrl'].forEach((rowId) => {
-      const row = document.getElementById(rowId);
-      if (!row) return;
-      const ativosNoRow = Array.from(row.querySelectorAll('.currency-pill[data-asset]')).filter((pill) => pill.style.display !== 'none').length || 1;
-      row.style.gridTemplateColumns = `repeat(${ativosNoRow}, minmax(0, 1fr))`;
-    });
+    if (contractsGrid) {
+      const ativosNoGrid = Array.from(contractsGrid.querySelectorAll('.contract-asset-card[data-asset]')).filter((card) => card.style.display !== 'none').length || 1;
+      contractsGrid.style.gridTemplateColumns = `repeat(${ativosNoGrid}, minmax(0, 1fr))`;
+    }
     const kg=document.getElementById("kGains"); if(kg)kg.textContent=t.gain;
     const ks=document.getElementById("kStops"); if(ks)ks.textContent=t.stop;
     const kz=document.getElementById("kZero"); if(kz)kz.textContent=t.zero;
@@ -5427,23 +5489,8 @@ body.light-theme .month-nav-btn {
 </style>
 <script>
 (function ajustarCalculadoraContratos() {
-  const pills = document.querySelectorAll('.contratos-card .currency-pill');
-  const configs = [
-    { prefix: '●', label: 'NQ', color: 'var(--green)' },
-    { prefix: '●', label: 'DJ', color: 'var(--orange)' },
-    { prefix: '●', label: 'SP', color: 'var(--accent2)' },
-    { prefix: 'BR', label: 'NQ', color: 'var(--text)' },
-    { prefix: 'BR', label: 'DJ', color: 'var(--text)' },
-    { prefix: 'BR', label: 'SP', color: 'var(--text)' }
-  ];
-  pills.forEach((pill, index) => {
-    const valueEl = pill.querySelector('span[id]');
-    const cfg = configs[index];
-    if (!valueEl || !cfg) return;
+  document.querySelectorAll('.contratos-card .currency-pill .currency-value').forEach((valueEl) => {
     valueEl.classList.add('currency-value');
-    valueEl.style.color = cfg.color;
-    pill.innerHTML = `<span class="currency-prefix">${cfg.prefix}</span><span class="currency-label">${cfg.label}</span>`;
-    pill.appendChild(valueEl);
   });
 })();
 </script>
