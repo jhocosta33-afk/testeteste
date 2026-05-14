@@ -378,6 +378,22 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <div class="form-group"><label>0x0</label><input type="number" id="dowBreak" min="0" placeholder="Ex: 0"></div>
           </div>
         </div>
+        <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:16px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <span style="font-size:18px;"></span>
+            <strong style="font-size:15px;color:#38bdf8;">S&amp;P 500</strong>
+            <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
+              <input type="checkbox" id="spOp" onchange="toggleAtivo('sp')"> Operado hoje
+            </label>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;opacity:0.4;pointer-events:none;" id="spFields">
+            <div class="form-group"><label>Pontos</label><input type="number" id="spPontos" placeholder="Ex: 25"></div>
+            <div class="form-group"><label>Trades</label><input type="number" id="spTrades" min="0" placeholder="Ex: 2"></div>
+            <div class="form-group"><label>Gains</label><input type="number" id="spGains" min="0" placeholder="Ex: 1"></div>
+            <div class="form-group"><label>Stops</label><input type="number" id="spStops" min="0" placeholder="Ex: 1"></div>
+            <div class="form-group"><label>0x0</label><input type="number" id="spBreak" min="0" placeholder="Ex: 0"></div>
+          </div>
+        </div>
         <button type="submit" class="btn" id="btnTradeData" style="margin-top:4px;width:100%;padding:14px;font-size:15px;">Salvar na Planilha</button>
       </form>
       <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border);">
@@ -2153,7 +2169,8 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
     const semana = document.getElementById('semana').value || calcularSemanaMes(dia, mes, ano);
     const nasOp = document.getElementById('nasOp').checked;
     const dowOp = document.getElementById('dowOp').checked;
-    if (!nasOp && !dowOp) { mostrarAlerta('alert-trade-data','Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent='Salvar na Planilha'; return; }
+    const spOp = document.getElementById('spOp').checked;
+    if (!nasOp && !dowOp && !spOp) { mostrarAlerta('alert-trade-data','Marque pelo menos um ativo operado','error'); btn.disabled=false; btn.textContent='Salvar na Planilha'; return; }
     const erros = [], linhas = [];
     if (nasOp) {
       const r = await salvarAtivo(dia, mes, ano, semana, 'NASDAQ', document.getElementById('nasPontos').value||0, document.getElementById('nasTrades').value||0, document.getElementById('nasGains').value||0, document.getElementById('nasStops').value||0, document.getElementById('nasBreak').value||0);
@@ -2163,9 +2180,13 @@ document.getElementById('formTradeData').addEventListener('submit', async (e) =>
       const r = await salvarAtivo(dia, mes, ano, semana, 'DOW JONES', document.getElementById('dowPontos').value||0, document.getElementById('dowTrades').value||0, document.getElementById('dowGains').value||0, document.getElementById('dowStops').value||0, document.getElementById('dowBreak').value||0);
       if (r.success) linhas.push(`DOW linha ${r.linha}`); else erros.push('DOW: ' + r.error);
     }
+    if (spOp) {
+      const r = await salvarAtivo(dia, mes, ano, semana, 'SP500', document.getElementById('spPontos').value||0, document.getElementById('spTrades').value||0, document.getElementById('spGains').value||0, document.getElementById('spStops').value||0, document.getElementById('spBreak').value||0);
+      if (r.success) linhas.push(`SP500 linha ${r.linha}`); else erros.push('SP500: ' + r.error);
+    }
     if (erros.length) throw new Error(erros.join(' | '));
     mostrarAlerta('alert-trade-data', `Salvo! (${linhas.join(', ')})`, 'success');
-    ['nasPontos','nasTrades','nasGains','nasStops','nasBreak','dowPontos','dowTrades','dowGains','dowStops','dowBreak'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    ['nasPontos','nasTrades','nasGains','nasStops','nasBreak','dowPontos','dowTrades','dowGains','dowStops','dowBreak','spPontos','spTrades','spGains','spStops','spBreak'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
   } catch (error) { mostrarAlerta('alert-trade-data', 'Erro: ' + error.message, 'error'); }
   btn.disabled = false; btn.textContent = 'Salvar na Planilha';
 });
