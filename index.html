@@ -560,6 +560,7 @@ body::after {
 .contract-asset-head.sp { color: var(--accent2); }
 .contract-asset-card .currency-pill {
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   min-width: 0;
   padding: 12px 14px;
@@ -569,12 +570,17 @@ body::after {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.8px;
+  flex: 0 0 auto;
 }
 .contract-asset-card .currency-pill .currency-value {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 800;
-  min-width: 0;
+  flex: 0 0 auto;
   text-align: right;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+  line-height: 1.1;
 }
  
 /* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
@@ -584,7 +590,7 @@ body::after {
   padding: 24px 28px;
   flex: 1;
 }
-.chart-wrap { position: relative; height: 220px; width: 100%; }
+.chart-wrap { position: relative; height: 280px; width: 100%; padding-top: 8px; }
 canvas { width: 100%!important; height: 100%!important; }
  
 /* �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.�
@@ -2249,7 +2255,7 @@ obterDadosFiltrados(){
           pointBorderWidth:2
         });
       }
-      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'top',labels:{color:'#8eb5e3',padding:14,font:{size:11,weight:'700'}}},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:'#dff6ff',borderColor:'rgba(0,220,255,0.25)',borderWidth:1,padding:12,displayColors:true,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario = i.dataset.label==='NASDAQ' ? (diariosN[idx]||0) : i.dataset.label==='DOW JONES' ? (diariosD[idx]||0) : (diariosS[idx]||0); const acumTxt=`${i.dataset.label}: ${i.formattedValue} pts`; const diarioTxt=`Dia: ${diario>0?'+':''}${diario} pts`; return [acumTxt, diarioTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
+      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:4,right:8,left:0,bottom:0}},interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'bottom',align:'center',labels:{color:'#8eb5e3',padding:18,boxWidth:30,boxHeight:10,font:{size:11,weight:'700'}}},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:'#dff6ff',borderColor:'rgba(0,220,255,0.25)',borderWidth:1,padding:12,displayColors:true,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario = i.dataset.label==='NASDAQ' ? (diariosN[idx]||0) : i.dataset.label==='DOW JONES' ? (diariosD[idx]||0) : (diariosS[idx]||0); const acumTxt=`${i.dataset.label}: ${i.formattedValue} pts`; const diarioTxt=`Dia: ${diario>0?'+':''}${diario} pts`; return [acumTxt, diarioTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
     }
     const ctxBar=document.getElementById('chartBar');
     if(ctxBar){
@@ -4998,17 +5004,19 @@ body.light-theme .site-footer .footer-bottom p {
     font-size: 28px !important;
     padding: 8px 16px !important;
   }
-  .contratos-card .currency-row {
+  .contracts-assets-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
   }
-  .contratos-card .currency-pill {
-    padding: 9px 10px !important;
-    gap: 8px !important;
+  .contract-asset-card {
+    padding: 12px !important;
   }
-  .contratos-card .currency-pill .currency-prefix { font-size: 10px !important; }
-  .contratos-card .currency-pill .currency-label { font-size: 11px !important; }
-  .contratos-card .currency-pill .currency-value { font-size: 12px !important; }
+  .contract-asset-card .currency-pill {
+    padding: 10px 12px !important;
+    gap: 10px !important;
+  }
+  .contract-asset-card .currency-pill .currency-prefix { font-size: 10px !important; }
+  .contract-asset-card .currency-pill .currency-value { font-size: 14px !important; }
   .dist-chart-wrap {
     height: 250px !important;
   }
