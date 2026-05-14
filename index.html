@@ -1341,6 +1341,11 @@ body.light-theme .theme-toggle {
                 <div class="kpi-value orange" id="kPontosDow">0</div>
                 <div class="kpi-sub">DJ acumulado</div>
               </div>
+              <div class="kpi-box">
+                <div class="kpi-label">S&P 500</div>
+                <div class="kpi-value blue" id="kPontosSp">0</div>
+                <div class="kpi-sub">SP acumulado</div>
+              </div>
             </div>
           </div>
  
@@ -1439,6 +1444,9 @@ body.light-theme .theme-toggle {
               <div class="currency-pill">
                 🟠 <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
               </div>
+              <div class="currency-pill">
+                🔷 <span id="kDolarSp" style="color:var(--accent2)">$0.00</span>
+              </div>
             </div>
             <div class="currency-row">
               <div class="currency-pill">
@@ -1446,6 +1454,9 @@ body.light-theme .theme-toggle {
               </div>
               <div class="currency-pill">
                 BR <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
+              </div>
+              <div class="currency-pill">
+                BR <span id="valorBRLSp" style="color:var(--text)">R$ 0,00</span>
               </div>
             </div>
           </div>
@@ -1680,9 +1691,10 @@ const Dashboard = {
         trades: a.trades + x.trades,
         pontosNasdaq: a.pontosNasdaq + (x.pontosNasdaq || 0),
         pontosDow: a.pontosDow + (x.pontosDow || 0),
+        pontosSp: a.pontosSp + (x.pontosSp || 0),
         gain: a.gain + x.gain,
         stop: a.stop + x.stop
-      }), { trades: 0, pontosNasdaq: 0, pontosDow: 0, gain: 0, stop: 0 });
+      }), { trades: 0, pontosNasdaq: 0, pontosDow: 0, pontosSp: 0, gain: 0, stop: 0 });
 
       const dias = d.filter(x => x.trades > 0).length;
       const op = t.gain + t.stop;
@@ -1727,8 +1739,10 @@ const Dashboard = {
 
           const pN = r ? (r.pontosNasdaq || 0) : 0;
           const pD = r ? (r.pontosDow || 0) : 0;
+          const pS = r ? (r.pontosSp || 0) : 0;
           const pts = r ? (r.pontos || 0) : 0;
-          const hasBoth = pN !== 0 && pD !== 0;
+          const ativosComPontos = [pN, pD, pS].filter(v => v !== 0).length;
+          const hasMultiple = ativosComPontos > 1;
 
           const bg = r && pts > 0 ? 'rgba(16,185,129,0.12)'
                    : r && pts < 0 ? 'rgba(239,68,68,0.12)'
@@ -1739,20 +1753,21 @@ const Dashboard = {
 
           let ptHtml = '';
           if (r && r.trades > 0) {
-            if (hasBoth) {
+            if (hasMultiple) {
               ptHtml =
-                `<div style="font-size:11px;font-weight:900;color:${pN > 0 ? '#22c55e' : pN < 0 ? '#ef4444' : '#94a3b8'};font-family:'JetBrains Mono',monospace;line-height:1.3">NQ:${pN > 0 ? '+' : ''}${pN}</div>` +
-                `<div style="font-size:11px;font-weight:900;color:${pD > 0 ? '#f97316' : pD < 0 ? '#ef4444' : '#94a3b8'};font-family:'JetBrains Mono',monospace;line-height:1.3">DJ:${pD > 0 ? '+' : ''}${pD}</div>`;
+                `${pN !== 0 ? `<div style="font-size:11px;font-weight:900;color:${pN > 0 ? '#22c55e' : '#ef4444'};font-family:'JetBrains Mono',monospace;line-height:1.3;text-align:center;">NQ:${pN > 0 ? '+' : ''}${pN}</div>` : ''}` +
+                `${pD !== 0 ? `<div style="font-size:11px;font-weight:900;color:${pD > 0 ? '#f97316' : '#ef4444'};font-family:'JetBrains Mono',monospace;line-height:1.3;text-align:center;">DJ:${pD > 0 ? '+' : ''}${pD}</div>` : ''}` +
+                `${pS !== 0 ? `<div style="font-size:11px;font-weight:900;color:${pS > 0 ? '#38bdf8' : '#ef4444'};font-family:'JetBrains Mono',monospace;line-height:1.3;text-align:center;">SP:${pS > 0 ? '+' : ''}${pS}</div>` : ''}`;
             } else {
               const cor = pts > 0 ? '#22c55e' : pts < 0 ? '#ef4444' : '#94a3b8';
-              ptHtml = `<div style="font-size:19px;font-weight:900;color:${cor};font-family:'JetBrains Mono',monospace;">${pts > 0 ? '+' : ''}${pts}</div>`;
+              ptHtml = `<div style="font-size:19px;font-weight:900;color:${cor};font-family:'JetBrains Mono',monospace;text-align:center;">${pts > 0 ? '+' : ''}${pts}</div>`;
             }
-            ptHtml += `<div style="font-size:9px;color:#64748b;font-weight:600;">${r.trades} trades • ${r.gain} gains • ${r.stop} stops • ${r.zero} 0x0</div>`;
+            ptHtml += `<div style="font-size:9px;color:#64748b;font-weight:600;text-align:center;max-width:100%;line-height:1.35;">${r.trades} trades • ${r.gain} gains • ${r.stop} stops • ${r.zero} 0x0</div>`;
           }
 
-          dayCells += `<div style="background:${bg};border:1px solid ${bc};border-radius:8px;min-height:68px;padding:5px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;">
-            <div style="font-size:10px;color:#475569;font-weight:700;align-self:flex-start;">${dd}</div>
-            ${ptHtml}
+          dayCells += `<div style="background:${bg};border:1px solid ${bc};border-radius:8px;min-height:68px;padding:5px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;">
+            <div style="font-size:10px;color:#475569;font-weight:700;position:absolute;top:5px;left:6px;">${dd}</div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px;width:100%;">${ptHtml}</div>
           </div>`;
         }
 
@@ -1774,6 +1789,7 @@ const Dashboard = {
         { label: 'TOTAL DE TRADES', value: String(t.trades), color: '#e5e7eb' },
         { label: 'PONTOS NASDAQ', value: (t.pontosNasdaq > 0 ? '+' : '') + t.pontosNasdaq, color: t.pontosNasdaq > 0 ? '#22c55e' : t.pontosNasdaq < 0 ? '#ef4444' : '#94a3b8' },
         { label: 'PONTOS DOW JONES', value: (t.pontosDow > 0 ? '+' : '') + t.pontosDow, color: t.pontosDow > 0 ? '#f97316' : t.pontosDow < 0 ? '#ef4444' : '#94a3b8' },
+        { label: 'PONTOS S&P 500', value: (t.pontosSp > 0 ? '+' : '') + t.pontosSp, color: t.pontosSp > 0 ? '#38bdf8' : t.pontosSp < 0 ? '#ef4444' : '#94a3b8' },
         { label: 'ASSERTIVIDADE', value: ass + '%', color: '#e5e7eb' }
       ];
 
@@ -1786,7 +1802,7 @@ const Dashboard = {
       const fullHTML = `
         <div style="text-align:center;margin-bottom:20px;">${logoHTML}</div>
         <div style="height:2px;background:linear-gradient(90deg,transparent,#6366f1,transparent);margin-bottom:24px;"></div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px;">${kpisHTML}</div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px;">${kpisHTML}</div>
         <div style="background:#0f172a;border:1px solid rgba(99,102,241,0.2);border-radius:14px;padding:20px;">${calCells}</div>`;
 
       const wrap = document.createElement('div');
@@ -1923,13 +1939,13 @@ const Dashboard = {
     const mapaData={};
     rows.forEach(r=>{
       const key=r.dia;
-      if(!mapaData[key]){mapaData[key]={dia:r.dia,data:r.data,semana:r.semana,ano:r.ano,mes:r.mes,pontosNasdaq:0,pontosDow:0,trades:0,gain:0,stop:0,zero:0,fotoId:r.fotoId,ativos:[]};}
-      const e=mapaData[key],isDow=r.ativo.includes('DOW');
-      if(isDow)e.pontosDow+=r.pontos;else e.pontosNasdaq+=r.pontos;
+      if(!mapaData[key]){mapaData[key]={dia:r.dia,data:r.data,semana:r.semana,ano:r.ano,mes:r.mes,pontosNasdaq:0,pontosDow:0,pontosSp:0,trades:0,gain:0,stop:0,zero:0,fotoId:r.fotoId,ativos:[]};}
+      const e=mapaData[key],ativoNome=(r.ativo||'').toUpperCase(),isDow=ativoNome.includes('DOW'),isSp=ativoNome.includes('SP500');
+      if(isDow)e.pontosDow+=r.pontos;else if(isSp)e.pontosSp+=r.pontos;else e.pontosNasdaq+=r.pontos;
       e.trades+=r.trades;e.gain+=r.gain;e.stop+=r.stop;e.zero+=r.zero;
       if(r.fotoId&&r.fotoId.trim())e.fotoId=r.fotoId;
       if(!e.ativos.includes(r.ativo))e.ativos.push(r.ativo);
-      e.pontos=(e.pontosNasdaq+e.pontosDow);
+      e.pontos=(e.pontosNasdaq+e.pontosDow+e.pontosSp);
     });
     this.dados=Object.values(mapaData);
     this.inicializarFiltros();
@@ -1998,10 +2014,10 @@ obterDadosFiltrados(){
   atualizar(){const d=this.obterDadosFiltrados();this.renderizarKPIs(d);this.renderizarTabela(d);this.renderizarGraficos(d);this.renderizarCalendario(d);this.atualizarSidebarStats(d);this.atualizarPerformanceIndicator(d);},
  
   renderizarKPIs(dados) {
-    const t=dados.reduce((acc,d)=>({trades:acc.trades+d.trades,pontos:acc.pontos+d.pontos,pontosNasdaq:acc.pontosNasdaq+(d.pontosNasdaq||0),pontosDow:acc.pontosDow+(d.pontosDow||0),gain:acc.gain+d.gain,stop:acc.stop+d.stop,zero:acc.zero+d.zero}),{trades:0,pontos:0,pontosNasdaq:0,pontosDow:0,gain:0,stop:0,zero:0});
+    const t=dados.reduce((acc,d)=>({trades:acc.trades+d.trades,pontos:acc.pontos+d.pontos,pontosNasdaq:acc.pontosNasdaq+(d.pontosNasdaq||0),pontosDow:acc.pontosDow+(d.pontosDow||0),pontosSp:acc.pontosSp+(d.pontosSp||0),gain:acc.gain+d.gain,stop:acc.stop+d.stop,zero:acc.zero+d.zero}),{trades:0,pontos:0,pontosNasdaq:0,pontosDow:0,pontosSp:0,gain:0,stop:0,zero:0});
     const op=t.gain+t.stop, ass=op?Math.round((t.gain/op)*100):0, dias=dados.filter(d=>d.trades>0).length;
     const vc=document.getElementById('valorContratos'), contratos=vc?parseInt(vc.textContent)||0:0;
-    const totalNasdaq=t.pontosNasdaq*contratos*2, totalDow=t.pontosDow*contratos*0.5;
+    const totalNasdaq=t.pontosNasdaq*contratos*2, totalDow=t.pontosDow*contratos*0.5, totalSp=t.pontosSp*contratos*5;
     // Período no header
     const wp=document.getElementById('welcomePeriod');
     if(wp){const a=filtroAno.value,m=filtroMes.value;wp.textContent=m!=='ALL'?`${nomesMeses[m]||m} / ${a}`:`Ano ${a} — todos os meses`;}
@@ -2010,6 +2026,7 @@ obterDadosFiltrados(){
     document.getElementById("kTrades").textContent=t.trades;
     const kp=document.getElementById("kPontos"); if(kp){kp.textContent=t.pontosNasdaq;kp.className='kpi-value '+(t.pontosNasdaq<0?'red':t.pontosNasdaq>0?'green':'blue');}
     const kpd=document.getElementById("kPontosDow"); if(kpd){kpd.textContent=t.pontosDow;kpd.className='kpi-value '+(t.pontosDow<0?'red':t.pontosDow>0?'orange':'blue');}
+    const kps=document.getElementById("kPontosSp"); if(kps){kps.textContent=t.pontosSp;kps.className='kpi-value '+(t.pontosSp<0?'red':t.pontosSp>0?'blue':'blue');}
     const kg=document.getElementById("kGains"); if(kg)kg.textContent=t.gain;
     const ks=document.getElementById("kStops"); if(ks)ks.textContent=t.stop;
     const kz=document.getElementById("kZero"); if(kz)kz.textContent=t.zero;
@@ -2018,6 +2035,7 @@ obterDadosFiltrados(){
     // Dólar
     const kdN=document.getElementById("kDolarNasdaq"); if(kdN){kdN.textContent=totalNasdaq.toLocaleString('en-US',{style:'currency',currency:'USD'});kdN.style.color=totalNasdaq>=0?'var(--green)':'var(--red)';}
     const kdD=document.getElementById("kDolarDow"); if(kdD){kdD.textContent=totalDow.toLocaleString('en-US',{style:'currency',currency:'USD'});kdD.style.color=totalDow>=0?'var(--orange)':'var(--red)';}
+    const kdS=document.getElementById("kDolarSp"); if(kdS){kdS.textContent=totalSp.toLocaleString('en-US',{style:'currency',currency:'USD'});kdS.style.color=totalSp>=0?'var(--accent2)':'var(--red)';}
     this.atualizarValorReal();
   },
  
@@ -2055,19 +2073,21 @@ obterDadosFiltrados(){
   },
  
   renderizarTabela(dados) {
-    let html='',tot={p:0,pN:0,pD:0,t:0,g:0,s:0,z:0};
+    let html='',tot={p:0,pN:0,pD:0,pS:0,t:0,g:0,s:0,z:0};
     dados.forEach(d=>{
-      tot.p+=d.pontos;tot.pN+=(d.pontosNasdaq||0);tot.pD+=(d.pontosDow||0);tot.t+=d.trades;tot.g+=d.gain;tot.s+=d.stop;tot.z+=d.zero;
-      const hasBoth=(d.pontosNasdaq||0)!==0&&(d.pontosDow||0)!==0;
-      const ptCell=hasBoth
-        ?`<span style="color:${(d.pontosNasdaq||0)<0?'var(--red)':'var(--green)'}">NQ:${d.pontosNasdaq>0?'+':''}${d.pontosNasdaq||0}</span> <span style="color:${(d.pontosDow||0)<0?'var(--red)':'var(--orange)'}">DJ:${d.pontosDow>0?'+':''}${d.pontosDow||0}</span>`
-        :`<span style="color:${d.pontos<0?'var(--red)':'var(--green)'}">${d.pontos}</span>`;
+      tot.p+=d.pontos;tot.pN+=(d.pontosNasdaq||0);tot.pD+=(d.pontosDow||0);tot.pS+=(d.pontosSp||0);tot.t+=d.trades;tot.g+=d.gain;tot.s+=d.stop;tot.z+=d.zero;
+      const partes = [];
+      if((d.pontosNasdaq||0)!==0) partes.push(`<span style="color:${(d.pontosNasdaq||0)<0?'var(--red)':'var(--green)'}">NQ:${d.pontosNasdaq>0?'+':''}${d.pontosNasdaq||0}</span>`);
+      if((d.pontosDow||0)!==0) partes.push(`<span style="color:${(d.pontosDow||0)<0?'var(--red)':'var(--orange)'}">DJ:${d.pontosDow>0?'+':''}${d.pontosDow||0}</span>`);
+      if((d.pontosSp||0)!==0) partes.push(`<span style="color:${(d.pontosSp||0)<0?'var(--red)':'var(--accent2)'}">SP:${d.pontosSp>0?'+':''}${d.pontosSp||0}</span>`);
+      const ptCell=partes.length>1 ? partes.join(' ') : (partes[0]||`<span style="color:${d.pontos<0?'var(--red)':'var(--green)'}">${d.pontos}</span>`);
       html+=`<tr><td>${d.dia}</td><td style="font-weight:800">${ptCell}</td><td>${d.trades}</td><td style="color:var(--green)">${d.gain}</td><td style="color:var(--red)">${d.stop}</td><td style="color:var(--yellow)">${d.zero}</td><td>${(d.ativos||[d.ativo||'']).join('/')}</td><td>${d.semana}</td></tr>`;
     });
-    const hasBothTot=tot.pN!==0||tot.pD!==0;
-    const totPtCell=hasBothTot
-      ?`<span style="color:${tot.pN<0?'var(--red)':'var(--green)'}">NQ:${tot.pN>0?'+':''}${tot.pN}</span> <span style="color:${tot.pD<0?'var(--red)':'var(--orange)'}">DJ:${tot.pD>0?'+':''}${tot.pD}</span>`
-      :`<span style="color:${tot.p<0?'var(--red)':'var(--green)'}">${tot.p}</span>`;
+    const totPartes = [];
+    if(tot.pN!==0) totPartes.push(`<span style="color:${tot.pN<0?'var(--red)':'var(--green)'}">NQ:${tot.pN>0?'+':''}${tot.pN}</span>`);
+    if(tot.pD!==0) totPartes.push(`<span style="color:${tot.pD<0?'var(--red)':'var(--orange)'}">DJ:${tot.pD>0?'+':''}${tot.pD}</span>`);
+    if(tot.pS!==0) totPartes.push(`<span style="color:${tot.pS<0?'var(--red)':'var(--accent2)'}">SP:${tot.pS>0?'+':''}${tot.pS}</span>`);
+    const totPtCell=totPartes.length>1 ? totPartes.join(' ') : (totPartes[0]||`<span style="color:${tot.p<0?'var(--red)':'var(--green)'}">${tot.p}</span>`);
     html+=`<tr class="total"><td>TOTAL</td><td style="font-weight:900">${totPtCell}</td><td>${tot.t}</td><td style="color:var(--green)">${tot.g}</td><td style="color:var(--red)">${tot.s}</td><td style="color:var(--yellow)">${tot.z}</td><td colspan="2"></td></tr>`;
     document.getElementById('tbody').innerHTML=html;
   },
@@ -2129,12 +2149,15 @@ obterDadosFiltrados(){
       const md=[...new Set(this.dados.filter(d=>d.ano===filtroAno.value).map(d=>d.mes))].sort();
       md.forEach(mesNum=>{
         const nm=nomesMeses[mesNum],dm=this.dados.filter(d=>d.ano===filtroAno.value&&d.mes===mesNum);
-        const tp=dm.reduce((acc,d)=>acc+d.pontos,0),tpN=dm.reduce((acc,d)=>acc+(d.pontosNasdaq||0),0),tpD=dm.reduce((acc,d)=>acc+(d.pontosDow||0),0);
+        const tp=dm.reduce((acc,d)=>acc+d.pontos,0),tpN=dm.reduce((acc,d)=>acc+(d.pontosNasdaq||0),0),tpD=dm.reduce((acc,d)=>acc+(d.pontosDow||0),0),tpS=dm.reduce((acc,d)=>acc+(d.pontosSp||0),0);
         const do2=dm.filter(d=>d.trades>0).length;
-        const hasBoth=dm.some(d=>(d.pontosNasdaq||0)!==0)&&dm.some(d=>(d.pontosDow||0)!==0);
+        const resumoAtivos = [];
+        if(tpN!==0) resumoAtivos.push(`<span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpN<0?'var(--red)':tpN>0?'var(--green)':'var(--text-muted)'}">NQ:${tpN>0?'+':''}${tpN}</span>`);
+        if(tpD!==0) resumoAtivos.push(`<span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpD<0?'var(--red)':tpD>0?'var(--orange)':'var(--text-muted)'}">DJ:${tpD>0?'+':''}${tpD}</span>`);
+        if(tpS!==0) resumoAtivos.push(`<span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpS<0?'var(--red)':tpS>0?'var(--accent2)':'var(--text-muted)'}">SP:${tpS>0?'+':''}${tpS}</span>`);
         const mc=document.createElement('div'); mc.className='month-card'; if(tp>0)mc.classList.add('positive'); if(tp<0)mc.classList.add('negative');
-        const ptHtml=hasBoth
-          ?`<div style="display:flex;gap:6px;align-items:center"><span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpN<0?'var(--red)':tpN>0?'var(--green)':'var(--text-muted)'}">NQ:${tpN>0?'+':''}${tpN}</span><span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${tpD<0?'var(--red)':tpD>0?'var(--orange)':'var(--text-muted)'}">DJ:${tpD>0?'+':''}${tpD}</span></div>`
+        const ptHtml=resumoAtivos.length>1
+          ?`<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center">${resumoAtivos.join('')}</div>`
           :`<div class="month-points" style="color:${tp<0?'var(--red)':tp>0?'var(--green)':'var(--text-muted)'}">${tp>0?'+':''}${tp}</div>`;
         mc.innerHTML=`<div class="month-name">${nm}</div>${ptHtml}<div class="month-info">${do2} dia${do2!==1?'s':''}</div>`;
         mc.onclick=()=>{filtroMes.value=mesNum;this.primeiraCarga=false;filtroSemana.disabled=false;this.inicializarSemanas();this.atualizar();};
@@ -2188,11 +2211,13 @@ obterDadosFiltrados(){
       }
       let ptDisplay = '';
       if (r && r.trades > 0) {
-        const hasNasdaq = (r.pontosNasdaq||0)!==0 || (r.ativos && r.ativos.some(a=>!a.includes('DOW')));
-        const hasDow = (r.pontosDow||0)!==0 || (r.ativos && r.ativos.some(a=>a.includes('DOW')));
-        if (hasNasdaq && hasDow) {
-          const pN = r.pontosNasdaq || 0, pD = r.pontosDow || 0;
-          ptDisplay = `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin:4px 0 3px"><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span><span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span></div>`;
+        const pN = r.pontosNasdaq || 0, pD = r.pontosDow || 0, pS = r.pontosSp || 0;
+        const ativosDoDia = [];
+        if (pN !== 0) ativosDoDia.push(`<span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text-muted)'}">NQ:${pN>0?'+':''}${pN}</span>`);
+        if (pD !== 0) ativosDoDia.push(`<span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text-muted)'}">DJ:${pD>0?'+':''}${pD}</span>`);
+        if (pS !== 0) ativosDoDia.push(`<span style="font-size:15px;font-weight:900;line-height:1;font-family:'JetBrains Mono',monospace;color:${pS<0?'var(--red)':pS>0?'var(--accent2)':'var(--text-muted)'}">SP:${pS>0?'+':''}${pS}</span>`);
+        if (ativosDoDia.length > 1) {
+          ptDisplay = `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin:4px 0 3px">${ativosDoDia.join('')}</div>`;
         } else {
           const pc2 = pts<0?'var(--red)':pts>0?'var(--green)':'#ffffff';
           const zeroClass = pts===0 ? ' zero' : '';
@@ -2229,9 +2254,13 @@ obterDadosFiltrados(){
     mt.textContent=`📅 ${dia} de ${mes} de ${ano}`;
     const pN = dadosDia.pontosNasdaq || 0;
     const pD = dadosDia.pontosDow || 0;
-    const temAmbos = pN !== 0 && pD !== 0;
-    const pontosHtml = temAmbos
-      ? `<div class="modal-info-item"><label>Pontos</label><div class="value" style="display:flex;flex-direction:column;gap:4px;font-size:16px;line-height:1.15"><span style="color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text)'}">NQ ${pN>0?'+':''}${pN}</span><span style="color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text)'}">DJ ${pD>0?'+':''}${pD}</span></div></div>`
+    const pS = dadosDia.pontosSp || 0;
+    const linhasPontos = [];
+    if (pN !== 0) linhasPontos.push(`<span style="color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text)'}">NQ ${pN>0?'+':''}${pN}</span>`);
+    if (pD !== 0) linhasPontos.push(`<span style="color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text)'}">DJ ${pD>0?'+':''}${pD}</span>`);
+    if (pS !== 0) linhasPontos.push(`<span style="color:${pS<0?'var(--red)':pS>0?'var(--accent2)':'var(--text)'}">SP ${pS>0?'+':''}${pS}</span>`);
+    const pontosHtml = linhasPontos.length > 1
+      ? `<div class="modal-info-item"><label>Pontos</label><div class="value" style="display:flex;flex-direction:column;gap:4px;font-size:16px;line-height:1.15">${linhasPontos.join('')}</div></div>`
       : `<div class="modal-info-item ${dadosDia.pontos>0?'positive':dadosDia.pontos<0?'negative':''}"><label>Pontos</label><div class="value">${dadosDia.pontos>0?'+':''}${dadosDia.pontos}</div></div>`;
     let infoHTML=`${pontosHtml}<div class="modal-info-item"><label>Trades</label><div class="value">${dadosDia.trades}</div></div><div class="modal-info-item positive"><label>Gains</label><div class="value">${dadosDia.gain}</div></div><div class="modal-info-item negative"><label>Stops</label><div class="value">${dadosDia.stop}</div></div>`;
     if(dadosDia.zero>0)infoHTML+=`<div class="modal-info-item"><label>Breakeven</label><div class="value" style="color:var(--yellow)">${dadosDia.zero}</div></div>`;
@@ -2247,11 +2276,12 @@ obterDadosFiltrados(){
     const taxa=this.cotacaoUSDtoBRL||5.50;
     const vc=document.getElementById('valorContratos'), contratos=vc?parseInt(vc.textContent)||0:0;
     const dados=this.obterDadosFiltrados();
-    const pN=dados.reduce((a,d)=>a+(d.pontosNasdaq||0),0), pD=dados.reduce((a,d)=>a+(d.pontosDow||0),0);
-    const usdN=pN*contratos*2, usdD=pD*contratos*0.5;
-    const brlN=document.getElementById('valorBRLNasdaq'), brlD=document.getElementById('valorBRLDow');
+    const pN=dados.reduce((a,d)=>a+(d.pontosNasdaq||0),0), pD=dados.reduce((a,d)=>a+(d.pontosDow||0),0), pS=dados.reduce((a,d)=>a+(d.pontosSp||0),0);
+    const usdN=pN*contratos*2, usdD=pD*contratos*0.5, usdS=pS*contratos*5;
+    const brlN=document.getElementById('valorBRLNasdaq'), brlD=document.getElementById('valorBRLDow'), brlS=document.getElementById('valorBRLSp');
     if(brlN)brlN.textContent=(usdN*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
     if(brlD)brlD.textContent=(usdD*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    if(brlS)brlS.textContent=(usdS*taxa).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
   },
  
   atualizarCalendario(){
@@ -2285,9 +2315,13 @@ obterDadosFiltrados(){
       document.getElementById('captureIcon').textContent='📅';document.getElementById('captureTitle').textContent=`${dia} de ${mes} de ${ano}`;
       const pN = this.tradeAtual.pontosNasdaq || 0;
       const pD = this.tradeAtual.pontosDow || 0;
-      const temAmbos = pN !== 0 && pD !== 0;
-      const pontosCapture = temAmbos
-        ? `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="display:flex;flex-direction:column;gap:6px;font-size:18px;line-height:1.1"><span style="color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">NQ ${pN>0?'+':''}${pN}</span><span style="color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">DJ ${pD>0?'+':''}${pD}</span></div></div>`
+      const pS = this.tradeAtual.pontosSp || 0;
+      const pontosCaptureLinhas = [];
+      if (pN !== 0) pontosCaptureLinhas.push(`<span style="color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">NQ ${pN>0?'+':''}${pN}</span>`);
+      if (pD !== 0) pontosCaptureLinhas.push(`<span style="color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">DJ ${pD>0?'+':''}${pD}</span>`);
+      if (pS !== 0) pontosCaptureLinhas.push(`<span style="color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">SP ${pS>0?'+':''}${pS}</span>`);
+      const pontosCapture = pontosCaptureLinhas.length > 1
+        ? `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="display:flex;flex-direction:column;gap:6px;font-size:18px;line-height:1.1">${pontosCaptureLinhas.join('')}</div></div>`
         : `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div>`;
       document.getElementById('captureStats').innerHTML=`${pontosCapture}<div class="capture-stat"><div class="capture-stat-label">TRADES</div><div class="capture-stat-value">${this.tradeAtual.trades}</div></div><div class="capture-stat"><div class="capture-stat-label">GAINS</div><div class="capture-stat-value" style="color:#00e5a0">${this.tradeAtual.gain}</div></div><div class="capture-stat"><div class="capture-stat-label">STOPS</div><div class="capture-stat-value" style="color:#ff4d6a">${this.tradeAtual.stop}</div></div><div class="capture-stat"><div class="capture-stat-label">BREAKEVEN</div><div class="capture-stat-value" style="color:#ffd166">${this.tradeAtual.zero}</div></div>`;
       const mi=document.querySelector('#modalPhotoContainer img');if(mi)document.getElementById('capturePhoto').innerHTML=`<img src="${mi.src}" crossorigin="anonymous">`;else throw new Error('Imagem não encontrada');
@@ -5309,8 +5343,10 @@ body.light-theme .month-nav-btn {
   const configs = [
     { prefix: '●', label: 'NQ', color: 'var(--green)' },
     { prefix: '●', label: 'DJ', color: 'var(--orange)' },
+    { prefix: '●', label: 'SP', color: 'var(--accent2)' },
     { prefix: 'BR', label: 'NQ', color: 'var(--text)' },
-    { prefix: 'BR', label: 'DJ', color: 'var(--text)' }
+    { prefix: 'BR', label: 'DJ', color: 'var(--text)' },
+    { prefix: 'BR', label: 'SP', color: 'var(--text)' }
   ];
   pills.forEach((pill, index) => {
     const valueEl = pill.querySelector('span[id]');
@@ -5330,8 +5366,8 @@ body.light-theme .month-nav-btn {
   const ringStats = document.querySelector('.ring-stats');
   if (ringStats) {
     ringStats.innerHTML = `
-      <div class="ring-stat-row"><span>Melhor Dia</span><span id="bestDayCombined">NQ 0 DJ 0</span></div>
-      <div class="ring-stat-row"><span>Pior Dia</span><span id="worstDayCombined">NQ 0 DJ 0</span></div>
+      <div class="ring-stat-row"><span>Melhor Dia</span><span id="bestDayCombined">NQ 0 DJ 0 SP 0</span></div>
+      <div class="ring-stat-row"><span>Pior Dia</span><span id="worstDayCombined">NQ 0 DJ 0 SP 0</span></div>
     `;
   }
 
@@ -5339,11 +5375,14 @@ body.light-theme .month-nav-btn {
     const diasOperados = dados.filter(d => d.trades > 0);
     const nasdaq = diasOperados.map(d => Number(d.pontosNasdaq || 0));
     const dow = diasOperados.map(d => Number(d.pontosDow || 0));
+    const sp = diasOperados.map(d => Number(d.pontosSp || 0));
 
     const bestNasdaq = nasdaq.length ? Math.max(...nasdaq) : 0;
     const bestDow = dow.length ? Math.max(...dow) : 0;
+    const bestSp = sp.length ? Math.max(...sp) : 0;
     const worstNasdaq = nasdaq.length ? Math.min(...nasdaq) : 0;
     const worstDow = dow.length ? Math.min(...dow) : 0;
+    const worstSp = sp.length ? Math.min(...sp) : 0;
 
     const bestCombinedEl = document.getElementById('bestDayCombined');
     const worstCombinedEl = document.getElementById('worstDayCombined');
@@ -5353,6 +5392,8 @@ body.light-theme .month-nav-btn {
         <span class="nq-label">NQ</span><span class="nq-value">${bestNasdaq > 0 ? `+${bestNasdaq}` : bestNasdaq}</span>
         <span class="spacer"></span>
         <span class="dj-label">DJ</span><span class="dj-value">${bestDow > 0 ? `+${bestDow}` : bestDow}</span>
+        <span class="spacer"></span>
+        <span class="dj-label">SP</span><span class="dj-value">${bestSp > 0 ? `+${bestSp}` : bestSp}</span>
       </span>
     `;
     const worstText = `
@@ -5360,6 +5401,8 @@ body.light-theme .month-nav-btn {
         <span class="nq-label">NQ</span><span class="worst-value">${worstNasdaq > 0 ? `+${worstNasdaq}` : worstNasdaq}</span>
         <span class="spacer"></span>
         <span class="dj-label">DJ</span><span class="worst-value">${worstDow > 0 ? `+${worstDow}` : worstDow}</span>
+        <span class="spacer"></span>
+        <span class="dj-label">SP</span><span class="worst-value">${worstSp > 0 ? `+${worstSp}` : worstSp}</span>
       </span>
     `;
 
@@ -5396,7 +5439,7 @@ body.light-theme .month-nav-btn {
       });
 
       day.querySelectorAll('span').forEach((span) => {
-        if ((span.textContent || '').includes('NQ:') || (span.textContent || '').includes('DJ:')) {
+        if ((span.textContent || '').includes('NQ:') || (span.textContent || '').includes('DJ:') || (span.textContent || '').includes('SP:')) {
           span.style.fontSize = '11px';
           span.style.fontWeight = '900';
         }
