@@ -783,8 +783,8 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 .capture-header-title { font-size:20px; font-weight:700; color:#e8f4ff; }
 .capture-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:20px; }
 .capture-stat { background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.15); border-radius:10px; padding:12px; text-align:center; }
-.capture-stat-label { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:#3a5a7a; margin-bottom:8px; font-weight:700; }
-.capture-stat-value { font-size:24px; font-weight:800; font-family:'JetBrains Mono',monospace; color:#e8f4ff; }
+.capture-stat-label { font-size:12px; text-transform:uppercase; letter-spacing:1.1px; color:#6f8fb3; margin-bottom:8px; font-weight:700; font-family:'Archivo',sans-serif; }
+.capture-stat-value { font-size:24px; font-weight:800; font-family:'Archivo',sans-serif; color:#e8f4ff; line-height:1.15; }
 .capture-photo { border-radius:10px; overflow:hidden; border:1px solid rgba(59,130,246,0.15); }
 .capture-photo img { width:100%; height:auto; display:block; }
 .capture-footer { margin-top:16px; padding-top:16px; border-top:1px solid rgba(59,130,246,0.15); text-align:center; display:flex; align-items:center; justify-content:center; min-height:60px; }
@@ -1437,25 +1437,25 @@ body.light-theme .theme-toggle {
               <div id="valorContratos" class="valor-contratos">0</div>
               <button id="btnMais" class="btn-control">+</button>
             </div>
-            <div class="currency-row">
-              <div class="currency-pill">
+            <div class="currency-row" id="currencyRowUsd">
+              <div class="currency-pill" data-asset="nasdaq">
                 🔵 <span id="kDolarNasdaq" style="color:var(--green)">$0.00</span>
               </div>
-              <div class="currency-pill">
+              <div class="currency-pill" data-asset="dow">
                 🟠 <span id="kDolarDow" style="color:var(--orange)">$0.00</span>
               </div>
-              <div class="currency-pill">
+              <div class="currency-pill" data-asset="sp">
                 🔷 <span id="kDolarSp" style="color:var(--accent2)">$0.00</span>
               </div>
             </div>
-            <div class="currency-row">
-              <div class="currency-pill">
+            <div class="currency-row" id="currencyRowBrl">
+              <div class="currency-pill" data-asset="nasdaq">
                 BR <span id="valorBRLNasdaq" style="color:var(--text)">R$ 0,00</span>
               </div>
-              <div class="currency-pill">
+              <div class="currency-pill" data-asset="dow">
                 BR <span id="valorBRLDow" style="color:var(--text)">R$ 0,00</span>
               </div>
-              <div class="currency-pill">
+              <div class="currency-pill" data-asset="sp">
                 BR <span id="valorBRLSp" style="color:var(--text)">R$ 0,00</span>
               </div>
             </div>
@@ -2042,6 +2042,17 @@ obterDadosFiltrados(){
     if(boxNasdaq) boxNasdaq.style.display = mostrarNasdaq ? '' : 'none';
     if(boxDow) boxDow.style.display = mostrarDow ? '' : 'none';
     if(boxSp) boxSp.style.display = mostrarSp ? '' : 'none';
+    const ativosVisiveis = { nasdaq: mostrarNasdaq, dow: mostrarDow, sp: mostrarSp };
+    document.querySelectorAll('.contratos-card .currency-pill[data-asset]').forEach((pill) => {
+      const asset = pill.getAttribute('data-asset');
+      pill.style.display = ativosVisiveis[asset] ? '' : 'none';
+    });
+    ['currencyRowUsd', 'currencyRowBrl'].forEach((rowId) => {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      const ativosNoRow = Array.from(row.querySelectorAll('.currency-pill[data-asset]')).filter((pill) => pill.style.display !== 'none').length || 1;
+      row.style.gridTemplateColumns = `repeat(${ativosNoRow}, minmax(0, 1fr))`;
+    });
     const kg=document.getElementById("kGains"); if(kg)kg.textContent=t.gain;
     const ks=document.getElementById("kStops"); if(ks)ks.textContent=t.stop;
     const kz=document.getElementById("kZero"); if(kz)kz.textContent=t.zero;
@@ -2108,13 +2119,75 @@ obterDadosFiltrados(){
   },
  
   renderizarGraficos(dados) {
-    let saldo=0; const labels=[],acumulado=[0], diarios=[0];
-    dados.forEach(d=>{saldo+=d.pontos;labels.push(d.dia);acumulado.push(saldo);diarios.push(d.pontos);});
+    let saldoN=0, saldoD=0, saldoS=0;
+    const labels=[], acumuladoN=[0], acumuladoD=[0], acumuladoS=[0];
+    const diariosN=[0], diariosD=[0], diariosS=[0];
+    dados.forEach(d=>{
+      saldoN += Number(d.pontosNasdaq || 0);
+      saldoD += Number(d.pontosDow || 0);
+      saldoS += Number(d.pontosSp || 0);
+      labels.push(d.dia);
+      acumuladoN.push(saldoN);
+      acumuladoD.push(saldoD);
+      acumuladoS.push(saldoS);
+      diariosN.push(Number(d.pontosNasdaq || 0));
+      diariosD.push(Number(d.pontosDow || 0));
+      diariosS.push(Number(d.pontosSp || 0));
+    });
     if(this.chartAcumulado)this.chartAcumulado.destroy();
     if(this.chartBar)this.chartBar.destroy();
     const ctxAc=document.getElementById('chartAcumulado');
     if(ctxAc){
-      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets:[{label:'Pontos',data:acumulado,borderColor:'#00dcff',backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,'rgba(0,220,255,0.24)');g.addColorStop(1,'rgba(0,220,255,0.02)');return g;},fill:true,tension:0.4,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,pointBackgroundColor:'#00dcff',pointBorderColor:'#030a1a',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:(context)=>{const idx=context?.tooltip?.dataPoints?.[0]?.dataIndex??0;return diarios[idx]<0?'#ff7b93':'#dff6ff';},borderColor:'rgba(0,220,255,0.4)',borderWidth:1,padding:12,displayColors:false,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario=diarios[idx]||0;const diarioTxt=`Resultado do dia: ${diario>0?'+':''}${diario} pts`;const acumTxt=`Acumulado: ${i.formattedValue} pts`;return [diarioTxt,acumTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
+      const datasets = [];
+      if (dados.some(d => d.temNasdaq)) {
+        datasets.push({
+          label:'NASDAQ',
+          data:acumuladoN,
+          borderColor:'#00e5a0',
+          backgroundColor:'rgba(0,229,160,0.08)',
+          fill:false,
+          tension:0.35,
+          borderWidth:2.5,
+          pointRadius:3,
+          pointHoverRadius:6,
+          pointBackgroundColor:'#00e5a0',
+          pointBorderColor:'#030a1a',
+          pointBorderWidth:2
+        });
+      }
+      if (dados.some(d => d.temDow)) {
+        datasets.push({
+          label:'DOW JONES',
+          data:acumuladoD,
+          borderColor:'#ff9f43',
+          backgroundColor:'rgba(255,159,67,0.08)',
+          fill:false,
+          tension:0.35,
+          borderWidth:2.5,
+          pointRadius:3,
+          pointHoverRadius:6,
+          pointBackgroundColor:'#ff9f43',
+          pointBorderColor:'#030a1a',
+          pointBorderWidth:2
+        });
+      }
+      if (dados.some(d => d.temSp)) {
+        datasets.push({
+          label:'S&P 500',
+          data:acumuladoS,
+          borderColor:'#38bdf8',
+          backgroundColor:'rgba(56,189,248,0.08)',
+          fill:false,
+          tension:0.35,
+          borderWidth:2.5,
+          pointRadius:3,
+          pointHoverRadius:6,
+          pointBackgroundColor:'#38bdf8',
+          pointBorderColor:'#030a1a',
+          pointBorderWidth:2
+        });
+      }
+      this.chartAcumulado=new Chart(ctxAc,{type:'line',data:{labels:['Início',...labels],datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'top',labels:{color:'#8eb5e3',padding:14,font:{size:11,weight:'700'}}},tooltip:{backgroundColor:'rgba(3,10,26,0.96)',titleColor:'#e8f4ff',bodyColor:'#dff6ff',borderColor:'rgba(0,220,255,0.25)',borderWidth:1,padding:12,displayColors:true,callbacks:{title:(i)=>i[0].label,label:(i)=>{const idx=i.dataIndex||0;const diario = i.dataset.label==='NASDAQ' ? (diariosN[idx]||0) : i.dataset.label==='DOW JONES' ? (diariosD[idx]||0) : (diariosS[idx]||0); const acumTxt=`${i.dataset.label}: ${i.formattedValue} pts`; const diarioTxt=`Dia: ${diario>0?'+':''}${diario} pts`; return [acumTxt, diarioTxt];}}}},scales:{y:{ticks:{color:'#7fa8d0',font:{family:'JetBrains Mono',size:12,weight:'700'}},grid:{color:'rgba(90,130,210,0.11)'}},x:{ticks:{color:'#8eb5e3',maxRotation:45,font:{size:11,weight:'600'}},grid:{display:false}}}}});
     }
     const ctxBar=document.getElementById('chartBar');
     if(ctxBar){
@@ -2332,9 +2405,9 @@ obterDadosFiltrados(){
       const pD = this.tradeAtual.pontosDow || 0;
       const pS = this.tradeAtual.pontosSp || 0;
       const pontosCaptureCards = [];
-      if (this.tradeAtual.temNasdaq || pN !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">NASDAQ</div><div class="capture-stat-value" style="font-size:18px;color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">${pN>0?'+':''}${pN}</div></div>`);
-      if (this.tradeAtual.temDow || pD !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">DOW JONES</div><div class="capture-stat-value" style="font-size:18px;color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">${pD>0?'+':''}${pD}</div></div>`);
-      if (this.tradeAtual.temSp || pS !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">S&P 500</div><div class="capture-stat-value" style="font-size:18px;color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">${pS>0?'+':''}${pS}</div></div>`);
+      if (this.tradeAtual.temNasdaq || pN !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">NASDAQ</div><div class="capture-stat-value" style="font-size:20px;color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">${pN>0?'+':''}${pN}</div></div>`);
+      if (this.tradeAtual.temDow || pD !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">DOW JONES</div><div class="capture-stat-value" style="font-size:20px;color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">${pD>0?'+':''}${pD}</div></div>`);
+      if (this.tradeAtual.temSp || pS !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">S&P 500</div><div class="capture-stat-value" style="font-size:20px;color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">${pS>0?'+':''}${pS}</div></div>`);
       const pontosCapture = pontosCaptureCards.length
         ? pontosCaptureCards.join('')
         : `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div>`;
