@@ -2271,9 +2271,9 @@ obterDadosFiltrados(){
     const pD = dadosDia.pontosDow || 0;
     const pS = dadosDia.pontosSp || 0;
     const cardsAtivos = [];
-    if (dadosDia.temNasdaq || pN !== 0) cardsAtivos.push(`<div class="modal-info-item ${pN>0?'positive':pN<0?'negative':''}"><label>NASDAQ</label><div class="value" style="font-size:16px;line-height:1.2">${pN>0?'+':''}${pN} pontos</div></div>`);
-    if (dadosDia.temDow || pD !== 0) cardsAtivos.push(`<div class="modal-info-item ${pD>0?'positive':pD<0?'negative':''}"><label>DOW JONES</label><div class="value" style="font-size:16px;line-height:1.2">${pD>0?'+':''}${pD} pontos</div></div>`);
-    if (dadosDia.temSp || pS !== 0) cardsAtivos.push(`<div class="modal-info-item ${pS>0?'positive':pS<0?'negative':''}"><label>S&P 500</label><div class="value" style="font-size:16px;line-height:1.2">${pS>0?'+':''}${pS} pontos</div></div>`);
+    if (dadosDia.temNasdaq || pN !== 0) cardsAtivos.push(`<div class="modal-info-item ${pN>0?'positive':pN<0?'negative':''}"><label>NASDAQ</label><div class="value" style="font-size:16px;line-height:1.2">${pN>0?'+':''}${pN}</div></div>`);
+    if (dadosDia.temDow || pD !== 0) cardsAtivos.push(`<div class="modal-info-item ${pD>0?'positive':pD<0?'negative':''}"><label>DOW JONES</label><div class="value" style="font-size:16px;line-height:1.2">${pD>0?'+':''}${pD}</div></div>`);
+    if (dadosDia.temSp || pS !== 0) cardsAtivos.push(`<div class="modal-info-item ${pS>0?'positive':pS<0?'negative':''}"><label>S&P 500</label><div class="value" style="font-size:16px;line-height:1.2">${pS>0?'+':''}${pS}</div></div>`);
     const pontosHtml = cardsAtivos.length
       ? cardsAtivos.join('')
       : `<div class="modal-info-item ${dadosDia.pontos>0?'positive':dadosDia.pontos<0?'negative':''}"><label>Pontos</label><div class="value">${dadosDia.pontos>0?'+':''}${dadosDia.pontos}</div></div>`;
@@ -2332,9 +2332,9 @@ obterDadosFiltrados(){
       const pD = this.tradeAtual.pontosDow || 0;
       const pS = this.tradeAtual.pontosSp || 0;
       const pontosCaptureCards = [];
-      if (this.tradeAtual.temNasdaq || pN !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">NASDAQ</div><div class="capture-stat-value" style="font-size:18px;color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">${pN>0?'+':''}${pN} pontos</div></div>`);
-      if (this.tradeAtual.temDow || pD !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">DOW JONES</div><div class="capture-stat-value" style="font-size:18px;color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">${pD>0?'+':''}${pD} pontos</div></div>`);
-      if (this.tradeAtual.temSp || pS !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">S&P 500</div><div class="capture-stat-value" style="font-size:18px;color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">${pS>0?'+':''}${pS} pontos</div></div>`);
+      if (this.tradeAtual.temNasdaq || pN !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">NASDAQ</div><div class="capture-stat-value" style="font-size:18px;color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">${pN>0?'+':''}${pN}</div></div>`);
+      if (this.tradeAtual.temDow || pD !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">DOW JONES</div><div class="capture-stat-value" style="font-size:18px;color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">${pD>0?'+':''}${pD}</div></div>`);
+      if (this.tradeAtual.temSp || pS !== 0) pontosCaptureCards.push(`<div class="capture-stat"><div class="capture-stat-label">S&P 500</div><div class="capture-stat-value" style="font-size:18px;color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">${pS>0?'+':''}${pS}</div></div>`);
       const pontosCapture = pontosCaptureCards.length
         ? pontosCaptureCards.join('')
         : `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div>`;
