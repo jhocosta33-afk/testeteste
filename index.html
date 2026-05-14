@@ -1755,6 +1755,7 @@ const Dashboard = {
       const todosDados = this.dados || [];
       const anoAtual = document.getElementById('filtroAno')?.value || new Date().getFullYear().toString();
       const mesAtual = document.getElementById('filtroMes')?.value || 'ALL';
+      const semanaAtual = document.getElementById('filtroSemana')?.value || 'ALL';
 
       const t = d.reduce((a, x) => ({
         trades: a.trades + x.trades,
@@ -1777,7 +1778,7 @@ const Dashboard = {
 
       const mesKey = String(Number(mesCalendario)).padStart(2, '0');
       const dadosMes = d.filter(x => Number(x.mes) === Number(mesCalendario));
-      const dadosMesFull = todosDados.filter(x => x.ano === anoAtual && Number(x.mes) === Number(mesCalendario));
+      const dadosMesFull = (semanaAtual !== 'ALL' ? d : todosDados).filter(x => x.ano === anoAtual && Number(x.mes) === Number(mesCalendario));
       let calCells = '';
 
       if (dadosMes.length > 0) {
