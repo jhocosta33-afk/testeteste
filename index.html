@@ -1939,9 +1939,15 @@ const Dashboard = {
     const mapaData={};
     rows.forEach(r=>{
       const key=r.dia;
-      if(!mapaData[key]){mapaData[key]={dia:r.dia,data:r.data,semana:r.semana,ano:r.ano,mes:r.mes,pontosNasdaq:0,pontosDow:0,pontosSp:0,trades:0,gain:0,stop:0,zero:0,fotoId:r.fotoId,ativos:[]};}
+      if(!mapaData[key]){mapaData[key]={dia:r.dia,data:r.data,semana:r.semana,ano:r.ano,mes:r.mes,pontosNasdaq:0,pontosDow:0,pontosSp:0,trades:0,gain:0,stop:0,zero:0,fotoId:r.fotoId,ativos:[],temNasdaq:false,temDow:false,temSp:false};}
       const e=mapaData[key],ativoNome=(r.ativo||'').toUpperCase(),isDow=ativoNome.includes('DOW'),isSp=ativoNome.includes('SP500');
+      const teveOperacao = Number(r.trades||0) > 0 || Number(r.gain||0) > 0 || Number(r.stop||0) > 0 || Number(r.zero||0) > 0 || Number(r.pontos||0) !== 0;
       if(isDow)e.pontosDow+=r.pontos;else if(isSp)e.pontosSp+=r.pontos;else e.pontosNasdaq+=r.pontos;
+      if(teveOperacao){
+        if(isDow)e.temDow=true;
+        else if(isSp)e.temSp=true;
+        else e.temNasdaq=true;
+      }
       e.trades+=r.trades;e.gain+=r.gain;e.stop+=r.stop;e.zero+=r.zero;
       if(r.fotoId&&r.fotoId.trim())e.fotoId=r.fotoId;
       if(!e.ativos.includes(r.ativo))e.ativos.push(r.ativo);
@@ -2027,6 +2033,15 @@ obterDadosFiltrados(){
     const kp=document.getElementById("kPontos"); if(kp){kp.textContent=t.pontosNasdaq;kp.className='kpi-value '+(t.pontosNasdaq<0?'red':t.pontosNasdaq>0?'green':'blue');}
     const kpd=document.getElementById("kPontosDow"); if(kpd){kpd.textContent=t.pontosDow;kpd.className='kpi-value '+(t.pontosDow<0?'red':t.pontosDow>0?'orange':'blue');}
     const kps=document.getElementById("kPontosSp"); if(kps){kps.textContent=t.pontosSp;kps.className='kpi-value '+(t.pontosSp<0?'red':t.pontosSp>0?'blue':'blue');}
+    const boxNasdaq = kp?.closest('.kpi-box');
+    const boxDow = kpd?.closest('.kpi-box');
+    const boxSp = kps?.closest('.kpi-box');
+    const mostrarNasdaq = dados.some(x => x.temNasdaq);
+    const mostrarDow = dados.some(x => x.temDow);
+    const mostrarSp = dados.some(x => x.temSp);
+    if(boxNasdaq) boxNasdaq.style.display = mostrarNasdaq ? '' : 'none';
+    if(boxDow) boxDow.style.display = mostrarDow ? '' : 'none';
+    if(boxSp) boxSp.style.display = mostrarSp ? '' : 'none';
     const kg=document.getElementById("kGains"); if(kg)kg.textContent=t.gain;
     const ks=document.getElementById("kStops"); if(ks)ks.textContent=t.stop;
     const kz=document.getElementById("kZero"); if(kz)kz.textContent=t.zero;
@@ -2256,11 +2271,11 @@ obterDadosFiltrados(){
     const pD = dadosDia.pontosDow || 0;
     const pS = dadosDia.pontosSp || 0;
     const linhasPontos = [];
-    if (pN !== 0) linhasPontos.push(`<span style="color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text)'}">NQ ${pN>0?'+':''}${pN}</span>`);
-    if (pD !== 0) linhasPontos.push(`<span style="color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text)'}">DJ ${pD>0?'+':''}${pD}</span>`);
-    if (pS !== 0) linhasPontos.push(`<span style="color:${pS<0?'var(--red)':pS>0?'var(--accent2)':'var(--text)'}">SP ${pS>0?'+':''}${pS}</span>`);
-    const pontosHtml = linhasPontos.length > 1
-      ? `<div class="modal-info-item"><label>Pontos</label><div class="value" style="display:flex;flex-direction:column;gap:4px;font-size:16px;line-height:1.15">${linhasPontos.join('')}</div></div>`
+    if (dadosDia.temNasdaq || pN !== 0) linhasPontos.push(`<span style="color:${pN<0?'var(--red)':pN>0?'var(--green)':'var(--text)'}">${pN>0?'+':''}${pN} pontos em NASDAQ</span>`);
+    if (dadosDia.temDow || pD !== 0) linhasPontos.push(`<span style="color:${pD<0?'var(--red)':pD>0?'var(--orange)':'var(--text)'}">${pD>0?'+':''}${pD} pontos em DOW JONES</span>`);
+    if (dadosDia.temSp || pS !== 0) linhasPontos.push(`<span style="color:${pS<0?'var(--red)':pS>0?'var(--accent2)':'var(--text)'}">${pS>0?'+':''}${pS} pontos em S&P 500</span>`);
+    const pontosHtml = linhasPontos.length
+      ? `<div class="modal-info-item"><label>Ativos Operados</label><div class="value" style="display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.2">${linhasPontos.join('')}</div></div>`
       : `<div class="modal-info-item ${dadosDia.pontos>0?'positive':dadosDia.pontos<0?'negative':''}"><label>Pontos</label><div class="value">${dadosDia.pontos>0?'+':''}${dadosDia.pontos}</div></div>`;
     let infoHTML=`${pontosHtml}<div class="modal-info-item"><label>Trades</label><div class="value">${dadosDia.trades}</div></div><div class="modal-info-item positive"><label>Gains</label><div class="value">${dadosDia.gain}</div></div><div class="modal-info-item negative"><label>Stops</label><div class="value">${dadosDia.stop}</div></div>`;
     if(dadosDia.zero>0)infoHTML+=`<div class="modal-info-item"><label>Breakeven</label><div class="value" style="color:var(--yellow)">${dadosDia.zero}</div></div>`;
@@ -2317,11 +2332,11 @@ obterDadosFiltrados(){
       const pD = this.tradeAtual.pontosDow || 0;
       const pS = this.tradeAtual.pontosSp || 0;
       const pontosCaptureLinhas = [];
-      if (pN !== 0) pontosCaptureLinhas.push(`<span style="color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">NQ ${pN>0?'+':''}${pN}</span>`);
-      if (pD !== 0) pontosCaptureLinhas.push(`<span style="color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">DJ ${pD>0?'+':''}${pD}</span>`);
-      if (pS !== 0) pontosCaptureLinhas.push(`<span style="color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">SP ${pS>0?'+':''}${pS}</span>`);
-      const pontosCapture = pontosCaptureLinhas.length > 1
-        ? `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="display:flex;flex-direction:column;gap:6px;font-size:18px;line-height:1.1">${pontosCaptureLinhas.join('')}</div></div>`
+      if (this.tradeAtual.temNasdaq || pN !== 0) pontosCaptureLinhas.push(`<span style="color:${pN<0?'#ff4d6a':pN>0?'#00e5a0':'#94a3b8'}">${pN>0?'+':''}${pN} pontos em NASDAQ</span>`);
+      if (this.tradeAtual.temDow || pD !== 0) pontosCaptureLinhas.push(`<span style="color:${pD<0?'#ff4d6a':pD>0?'#ff9f43':'#94a3b8'}">${pD>0?'+':''}${pD} pontos em DOW JONES</span>`);
+      if (this.tradeAtual.temSp || pS !== 0) pontosCaptureLinhas.push(`<span style="color:${pS<0?'#ff4d6a':pS>0?'#38bdf8':'#94a3b8'}">${pS>0?'+':''}${pS} pontos em S&P 500</span>`);
+      const pontosCapture = pontosCaptureLinhas.length
+        ? `<div class="capture-stat"><div class="capture-stat-label">ATIVOS OPERADOS</div><div class="capture-stat-value" style="display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.15">${pontosCaptureLinhas.join('')}</div></div>`
         : `<div class="capture-stat"><div class="capture-stat-label">PONTOS</div><div class="capture-stat-value" style="color:${this.tradeAtual.pontos<0?'#ff4d6a':this.tradeAtual.pontos>0?'#00e5a0':'#3a5a7a'}">${this.tradeAtual.pontos>0?'+':''}${this.tradeAtual.pontos}</div></div>`;
       document.getElementById('captureStats').innerHTML=`${pontosCapture}<div class="capture-stat"><div class="capture-stat-label">TRADES</div><div class="capture-stat-value">${this.tradeAtual.trades}</div></div><div class="capture-stat"><div class="capture-stat-label">GAINS</div><div class="capture-stat-value" style="color:#00e5a0">${this.tradeAtual.gain}</div></div><div class="capture-stat"><div class="capture-stat-label">STOPS</div><div class="capture-stat-value" style="color:#ff4d6a">${this.tradeAtual.stop}</div></div><div class="capture-stat"><div class="capture-stat-label">BREAKEVEN</div><div class="capture-stat-value" style="color:#ffd166">${this.tradeAtual.zero}</div></div>`;
       const mi=document.querySelector('#modalPhotoContainer img');if(mi)document.getElementById('capturePhoto').innerHTML=`<img src="${mi.src}" crossorigin="anonymous">`;else throw new Error('Imagem não encontrada');

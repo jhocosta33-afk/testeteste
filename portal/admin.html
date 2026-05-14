@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -362,22 +362,6 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <div class="form-group"><label>0x0</label><input type="number" id="nasBreak" min="0" placeholder="Ex: 0"></div>
           </div>
         </div>
-        <div style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:16px;margin-bottom:16px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-            <span style="font-size:18px;"></span>
-            <strong style="font-size:15px;color:#fb923c;">DOW JONES</strong>
-            <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
-              <input type="checkbox" id="dowOp" onchange="toggleAtivo('dow')"> Operado hoje
-            </label>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;opacity:0.4;pointer-events:none;" id="dowFields">
-            <div class="form-group"><label>Pontos</label><input type="number" id="dowPontos" placeholder="Ex: 120"></div>
-            <div class="form-group"><label>Trades</label><input type="number" id="dowTrades" min="0" placeholder="Ex: 2"></div>
-            <div class="form-group"><label>Gains</label><input type="number" id="dowGains" min="0" placeholder="Ex: 1"></div>
-            <div class="form-group"><label>Stops</label><input type="number" id="dowStops" min="0" placeholder="Ex: 1"></div>
-            <div class="form-group"><label>0x0</label><input type="number" id="dowBreak" min="0" placeholder="Ex: 0"></div>
-          </div>
-        </div>
         <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:16px;margin-bottom:16px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
             <span style="font-size:18px;"></span>
@@ -392,6 +376,22 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
             <div class="form-group"><label>Gains</label><input type="number" id="spGains" min="0" placeholder="Ex: 1"></div>
             <div class="form-group"><label>Stops</label><input type="number" id="spStops" min="0" placeholder="Ex: 1"></div>
             <div class="form-group"><label>0x0</label><input type="number" id="spBreak" min="0" placeholder="Ex: 0"></div>
+          </div>
+        </div>
+        <div style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:16px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <span style="font-size:18px;"></span>
+            <strong style="font-size:15px;color:#fb923c;">DOW JONES</strong>
+            <label style="display:flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;cursor:pointer;">
+              <input type="checkbox" id="dowOp" onchange="toggleAtivo('dow')"> Operado hoje
+            </label>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;opacity:0.4;pointer-events:none;" id="dowFields">
+            <div class="form-group"><label>Pontos</label><input type="number" id="dowPontos" placeholder="Ex: 120"></div>
+            <div class="form-group"><label>Trades</label><input type="number" id="dowTrades" min="0" placeholder="Ex: 2"></div>
+            <div class="form-group"><label>Gains</label><input type="number" id="dowGains" min="0" placeholder="Ex: 1"></div>
+            <div class="form-group"><label>Stops</label><input type="number" id="dowStops" min="0" placeholder="Ex: 1"></div>
+            <div class="form-group"><label>0x0</label><input type="number" id="dowBreak" min="0" placeholder="Ex: 0"></div>
           </div>
         </div>
         <button type="submit" class="btn" id="btnTradeData" style="margin-top:4px;width:100%;padding:14px;font-size:15px;">Salvar na Planilha</button>
